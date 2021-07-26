@@ -14,6 +14,7 @@ const BrandingBanner: React.FC<IProps> = ({ heading, mainText, bottomText }) => 
           <h1>{heading}</h1>
           <h3>{mainText}</h3>
           <h4>{bottomText}</h4>
+          <button>Submit a request</button>
         </Grid>
         <Grid item xs={8}>
           image
