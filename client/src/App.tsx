@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      {/* implement routing here */}
+      <Home />
       <Footer />
     </div>
   );
