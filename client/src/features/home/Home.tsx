@@ -1,10 +1,10 @@
 import React from "react";
-import BrandingBanner from "./BrandingBanner";
+import BrandingBannerSection from "./BrandingBannerSection";
 
 const Home = () => {
   return (
     <div>
-      <BrandingBanner heading="heading" mainText="main text" bottomText="bottom text" />
+      <BrandingBannerSection heading="heading" mainText="main text" bottomText="bottom text" />
     </div>
   );
 };
