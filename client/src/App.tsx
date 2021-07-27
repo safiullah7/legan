@@ -9,6 +9,7 @@ import Blog from "./features/blog/Blog";
 
 function App() {
   return (
+
     <div className="App">
       <Router>
         <Navbar />
