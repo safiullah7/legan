@@ -6,11 +6,11 @@ import Home from "./features/home/Home";
 
 function App() {
   return (
-    <div className="App">
+    <>
       <Navbar />
       {/* implement routing here */}
       <Footer />
-    </div>
+    </>
   );
 }
 
