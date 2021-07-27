@@ -6,7 +6,7 @@ interface IProps {
   mainText: string;
   bottomText: string;
 }
-const BrandingBanner: React.FC<IProps> = ({ heading, mainText, bottomText }) => {
+const BrandingBannerSection: React.FC<IProps> = ({ heading, mainText, bottomText }) => {
   return (
     <div>
       <Grid container spacing={2}>
@@ -24,4 +24,4 @@ const BrandingBanner: React.FC<IProps> = ({ heading, mainText, bottomText }) => 
   );
 };
 
-export default BrandingBanner;
+export default BrandingBannerSection;
