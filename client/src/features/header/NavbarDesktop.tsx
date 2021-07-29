@@ -87,7 +87,7 @@ const Header = styled.div`
   img{
     margin-left: 45px;
   }
-  @media(max-width: 800px){
+  @media(max-width: 820px){
     flex-direction: column;
     justify-content: center;
     img{
