@@ -70,7 +70,6 @@ const Footer = () => {
 const Foot = styled.div`
   bottom: 0px;
   width: 100%;
-  margin-top: 50vh;
   @media (max-width: 550px){
     margin-bottom: 60px;
   }

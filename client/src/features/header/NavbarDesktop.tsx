@@ -5,61 +5,61 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface INavbarComponentProps {
-    showNavbarBorder: boolean;
+  showNavbarBorder: boolean;
 }
 
 interface INavbarDesktop {
-    showNavbarBorder: boolean,
-    homeActive: string,
-    whitePaperActive: string,
-    teamActive: string,
-    blogActive: string,
+  showNavbarBorder: boolean,
+  homeActive: string,
+  whitePaperActive: string,
+  teamActive: string,
+  blogActive: string,
 }
 
 const NavbarDesktop: React.FC<INavbarDesktop> = (
-    { showNavbarBorder, homeActive, whitePaperActive, teamActive, blogActive }
+  { showNavbarBorder, homeActive, whitePaperActive, teamActive, blogActive }
 ) => {
-    return (
-        <>
-            <NavBar showNavbarBorder={showNavbarBorder}>
-                <Container maxWidth="xl">
-                    <Header>
-                        <img src="/leganix_logo1.jpg" alt="navbar-head" />
-                        <NavbarList>
-                            <ul>
-                                <Link to='/' style={{ textDecoration: 'none' }}>
-                                    <li>
-                                        HOME
-                                        <hr className={homeActive} />
-                                    </li>
-                                </Link>
-                                <Link to='/whitepaper' style={{ textDecoration: 'none' }}>
-                                    <li >WHITEPAPER
-                                        <hr className={whitePaperActive} />
-                                    </li>
-                                </Link>
-                                <Link to='/team' style={{ textDecoration: 'none' }}>
-                                    <li >TEAM
-                                        <hr className={teamActive} />
-                                    </li>
-                                </Link>
-                                <Link to='/blog' style={{ textDecoration: 'none' }}>
-                                    <li>BLOG
-                                        <hr className={blogActive} />
-                                    </li>
-                                </Link>
-                                <NavbarListItem>
-                                    <MoreHoriz fontSize="large" />
-                                    <span>LET'S TALK</span>
-                                </NavbarListItem>
-                            </ul>
-                        </NavbarList>
-                    </Header>
-                </Container>
-            </NavBar>
-            <Gap />
-        </>
-    )
+  return (
+    <>
+      <NavBar showNavbarBorder={showNavbarBorder}>
+        <Container maxWidth="xl">
+          <Header>
+            <img src="/leganix_logo1.jpg" alt="navbar-head" />
+            <NavbarList>
+              <ul>
+                <Link to='/' style={{ textDecoration: 'none' }}>
+                  <li>
+                    HOME
+                    <hr className={homeActive} />
+                  </li>
+                </Link>
+                <Link to='/whitepaper' style={{ textDecoration: 'none' }}>
+                  <li >WHITEPAPER
+                    <hr className={whitePaperActive} />
+                  </li>
+                </Link>
+                <Link to='/team' style={{ textDecoration: 'none' }}>
+                  <li >TEAM
+                    <hr className={teamActive} />
+                  </li>
+                </Link>
+                <Link to='/blog' style={{ textDecoration: 'none' }}>
+                  <li>BLOG
+                    <hr className={blogActive} />
+                  </li>
+                </Link>
+                <NavbarListItem>
+                  <MoreHoriz fontSize="large" />
+                  <span>LET'S TALK</span>
+                </NavbarListItem>
+              </ul>
+            </NavbarList>
+          </Header>
+        </Container>
+      </NavBar>
+      <Gap />
+    </>
+  )
 };
 
 const NavBar = styled.div<INavbarComponentProps>`
@@ -195,8 +195,8 @@ const NavbarListItem = styled.span`
   `;
 
 const Gap = styled.div`
-  margin-bottom: 150px;
-  @media (max-width: 550px){
+  margin-bottom: 50px;
+  @media (max-width: 850px){
     margin: 100px;
   }
 `;
