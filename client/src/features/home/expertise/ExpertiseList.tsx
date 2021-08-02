@@ -1,13 +1,8 @@
 import React from 'react'
 // import styled from 'styled-components';
 import ExpertiseListItem from './ExpertiseListItem';
+import { IExpertiseContent } from '../../../models/home';
 
-interface IExpertiseContent {
-    heading: string,
-    subHeading: string,
-    panel: string,
-    list: string[],
-}
 
 interface IProps {
     contentList: IExpertiseContent[],
@@ -33,6 +28,7 @@ const ExpertiseList: React.FC<IProps> = (
                         subHeading={expertiseListItem.subHeading}
                         list={expertiseListItem.list}
                         panel={expertiseListItem.panel}
+                        icon={expertiseListItem.icon}
                         expanded={expanded}
                         handleChange={handleChange}
                     />

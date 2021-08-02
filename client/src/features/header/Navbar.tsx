@@ -8,10 +8,11 @@ const Navbar = () => {
   const [showNavbarBorder, setShowNavbarBorder] = React.useState(false);
 
   const location = useLocation();
-  const homeActive = location.pathname === '/' ? 'active-border' : '';
-  const whitePaperActive = location.pathname === '/whitepaper' ? 'active-border' : '';
-  const teamActive = location.pathname === '/team' ? 'active-border' : '';
-  const blogActive = location.pathname === '/blog' ? 'active-border' : '';
+  const path = location.pathname.split('/')[1];
+  const homeActive = path === '' ? 'active-border' : '';
+  const whitePaperActive = path === 'whitepaper' ? 'active-border' : '';
+  const teamActive = path === 'team' ? 'active-border' : '';
+  const blogActive = path === 'blog' ? 'active-border' : '';
 
   const scrollHandler = () => {
     if (window.scrollY >= 15)

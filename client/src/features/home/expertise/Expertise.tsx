@@ -7,6 +7,7 @@ interface IExpertiseContent {
     heading: string,
     subHeading: string,
     panel: string,
+    icon: string,
     list: string[],
 }
 
@@ -35,6 +36,7 @@ const Expertise: React.FC<IProps> = (
                                 </p>
                             </Grid>
                         </Grid>
+                        <br />
                         <ExpertiseList contentList={contentList} />
                     </Content>
                 </Container>

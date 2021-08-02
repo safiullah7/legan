@@ -38,7 +38,7 @@ const BrandingBannerSection: React.FC<IProps> = ({ heading, mainText, bottomText
           </Grid>
           <Grid item md={7} sm={12} xs={12}>
             <Image>
-              <img src="/landingPagemap.png" alt="Map" />
+              <object className="map-img" data="/map.svg" type="image/svg+xml" ></object>
             </Image>
           </Grid>
         </Grid>
@@ -100,7 +100,7 @@ const Content = styled.div`
 `;
 
 const Image = styled.div`
-  img{
+  .map-img{
     margin-top: 50px;
     width: 100%;
     float: left;
