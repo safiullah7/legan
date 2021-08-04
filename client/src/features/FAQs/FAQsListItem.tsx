@@ -3,13 +3,10 @@ import styled from 'styled-components';
 import { Remove, Add } from '@material-ui/icons';
 import { IconButton } from '@material-ui/core';
 import useElementSize from '../../hooks/useElemetSize';
+import { IPropsFAQsListItem } from '../../models/faqs';
 
-interface IPropsFAQsQAsItem {
-    question: string,
-    answer: string,
-}
 
-const FAQsQAsItem: React.FC<IPropsFAQsQAsItem> = (
+const FAQsListItem: React.FC<IPropsFAQsListItem> = (
     { question, answer }
 ) => {
     const [showAnswer, setShowAnswer] = React.useState<true | false>(false);
@@ -91,4 +88,4 @@ p{
 }
 `;
 
-export default FAQsQAsItem;
+export default FAQsListItem;

@@ -1,7 +1,8 @@
 import { Container } from '@material-ui/core'
 import React from 'react'
 import styled from 'styled-components'
-import FAQsQAsList from './FAQsQAsList'
+import FAQsList from './FAQsList'
+import { faqsQAs } from '../../models/faqs';
 
 const FAQs = () => {
     return (
@@ -11,7 +12,9 @@ const FAQs = () => {
                     <DivFAQsContent>
                         <h2>Frequently Asked Questions</h2>
                     </DivFAQsContent>
-                    <FAQsQAsList />
+                    <FAQsList
+                        FaqsList={faqsQAs}
+                    />
                 </Container>
             </DivFAQsContainer>
         </>

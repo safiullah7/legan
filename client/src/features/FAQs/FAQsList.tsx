@@ -1,15 +1,23 @@
 import React from 'react'
 import styled from 'styled-components';
-import { faqsQAs } from '../../models/faqs';
-import FAQsQAsItem from './FAQsQAsItem';
-const FAQsQAsList = () => {
+import { IPropsFAQsListItem } from '../../models/faqs';
+import FAQsListItem from './FAQsListItem';
+
+interface IPropsFAQsList {
+    FaqsList: IPropsFAQsListItem[];
+}
+
+const FAQsList: React.FC<IPropsFAQsList> = (
+    { FaqsList }
+) => {
     return (
         <>
             <DivFAQsList>
                 {
-                    faqsQAs.map(QAs => {
-                        return <FAQsQAsItem
+                    FaqsList.map(QAs => {
+                        return <FAQsListItem
                             key={QAs.id}
+                            id={QAs.id}
                             question={QAs.question}
                             answer={QAs.answer}
                         />;
@@ -32,4 +40,4 @@ const DivFAQsList = styled.div`
     }
 `;
 
-export default FAQsQAsList;
+export default FAQsList;

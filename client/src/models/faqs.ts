@@ -32,3 +32,8 @@ sed. Quisque egestas diam in arcu cursus euismod. Vel orci porta non pulvinar ne
 laoreet suspendisse interdum`
     },
 ];
+export interface IPropsFAQsListItem {
+    id: number
+    question: string,
+    answer: string,
+}
