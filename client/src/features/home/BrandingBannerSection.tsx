@@ -15,7 +15,7 @@ const BrandingBannerSection: React.FC<IProps> = ({ heading, mainText, bottomText
       <Container maxWidth="xl" style={{ backgroundColor: 'white', paddingBottom: '50px' }}>
         <Grid container>
           <Grid item md={5} sm={12} xs={12} >
-            <Content>
+            <DivBrandingBannerContent>
               <h1>
                 {heading}
               </h1>
@@ -34,12 +34,12 @@ const BrandingBannerSection: React.FC<IProps> = ({ heading, mainText, bottomText
                 <span>SUBMIT A REQUEST</span>
                 {/* <img src="/arrow.svg" alt="arrow" style={{ color: 'white', backgroundColor: 'white' }} /> */}
               </Button>
-            </Content>
+            </DivBrandingBannerContent>
           </Grid>
           <Grid item md={7} sm={12} xs={12}>
-            <Image>
+            <BrandingBannerMap>
               <object className="map-img" data="/map.svg" type="image/svg+xml" ></object>
-            </Image>
+            </BrandingBannerMap>
           </Grid>
         </Grid>
       </Container>
@@ -47,7 +47,7 @@ const BrandingBannerSection: React.FC<IProps> = ({ heading, mainText, bottomText
   );
 };
 
-const Content = styled.div`
+const DivBrandingBannerContent = styled.div`
   margin-top: 150px;
   text-align: left;
   padding-left: 45px;
@@ -99,7 +99,7 @@ const Content = styled.div`
   }
 `;
 
-const Image = styled.div`
+const BrandingBannerMap = styled.div`
   .map-img{
     margin-top: 50px;
     width: 100%;

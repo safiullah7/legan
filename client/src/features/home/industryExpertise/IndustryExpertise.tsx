@@ -17,9 +17,9 @@ const IndustryExpertise: React.FC<IPropsIndustryExpertise> = (
   let heading = mainHeading.split(' ');
   return (
     <>
-      <Industry>
+      <DivHomeIndustry>
         <Container className="container" maxWidth="xl">
-          <Content>
+          <DivHomeIndustryContent>
             <Grid className="about-first-grid" container spacing={3}>
               <Grid item md={7} sm={9} xs={12}>
                 <h1>
@@ -35,14 +35,14 @@ const IndustryExpertise: React.FC<IPropsIndustryExpertise> = (
             <IndustryExpertiseList
               contentList={contentList}
             />
-          </Content>
+          </DivHomeIndustryContent>
         </Container>
-      </Industry>
+      </DivHomeIndustry>
     </>
   );
 };
 
-const Industry = styled.div`
+const DivHomeIndustry = styled.div`
 .container{
   background-color: #F9FCFE;
   padding: 75px 65px;
@@ -52,7 +52,7 @@ const Industry = styled.div`
 }
 `;
 
-const Content = styled.div`
+const DivHomeIndustryContent = styled.div`
   width: 100%;
   margin: 0px auto;
   padding-left: 3px;

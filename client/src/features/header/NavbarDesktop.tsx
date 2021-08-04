@@ -21,11 +21,11 @@ const NavbarDesktop: React.FC<INavbarDesktop> = (
 ) => {
   return (
     <>
-      <NavBar showNavbarBorder={showNavbarBorder}>
+      <DivNavBar showNavbarBorder={showNavbarBorder}>
         <Container maxWidth="xl">
-          <Header>
+          <DivHeader>
             <img src="/leganix_logo1.jpg" alt="navbar-head" />
-            <NavbarList>
+            <DivNavbarList>
               <ul>
                 <Link to='/' style={{ textDecoration: 'none' }}>
                   <li>
@@ -53,16 +53,16 @@ const NavbarDesktop: React.FC<INavbarDesktop> = (
                   <span>LET'S TALK</span>
                 </NavbarListItem>
               </ul>
-            </NavbarList>
-          </Header>
+            </DivNavbarList>
+          </DivHeader>
         </Container>
-      </NavBar>
+      </DivNavBar>
       <Gap />
     </>
   )
 };
 
-const NavBar = styled.div<INavbarComponentProps>`
+const DivNavBar = styled.div<INavbarComponentProps>`
   position: fixed;
   top: 0px;
   width: 100%;
@@ -75,7 +75,7 @@ const NavBar = styled.div<INavbarComponentProps>`
   }
 `;
 
-const Header = styled.div`
+const DivHeader = styled.div`
   max-width: 100%;
   min-height: 80px;
   display: flex;
@@ -100,7 +100,7 @@ const Header = styled.div`
   }
 `;
 
-const NavbarList = styled.div`
+const DivNavbarList = styled.div`
  //margin-top: 25px;
  position: relative;
  top: 5px;

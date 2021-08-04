@@ -15,7 +15,7 @@ const NavbarMobile: React.FC<INavbarMobile> = (
 ) => {
   return (
     <>
-      <NavbarBottom>
+      <DivNavbarBottom>
         <ul>
           <Link to='/' style={{ textDecoration: 'none' }}>
             <li className={homeActive}>
@@ -46,12 +46,12 @@ const NavbarMobile: React.FC<INavbarMobile> = (
             </li>
           </Link>
         </ul>
-      </NavbarBottom>
+      </DivNavbarBottom>
     </>
   )
 };
 
-const NavbarBottom = styled.div`
+const DivNavbarBottom = styled.div`
   display: none;
   @media (max-width: 550px){
     display: unset;

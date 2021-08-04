@@ -6,22 +6,22 @@ import parse from 'html-react-parser'
 const PrivacyPolicy = () => {
     return (
         <>
-            <Privacy>
+            <DivPrivacy>
                 <Container className="container" maxWidth="xl">
-                    <PrivacyContent>
+                    <DivPrivacyContent>
                         <h3>{privacyPolicy.name}</h3>
                         <p>Effective:  {privacyPolicy.date}</p>
-                    </PrivacyContent>
-                    <PrivacyDescription>
+                    </DivPrivacyContent>
+                    <DivPrivacyDescription>
                         {parse(privacyPolicy.description)}
-                    </PrivacyDescription>
+                    </DivPrivacyDescription>
                 </Container>
-            </Privacy>
+            </DivPrivacy>
         </>
     );
 };
 
-const Privacy = styled.div`
+const DivPrivacy = styled.div`
 margin-top: 80px;
 @media (max-width: 600px){
   margin-top: -15px;
@@ -32,7 +32,7 @@ margin-top: 80px;
 }
 `;
 
-const PrivacyContent = styled.div`
+const DivPrivacyContent = styled.div`
 margin: 0px 75px;
 padding-left: 15px;
 @media (max-width: 820px){
@@ -62,7 +62,7 @@ border-bottom: 0.5px solid rgba(111, 139, 164, 0.6);
     }
 `;
 
-const PrivacyDescription = styled.div`
+const DivPrivacyDescription = styled.div`
 text-align: left;
 margin: 0px 75px;
 padding-top: 45px;

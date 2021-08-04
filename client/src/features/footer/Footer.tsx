@@ -5,19 +5,19 @@ import styled from "styled-components";
 const Footer = () => {
   return (
     <>
-      <Foot>
+      <DivFoot>
         <Container maxWidth="xl" className="conatiner">
           <Grid container style={{ padding: '30px 0px' }}>
             <Grid item md={3} sm={6} xs={12}>
-              <FooterDescription>
+              <DivFooterDescription>
                 <img src="/footerImg.png" alt="footer-logo" />
                 <p>
                   Lorem ipsum dolor sit amet consedtur ipse ctetur, adipisicing elit. Repellendus solor se porro illum dolorem doloremque
                 </p>
-              </FooterDescription>
+              </DivFooterDescription>
             </Grid>
             <Grid item md={3} sm={6} xs={12}>
-              <FooterAbout>
+              <DivFooterAbout>
                 <div>
                   <h3>
                     ABOUT
@@ -27,10 +27,10 @@ const Footer = () => {
                   <p><span>Career</span></p>
                   <p><span>Contact Us</span></p>
                 </div>
-              </FooterAbout>
+              </DivFooterAbout>
             </Grid>
             <Grid item md={3} sm={6} xs={12}>
-              <FooterDocuments>
+              <DivFooterDocuments>
                 <div>
                   <h3>
                     DOCUMENTS
@@ -40,10 +40,10 @@ const Footer = () => {
                   <p><span>Terms of Service</span></p>
                   <p><span>Website Terms of Use</span></p>
                 </div>
-              </FooterDocuments>
+              </DivFooterDocuments>
             </Grid>
             <Grid item md={3} sm={6} xs={12}>
-              <FooterSocialMedia>
+              <DivFooterSocialMedia>
                 <div>
                   <h3>
                     SOCIAL MEDIA
@@ -53,7 +53,7 @@ const Footer = () => {
                     <img src="/footer-linkedin.png" alt="footer-linkedin" />
                   </span>
                 </div>
-              </FooterSocialMedia>
+              </DivFooterSocialMedia>
             </Grid>
           </Grid>
           <CopyRight>
@@ -61,13 +61,13 @@ const Footer = () => {
             <p>Leganix | Copyright 2021</p>
           </CopyRight>
         </Container>
-      </Foot>
+      </DivFoot>
     </>
   );
 };
 
 
-const Foot = styled.div`
+const DivFoot = styled.div`
   bottom: 0px;
   width: 100%;
   @media (max-width: 550px){
@@ -82,7 +82,7 @@ const Foot = styled.div`
   }
 `;
 
-const FooterDescription = styled.div`
+const DivFooterDescription = styled.div`
 padding: 30px 15px 30px 18px;
   p{
     margin-left: 25px;
@@ -117,7 +117,7 @@ padding: 30px 15px 30px 18px;
   }
 `;
 
-const FooterAbout = styled.div`
+const DivFooterAbout = styled.div`
 padding: 30px 15px 30px 18px;
   div{
     text-align: justify;
@@ -156,7 +156,7 @@ padding: 30px 15px 30px 18px;
   }
 }
 `;
-const FooterDocuments = styled(FooterAbout)`
+const DivFooterDocuments = styled(DivFooterAbout)`
 padding-left: 0px;
 margin-left: -30px;
 div{
@@ -169,7 +169,7 @@ div{
 }
 `;
 
-const FooterSocialMedia = styled(FooterAbout)`
+const DivFooterSocialMedia = styled(DivFooterAbout)`
 padding-left: 0px;
 margin-left: -45px;
 div{

@@ -11,7 +11,7 @@ const IndustryExpertiseListItem: React.FC<IindustryExpertiseContentList> = (
 ) => {
     return (
         <>
-            <ListContent>
+            <DivIndustryTabsListContent>
                 <ol>
                     {
                         activeTabsContent.map((item, index) => {
@@ -19,12 +19,12 @@ const IndustryExpertiseListItem: React.FC<IindustryExpertiseContentList> = (
                         })
                     }
                 </ol>
-            </ListContent>
+            </DivIndustryTabsListContent>
         </>
     );
 };
 
-const ListContent = styled.div`
+const DivIndustryTabsListContent = styled.div`
 ol{
     li{
         font-size: 15px;

@@ -26,7 +26,7 @@ const IndustryExpertiseList: React.FC<IPropsIdustryExpertiseContentList> = (
     }, [active, contentList]);
     return (
         <>
-            <IndustryTabs>
+            <DivIndustryTabs>
                 <Grid container>
                     <Grid className="btns-grid" item xl={3} md={4} sm={4} xs={4}>
                         {
@@ -50,12 +50,12 @@ const IndustryExpertiseList: React.FC<IPropsIdustryExpertiseContentList> = (
                         />
                     </Grid>
                 </Grid>
-            </IndustryTabs>
+            </DivIndustryTabs>
         </>
     );
 };
 
-const IndustryTabs = styled.div`
+const DivIndustryTabs = styled.div`
 button{
     display: inline-block !important;
     border-radius: 8px;

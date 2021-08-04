@@ -8,7 +8,7 @@ import { ourTeam } from '../../models/team';
 const Team = () => {
   return (
     <>
-      <OurTeam>
+      <DivOurTeam>
         <Container className="container" maxWidth="xl">
           <h1>Our Team</h1>
           <div className="blur-hr"></div>
@@ -34,12 +34,12 @@ const Team = () => {
             }
           </Grid>
         </Container>
-      </OurTeam>
+      </DivOurTeam>
     </>
   );
 };
 
-const OurTeam = styled.div`
+const DivOurTeam = styled.div`
 margin-top: 80px;
 @media (max-width: 600px){
   margin-top: -15px;

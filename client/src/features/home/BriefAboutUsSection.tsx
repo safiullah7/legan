@@ -4,9 +4,9 @@ import styled from 'styled-components';
 const BriefAboutUsSection = () => {
   return (
     <>
-      <About>
+      <DivHomeAbout>
         <Container className="container" maxWidth="xl">
-          <Content>
+          <DivHomeAboutContent>
             <Grid className="about-first-grid" container spacing={3}>
               <Grid item md={7} sm={9} xs={12}>
                 <h1>
@@ -23,41 +23,41 @@ const BriefAboutUsSection = () => {
             </Grid>
             <Grid className="about-2nd-grid" container>
               <Grid item md={4} sm={6} xs={12}>
-                <GridConsulting>
+                <DivAboutGridConsulting>
                   <img src="/about-bag.png" alt="about-bag" />
                   <h3>Consulting</h3>
                   <p>
                     Provision of online consutling services in matters ranging from internet law to intellectual property.
                   </p>
-                </GridConsulting>
+                </DivAboutGridConsulting>
               </Grid>
               <Grid item md={4} sm={6} xs={12}>
-                <GridDrafting>
+                <DivAboutGridDrafting>
                   <img src="about-draft.png" alt="about-draft" />
                   <h3>Document Drafting</h3>
                   <p>
                     We draft/review any tech and non-tech contracts including NDAs, SLAs, IP Lisening/Assignment, EULAs, etc.
                   </p>
-                </GridDrafting>
+                </DivAboutGridDrafting>
               </Grid>
               <Grid item md={4} sm={6} xs={12}>
-                <GridResearch>
+                <DivAboutGridResearch>
                   <img src="/about-research.png" alt="about-research" />
                   <h3>Legal Research</h3>
                   <p>
                     We have extensive legal research skills, be it researching laws of various countries, or that of new technologies.
                   </p>
-                </GridResearch>
+                </DivAboutGridResearch>
               </Grid>
             </Grid>
-          </Content>
+          </DivHomeAboutContent>
         </Container>
-      </About>
+      </DivHomeAbout>
     </>
   );
 };
 
-const About = styled.div`
+const DivHomeAbout = styled.div`
 .container{
   background-color: #F9FCFE;
   padding: 75px 65px;
@@ -67,7 +67,7 @@ const About = styled.div`
 }
 `;
 
-const Content = styled.div`
+const DivHomeAboutContent = styled.div`
   width: 100%;
   margin: 0px auto;
   padding-left: 3px;
@@ -113,7 +113,7 @@ const Content = styled.div`
   }
 `;
 
-const GridConsulting = styled.div`
+const DivAboutGridConsulting = styled.div`
   margin: 15px;
   padding: 30px;
   min-height: 250px;
@@ -141,13 +141,13 @@ const GridConsulting = styled.div`
   }
 `;
 
-const GridDrafting = styled(GridConsulting)`
+const DivAboutGridDrafting = styled(DivAboutGridConsulting)`
   @media (max-width: 850px){
     border-right: none;
   }
 `;
 
-const GridResearch = styled(GridConsulting)`
+const DivAboutGridResearch = styled(DivAboutGridConsulting)`
   border-right: none;
   @media (max-width: 600px){
     border-bottom: none;

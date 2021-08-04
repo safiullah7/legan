@@ -21,7 +21,7 @@ const ExpertiseListItem: React.FC<IExpertiseContent> = (
         <>
             <Accordion square expanded={expanded === panel} onChange={handleChange(panel)}>
                 <AccordionSummary aria-controls="panel1d-content" id="panel1d-header" style={{ backgroundColor: 'rgba(249, 252, 254, 1)' }}>
-                    <ListHead>
+                    <DivListHead>
                         <img src={`/${icon}.png`} alt={`${icon}`} />
                         <h3>
                             {heading}
@@ -29,10 +29,10 @@ const ExpertiseListItem: React.FC<IExpertiseContent> = (
                         <p>
                             {subHeading}
                         </p>
-                    </ListHead>
+                    </DivListHead>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <ListItems>
+                    <DivListItems>
                         <Grid container>
                             <Grid item md={2} sm={1} className="timeline">
                                 <img src="/elipse.png" alt="elipse" />
@@ -53,13 +53,13 @@ const ExpertiseListItem: React.FC<IExpertiseContent> = (
                                 </ul>
                             </Grid>
                         </Grid>
-                    </ListItems>
+                    </DivListItems>
                 </AccordionDetails>
             </Accordion>
         </>
     )
 }
-const ListHead = styled.div`
+const DivListHead = styled.div`
 border: none;
 *{
     display: inline-block;
@@ -84,7 +84,7 @@ img{
 } 
 `;
 
-const ListItems = styled.div`
+const DivListItems = styled.div`
 
 .list-item{
     font-size: 15px;

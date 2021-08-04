@@ -12,7 +12,7 @@ const TeamMember = () => {
     const member = getMember(+memberId);
     return (
         <>
-            <OurTeamMember>
+            <DivOurTeamMember>
                 <Container className="container" maxWidth="xl">
                     <h1>
                         <Link style={{ textDecoration: 'none', color: 'rgba(0, 102, 153, 1)' }} to='/team'> Our Team </Link> /
@@ -32,12 +32,12 @@ const TeamMember = () => {
                         </Grid>
                     </Grid>
                 </Container>
-            </OurTeamMember>
+            </DivOurTeamMember>
         </>
     );
 };
 
-const OurTeamMember = styled.div`
+const DivOurTeamMember = styled.div`
 margin-top: 80px;
 .container{
     background-color: rgba(249, 252, 254, 1);

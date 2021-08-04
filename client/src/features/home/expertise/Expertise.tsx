@@ -23,9 +23,9 @@ const Expertise: React.FC<IProps> = (
 
     return (
         <>
-            <Expert>
+            <DivHomeExpertise>
                 <Container className="container" maxWidth="xl">
-                    <Content>
+                    <DivHomeExpertiseContent>
                         <Grid>
                             <Grid item md={7} sm={9} xs={12}>
                                 <h1>
@@ -38,14 +38,14 @@ const Expertise: React.FC<IProps> = (
                         </Grid>
                         <br />
                         <ExpertiseList contentList={contentList} />
-                    </Content>
+                    </DivHomeExpertiseContent>
                 </Container>
-            </Expert>
+            </DivHomeExpertise>
         </>
     )
 };
 
-const Expert = styled.div`
+const DivHomeExpertise = styled.div`
 .container{
     background-color: #fff;
     padding: 75px 65px; 
@@ -55,7 +55,7 @@ const Expert = styled.div`
     }
 `;
 
-const Content = styled.div`
+const DivHomeExpertiseContent = styled.div`
 padding-left: 3px;
 width: 100%;
 margin: 0px auto;
