@@ -9,10 +9,12 @@ const Navbar = () => {
 
   const location = useLocation();
   const path = location.pathname.split('/')[1];
-  const homeActive = path === '' ? 'active-border' : '';
+  let homeActive = path === '' ? 'active-border' : '';
   const whitePaperActive = path === 'whitepaper' ? 'active-border' : '';
   const teamActive = path === 'team' ? 'active-border' : '';
   const blogActive = path === 'blog' ? 'active-border' : '';
+  if (whitePaperActive === '' && teamActive === '' && blogActive === '')
+    homeActive = 'active-border';
 
   const scrollHandler = () => {
     if (window.scrollY >= 15)
