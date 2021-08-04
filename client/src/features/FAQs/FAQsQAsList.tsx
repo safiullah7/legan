@@ -5,7 +5,7 @@ import FAQsQAsItem from './FAQsQAsItem';
 const FAQsQAsList = () => {
     return (
         <>
-            <FAQsList>
+            <DivFAQsList>
                 {
                     faqsQAs.map(QAs => {
                         return <FAQsQAsItem
@@ -15,12 +15,12 @@ const FAQsQAsList = () => {
                         />;
                     })
                 }
-            </FAQsList>
+            </DivFAQsList>
         </>
     )
 };
 
-const FAQsList = styled.div`
+const DivFAQsList = styled.div`
     margin: 0px 75px;
     padding-top: 75px;
     padding-left: 15px;

@@ -6,19 +6,19 @@ import FAQsQAsList from './FAQsQAsList'
 const FAQs = () => {
     return (
         <>
-            <FAQsContainer>
+            <DivFAQsContainer>
                 <Container maxWidth="xl" className="container" >
-                    <FAQsContent>
+                    <DivFAQsContent>
                         <h2>Frequently Asked Questions</h2>
-                    </FAQsContent>
+                    </DivFAQsContent>
                     <FAQsQAsList />
                 </Container>
-            </FAQsContainer>
+            </DivFAQsContainer>
         </>
     )
 }
 
-const FAQsContainer = styled.div`
+const DivFAQsContainer = styled.div`
 margin-top: 80px;
 @media (max-width: 600px){
     margin-top: -15px;
@@ -29,7 +29,7 @@ margin-top: 80px;
 }
 `;
 
-const FAQsContent = styled.div`
+const DivFAQsContent = styled.div`
 margin: 0px 75px;
 padding-left: 15px;
 @media (max-width: 820px){

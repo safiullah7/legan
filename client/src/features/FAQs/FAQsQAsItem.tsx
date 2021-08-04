@@ -21,7 +21,7 @@ const FAQsQAsItem: React.FC<IPropsFAQsQAsItem> = (
     console.log(height);
     return (
         <>
-            <FAQsQAsListItem height={height}>
+            <DivFAQsListItem height={height}>
                 <h3 className={showAnswer ? 'show-question' : ''}>
                     <span className='question'>
                         {question}
@@ -34,16 +34,16 @@ const FAQsQAsItem: React.FC<IPropsFAQsQAsItem> = (
                 <div className={showAnswer ? 'show-answer' : 'hide-answer'}>
                     <p ref={refShow}>{answer}</p>
                 </div>
-            </FAQsQAsListItem>
+            </DivFAQsListItem>
         </>
     )
 }
 
-interface IPropsSTyled {
+interface IPropsStyled {
     height: number,
 }
 
-const FAQsQAsListItem = styled.div<IPropsSTyled>`
+const DivFAQsListItem = styled.div<IPropsStyled>`
 max-width: 750px;
 h3{
     font-size: 16px;
