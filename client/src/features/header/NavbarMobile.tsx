@@ -4,54 +4,54 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface INavbarMobile {
-    homeActive: string,
-    whitePaperActive: string,
-    teamActive: string,
-    blogActive: string,
+  homeActive: string,
+  whitePaperActive: string,
+  teamActive: string,
+  blogActive: string,
 }
 
 const NavbarMobile: React.FC<INavbarMobile> = (
-    { homeActive, whitePaperActive, teamActive, blogActive }
+  { homeActive, whitePaperActive, teamActive, blogActive }
 ) => {
-    return (
-        <>
-            <NavbarBottom>
-                <ul>
-                    <Link to='/' style={{ textDecoration: 'none' }}>
-                        <li className={homeActive}>
-                            <HomeOutlined fontSize="large" />
-                            <span>Home</span>
-                        </li>
-                    </Link>
-                    <Link to='/whitepaper' style={{ textDecoration: 'none' }}>
-                        <li className={whitePaperActive}>
-                            <ReceiptOutlined fontSize="large" />
-                            <span>Whitepaper</span>
-                        </li>
-                    </Link>
-                    <li >
-                        <SendOutlined fontSize="large" />
-                        <span>Let's Talk</span>
-                    </li>
-                    <Link to='/team' style={{ textDecoration: 'none' }}>
-                        <li className={teamActive}>
-                            <GroupOutlined fontSize="large" />
-                            <span>Team</span>
-                        </li>
-                    </Link>
-                    <Link to='/blog' style={{ textDecoration: 'none' }}>
-                        <li className={blogActive}>
-                            <LibraryBooksOutlined fontSize="large" />
-                            <span>Blog</span>
-                        </li>
-                    </Link>
-                </ul>
-            </NavbarBottom>
-        </>
-    )
+  return (
+    <>
+      <DivNavbarBottom>
+        <ul>
+          <Link to='/' style={{ textDecoration: 'none' }}>
+            <li className={homeActive}>
+              <HomeOutlined fontSize="large" />
+              <span>Home</span>
+            </li>
+          </Link>
+          <Link to='/whitepaper' style={{ textDecoration: 'none' }}>
+            <li className={whitePaperActive}>
+              <ReceiptOutlined fontSize="large" />
+              <span>Whitepaper</span>
+            </li>
+          </Link>
+          <li >
+            <SendOutlined fontSize="large" />
+            <span>Let's Talk</span>
+          </li>
+          <Link to='/team' style={{ textDecoration: 'none' }}>
+            <li className={teamActive}>
+              <GroupOutlined fontSize="large" />
+              <span>Team</span>
+            </li>
+          </Link>
+          <Link to='/blog' style={{ textDecoration: 'none' }}>
+            <li className={blogActive}>
+              <LibraryBooksOutlined fontSize="large" />
+              <span>Blog</span>
+            </li>
+          </Link>
+        </ul>
+      </DivNavbarBottom>
+    </>
+  )
 };
 
-const NavbarBottom = styled.div`
+const DivNavbarBottom = styled.div`
   display: none;
   @media (max-width: 550px){
     display: unset;
@@ -76,7 +76,7 @@ const NavbarBottom = styled.div`
         justify-content: center;
         align-items: center;
         height: 60px;
-        font-size: 0.8rem;
+        font-size: 0.7rem;
         width:20%;
         cursor: pointer;
       }
