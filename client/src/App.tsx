@@ -9,6 +9,7 @@ import Blog from "./features/blog/Blog";
 import TeamMember from "./features/team/TeamMember";
 import PrivacyPolicy from "./features/privacyPolicy/PrivacyPolicy";
 import FAQs from "./features/FAQs/FAQs";
+import ContactUs from "./features/contact-us/ContactUs";
 
 function App() {
   return (
@@ -34,6 +35,9 @@ function App() {
           </Route>
           <Route exact path="/faqs">
             <FAQs />
+          </Route>
+          <Route exact path="/contactus">
+            <ContactUs />
           </Route>
           <Route exact path="/">
             <Home />
