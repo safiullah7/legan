@@ -13,7 +13,6 @@ import ContactUs from "./features/contact-us/ContactUs";
 
 function App() {
   return (
-
     <div className="App">
       <Router>
         <Navbar />
