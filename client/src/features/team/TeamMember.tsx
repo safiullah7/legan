@@ -1,9 +1,10 @@
 import React from 'react';
 import { getMember } from '../../models/team';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Container, Grid } from '@material-ui/core';
 import parse from 'html-react-parser';
+import BodyHeader from '../../controls/BodyHeader';
 type teamMemberId = {
     memberId: string
 };
@@ -14,13 +15,13 @@ const TeamMember = () => {
         <>
             <DivOurTeamMember>
                 <Container className="container" maxWidth="xl">
-                    <h1>
-                        <Link style={{ textDecoration: 'none', color: 'rgba(0, 102, 153, 1)' }} to='/team'> Our Team </Link> /
-                        <span>
-                            {' ' + member.name}
-                        </span>
-                    </h1>
-                    <div className="blur-hr"></div>
+                    <BodyHeader
+                        heading="Our Team"
+                        headingColor="rgba(0, 102, 153, 1)"
+                        subHeading={member.name}
+                        SubHeadingColor="rgba(59, 86, 110, 1)"
+                        path="/team"
+                    />
                     <Grid container className="member">
                         <Grid className="member-info" item md={4} sm={4} xs={12}>
                             <img src={member.imgURL} alt={member.name} />
@@ -45,24 +46,6 @@ margin-top: 80px;
     @media (max-width: 600px){
         margin-top: -15px;
     }
-h1{
-  color: rgba(0, 102, 153, 1);
-  font-size: 24px;
-  font-weight: 500;
-  margin-bottom: 0px;
-  span{
-      color: rgba(59, 86, 110, 1);
-      font-size: 20px;
-      font-weight: 400;
-  }
-}
-.blur-hr{
-  height: 3px;
-  width: 85px;
-  background-color: rgba(34, 147, 251, 1);
-  border-radius: 25px;
-  margin: 12px auto;
-}
 }
 
 .member{

@@ -4,14 +4,17 @@ import React from "react";
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ourTeam } from '../../models/team';
+import BodyHeader from '../../controls/BodyHeader';
 
 const Team = () => {
   return (
     <>
       <DivOurTeam>
         <Container className="container" maxWidth="xl">
-          <h1>Our Team</h1>
-          <div className="blur-hr"></div>
+          <BodyHeader
+            heading="Our Team"
+            headingColor="rgba(59, 86, 110, 1)"
+          />
           <Grid className="team-body" container>
             {
               ourTeam.map(member => {
@@ -47,19 +50,6 @@ margin-top: 80px;
 .container{
   padding: 75px 0px;
   background-color: rgba(249, 252, 254, 1);
-  h1{
-  font-size: 2em;
-  color: rgba(59, 86, 110, 1);
-  font-weight: 500;
-  margin-bottom: 0px;
-}
-.blur-hr{
-  height: 3px;
-  width: 85px;
-  background-color: rgba(34, 147, 251, 1);
-  border-radius: 25px;
-  margin: 12px auto;
-}
 }
 .team-body{
   margin-top: 45px;
