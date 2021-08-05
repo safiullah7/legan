@@ -4,14 +4,14 @@ import React from "react";
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ourTeam } from '../../models/team';
-import UnderlinedBodyHeader from '../../controls/UnderlinedBodyHeader';
+import BodyHeader from '../../controls/BodyHeader';
 
 const Team = () => {
   return (
     <>
       <DivOurTeam>
         <Container className="container" maxWidth="xl">
-          <UnderlinedBodyHeader
+          <BodyHeader
             heading="Our Team"
             headingColor="rgba(59, 86, 110, 1)"
           />

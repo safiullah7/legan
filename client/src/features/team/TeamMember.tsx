@@ -1,10 +1,10 @@
 import React from 'react';
 import { getMember } from '../../models/team';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Container, Grid } from '@material-ui/core';
 import parse from 'html-react-parser';
-import UnderlinedBodyHeader from '../../controls/UnderlinedBodyHeader';
+import BodyHeader from '../../controls/BodyHeader';
 type teamMemberId = {
     memberId: string
 };
@@ -15,7 +15,7 @@ const TeamMember = () => {
         <>
             <DivOurTeamMember>
                 <Container className="container" maxWidth="xl">
-                    <UnderlinedBodyHeader
+                    <BodyHeader
                         heading="Our Team"
                         headingColor="rgba(0, 102, 153, 1)"
                         subHeading={member.name}

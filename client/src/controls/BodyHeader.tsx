@@ -10,7 +10,7 @@ interface IPropsBodyHeader {
     path?: string,
 }
 
-const UnderlinedBodyHeader: React.FC<IPropsBodyHeader> = (
+const BodyHeader: React.FC<IPropsBodyHeader> = (
     { heading, subHeading, headingColor, SubHeadingColor, path }
 ) => {
     const location = useLocation();
@@ -69,5 +69,5 @@ h1{
   margin: 12px auto;
 }
 `;
-export default UnderlinedBodyHeader;
+export default BodyHeader;
 
