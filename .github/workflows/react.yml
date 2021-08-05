@@ -13,8 +13,6 @@ jobs:
   build:
 
     runs-on: self-hosted
-    env:
-      working-directory: ./client
 
     strategy:
       matrix:
