@@ -10,11 +10,13 @@ import TeamMember from "./features/team/TeamMember";
 import PrivacyPolicy from "./features/privacyPolicy/PrivacyPolicy";
 import FAQs from "./features/FAQs/FAQs";
 import ContactUs from "./features/contact-us/ContactUs";
+import ScrollToTop from "./controls/ScrollToTop";
 
 function App() {
   return (
     <div className="App">
       <Router>
+        <ScrollToTop />
         <Navbar />
         <Switch>
           <Route exact path="/whitepaper">
