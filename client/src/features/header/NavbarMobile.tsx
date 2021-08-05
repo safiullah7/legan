@@ -56,7 +56,7 @@ const DivNavbarBottom = styled.div`
   @media (max-width: 550px){
     display: unset;
     position: fixed;
-    z-index: 1;
+    z-index: 999;
     bottom: 0;
     left:0;
     min-width: 100%;
