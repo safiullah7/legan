@@ -38,7 +38,7 @@ const BrandingBannerSection: React.FC<IProps> = ({ heading, mainText, bottomText
           </Grid>
           <Grid item md={7} sm={12} xs={12}>
             <BrandingBannerMap>
-              <object className="map-img" data="/map.svg" type="image/svg+xml" ></object>
+              <object aria-label="map-image" className="map-img" data="/map.svg" type="image/svg+xml" ></object>
             </BrandingBannerMap>
           </Grid>
         </Grid>
