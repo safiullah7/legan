@@ -21,7 +21,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - run: cd ./client
     - name: Use Node.js ${{ matrix.node-version }}
       working-directory: client
       uses: actions/setup-node@v2
