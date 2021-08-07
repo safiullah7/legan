@@ -66,7 +66,7 @@ const DivNavBar = styled.div<INavbarComponentProps>`
   position: fixed;
   top: 0px;
   width: 100%;
-  z-index: 1;
+  z-index: 999;
   border-bottom: ${(props) => props.showNavbarBorder ? '1px solid #E2E9F2' : 'none'};
   background-color: white;
   @media (max-width: 550px){
