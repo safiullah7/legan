@@ -19,7 +19,6 @@ jobs:
     - name: Install npm and run unittest
       run: |
         npm
-        npm test
       env:
         CI: true
     - name: Publish to Github Packages Registry
