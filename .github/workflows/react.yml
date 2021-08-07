@@ -29,6 +29,5 @@ jobs:
         registry: docker.pkg.github.com
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.GITHUB_TOKEN }}
-        run: ls
-        dockerfile: Dockerfile.production
+        dockerfile: Dockerfile-prod
         tags: latest
