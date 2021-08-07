@@ -18,6 +18,7 @@ jobs:
         node-version: '14.10'
     - name: Install npm and run unittest
       run: |
+        cd ./client
         npm ci
       env:
         CI: true
