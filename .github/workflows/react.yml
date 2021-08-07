@@ -18,7 +18,7 @@ jobs:
         node-version: '14.10'
     - name: Install npm and run unittest
       run: |
-        npm
+        npm ci
       env:
         CI: true
     - name: Publish to Github Packages Registry
