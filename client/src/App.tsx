@@ -11,6 +11,7 @@ import PrivacyPolicy from "./features/privacyPolicy/PrivacyPolicy";
 import FAQs from "./features/FAQs/FAQs";
 import ContactUs from "./features/contact-us/ContactUs";
 import ScrollToTop from "./controls/ScrollToTop";
+import Submit from "./submit/Submit";
 
 function App() {
   return (
@@ -39,6 +40,9 @@ function App() {
           </Route>
           <Route exact path="/contactus">
             <ContactUs />
+          </Route>
+          <Route exact path="/submit">
+            <Submit />
           </Route>
           <Route exact path="/">
             <Home />
