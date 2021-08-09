@@ -19,6 +19,6 @@ jobs:
       - run: |
           cd client
           npm i
-          npm run build
+          sudo npm run build
         env:
           CI: false
