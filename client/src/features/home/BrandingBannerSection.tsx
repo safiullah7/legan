@@ -8,8 +8,8 @@ interface IProps {
   mainText: string;
   bottomText: string;
 }
-const BrandingBannerSection: React.FC<IProps> = ({ heading, mainText, bottomText }) => {
 
+const BrandingBannerSection: React.FC<IProps> = ({ heading, mainText, bottomText }) => {
   return (
     <>
       <Container maxWidth="xl" style={{ backgroundColor: 'white', paddingBottom: '50px' }}>
@@ -100,6 +100,10 @@ const DivBrandingBannerContent = styled.div`
 `;
 
 const BrandingBannerMap = styled.div`
+  margin-top: 15px;
+  @media (max-width: 850px){
+    margin-top: 30px;
+  }
   .map-img{
     margin-top: 50px;
     width: 100%;
