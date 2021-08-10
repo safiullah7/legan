@@ -72,6 +72,10 @@ const DivHomeAboutContent = styled.div`
   margin: 0px auto;
   padding-left: 3px;
   text-align: left;
+  img{
+    width: 85px;
+    height: 85px;
+  }
   h1{
     *{
       font-size: 28px;
