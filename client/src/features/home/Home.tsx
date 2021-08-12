@@ -1,29 +1,29 @@
-import React from "react";
+import { useSelector } from "react-redux";
 import BrandingBannerSection from "./BrandingBannerSection";
 import BriefAboutUsSection from "./BriefAboutUsSection";
 import Expertise from "./expertise/Expertise";
+import { getHomeContentSelector } from "./home.slice";
 import IndustryExpertise from "./industryExpertise/IndustryExpertise";
-import { defaultBannerContent, defaultIndustryExpertise, defaultExpertiseContent } from '../../models/home'
-
 
 const Home = () => {
+  const {bannerContent, expertiseContent, industryExpertise} = useSelector(getHomeContentSelector);
   return (
     <div>
       <BrandingBannerSection
-        heading={defaultBannerContent.heading}
-        mainText={defaultBannerContent.mainText}
-        bottomText={defaultBannerContent.bottomText}
+        heading={bannerContent.heading}
+        mainText={bannerContent.mainText}
+        bottomText={bannerContent.bottomText}
       />
       <BriefAboutUsSection />
       <Expertise
-        heading={defaultExpertiseContent.heading}
-        mainText={defaultExpertiseContent.mainText}
-        contentList={defaultExpertiseContent.contentList}
+        heading={expertiseContent.heading}
+        mainText={expertiseContent.mainText}
+        contentList={expertiseContent.contentList}
       />
       <IndustryExpertise
-        mainHeading={defaultIndustryExpertise.mainHeading}
-        text={defaultIndustryExpertise.text}
-        contentList={defaultIndustryExpertise.contentList}
+        mainHeading={industryExpertise.heading}
+        text={industryExpertise.mainText}
+        contentList={industryExpertise.contentList}
       />
     </div>
   );
