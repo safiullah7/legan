@@ -15,7 +15,6 @@ const FAQsListItem: React.FC<IPropsFAQsListItem> = (
     }
     const refShow = React.useRef(null);
     const { height } = useElementSize(refShow);
-    console.log(height);
     return (
         <>
             <DivFAQsListItem height={height}>

@@ -17,9 +17,9 @@ const BriefAboutUsSection = () => {
                   We are an international consulting agency operating out of Europe. Our online presence allows our reach go beyond one region. We serve start-ups, scale-ups, web-businesses and individuals from a wide variety of industries. Our priority is based on the following services.
                 </p>
               </Grid>
-              <Grid item md={5} sm={3}>
+              {/* <Grid item md={5} sm={3}>
                 <img className="stars" src="/stars.png" alt="stars container" />
-              </Grid>
+              </Grid> */}
             </Grid>
             <Grid className="about-2nd-grid" container>
               <Grid item md={4} sm={6} xs={12}>
@@ -72,6 +72,10 @@ const DivHomeAboutContent = styled.div`
   margin: 0px auto;
   padding-left: 3px;
   text-align: left;
+  img{
+    width: 85px;
+    height: 85px;
+  }
   h1{
     *{
       font-size: 28px;
