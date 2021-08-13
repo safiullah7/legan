@@ -1,40 +1,74 @@
+import { FormikErrors } from 'formik';
 import React from 'react'
 import styled from 'styled-components';
-import useElementSize from '../hooks/useElemetSize';
+import useOutSideClick from '../hooks/useOutsideClick';
 
-type country = {
-    key: number,
-    value: string,
-    label: string,
+interface IPropsCountry {
+    id: number,
+    name: string,
+    flag?: string,
 }
 
-const InputSelect = () => {
-    const optionsArray: country[] = [
-        { key: 1, value: 'pakistan', label: 'pakistan' },
-        { key: 2, value: 'inda', label: 'inda' },
-        { key: 3, value: 'england', label: 'england' }
-    ]
-    const refShow = React.useRef(null);
-    const { height } = useElementSize(refShow);
+interface IPropsOptions {
+    name: string,
+    value: string,
+    error: Boolean,
+    options: IPropsCountry[],
+    setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void> | Promise<FormikErrors<{
+        name: string;
+        email: string;
+        website: string;
+        country: string;
+        query: string;
+        details: string;
+    }>>
+}
+
+const defaultcountry = {
+    name: '', id: -1, flag: '',
+}
+
+const InputSelect: React.FC<IPropsOptions> = (
+    { options, name, value, setFieldValue, error }
+) => {
+    const refClose = React.useRef(null);
     const [showDropDown, setShowDropDown] = React.useState<true | false>(false);
-    const [selectValue, setSelectValue] = React.useState<string>('');
+    const [selectValue, setSelectValue] = React.useState<IPropsCountry>(defaultcountry);
     const handleShow = () => {
         setShowDropDown((showDropDown) => !showDropDown);
     }
-    const handleValue = (value: string) => {
+    const handleValue = (value: IPropsCountry) => {
         setSelectValue(value);
+        setFieldValue(name, value.name);
     }
+    const handleCLose = () => {
+        if (showDropDown)
+            setShowDropDown(false);
+    }
+    useOutSideClick(refClose, () => handleCLose());
     return (
         <>
-            <DivInput showDropDown={showDropDown} height={`${height * (optionsArray.length + 1)}px`} onClick={handleShow}>
-                <input value={selectValue} placeholder="Select" disabled required />
-                <img src="selectIcon.png" alt="select" />
+            <DivInput ref={refClose} showDropDown={showDropDown} onClick={handleShow}>
+                <input
+                    name={name}
+                    className={`${error && 'error'}`}
+                    value={value}
+                    placeholder="Select"
+                    disabled
+                    required
+                />
+                <img className="select-icon" src="selectIcon.png" alt="select" />
                 <ul>
 
-                    <li onClick={() => handleValue('')}>Select</li>
+                    <li className={value === '' ? 'selected-value' : ''} onClick={() => handleValue(defaultcountry)} style={{ justifyContent: 'center' }}>Select</li>
                     {
-                        optionsArray.map(item => {
-                            return <li ref={refShow} onClick={() => handleValue(item.value)} key={item.key}>{item.label}</li>
+                        options.map(item => {
+                            return <li className={value === item.name ? 'selected-value' : ''} onClick={() => handleValue(item)} key={item.id}>
+                                {
+                                    item.flag !== undefined ? <img src={item.flag} alt="flag" /> : ''
+                                }
+                                <span>{item.name.length > 25 ? `${item.name.substring(0, 25)} ...` : item.name}</span>
+                            </li>
                         })
                     }
                 </ul>
@@ -44,7 +78,6 @@ const InputSelect = () => {
 };
 
 interface IPropsStyled {
-    height: string,
     showDropDown: true | false,
 }
 
@@ -58,10 +91,12 @@ const DivInput = styled.div<IPropsStyled>`
             width: 180px;
         }
     input {
-        padding: 6px 15px;
+        padding: 6px 25px 6px 15px;
         cursor: pointer;
         font-size: 12px;
-        width: 200px;
+        width: 191px;
+        position: relative;
+        right: 2px;
         border-radius: 6px;
         color: grey;
         background-color: #F8FCFE;
@@ -73,18 +108,36 @@ const DivInput = styled.div<IPropsStyled>`
             color: rgba(186, 186, 186, 1);
         }
         @media (max-width: 550px){
-            width: 150px;
+            width: 135px;
+            padding-right: 30px;
         }
  }
-    img{
+ .error{
+            border: 0.5px solid red !important;
+            &:hover{
+                border: 0.5px solid red !important;
+                box-shadow: 0 0 0 0.5px red inset;
+            }
+        }
+    .select-icon{
         width: 15px;
         position: relative;
         top: -20px;
         left: 100px;
+        padding: 0px;
         @media ( max-width: 550px){
-            left: 75px;
+            left: 70px;
         }
         cursor: pointer;
+    }
+    .select-flag{
+        width: 18px;
+        position: relative;
+        top: -24px;
+        right: 105px;
+        @media (max-width: 550px){
+            right: 80px;
+        }
     }
     ul{
         background-color: #F8FCFE;
@@ -92,12 +145,26 @@ const DivInput = styled.div<IPropsStyled>`
         border-radius: 6px;
         padding: 0px;
         margin: 0px;
-        width: 230px;
+        width: 225px;
         position: absolute;
-        margin-top: -15px;
+        z-index: 998;
+        margin-top: -18px;
         transition: all 0.5s ease-in-out;
-        height: ${(props) => props.showDropDown ? `${props.height}` : '0px'};
-        overflow: hidden;
+        visibility: ${(props) => props.showDropDown ? 'unset' : 'hidden'};
+        height: ${(props) => props.showDropDown ? `150px` : '0px'};
+        overflow-y: scroll;
+        overflow-x: hidden;
+        border: 0.5px solid #C1D9EE;
+        ::-webkit-scrollbar {
+        width: 7px;
+        }
+        ::-webkit-scrollbar-track {
+        background-color: rgba(0,0,0,0.06);
+        }
+        ::-webkit-scrollbar-thumb {
+        background-color: #C1D9EE;
+        border-radius: 25px;
+        }
         @media (max-width: 550px){
             width: 180px;
         }
@@ -108,11 +175,25 @@ const DivInput = styled.div<IPropsStyled>`
             cursor: pointer;
             line-height: 14px;
             color: #6F8BA4;
-            padding: 5px 0px;
+            padding: 8px 0px;
+            text-align: left;
+            display: flex;
+
+            img{
+                width: 20px;
+                padding: 0px 10px 0px 10px;
+                border-right: 0.5px solid rgba(0,0,0,0.25);
+            }
+            span{
+                padding-left: 10px;
+            }
             &:hover{
                 transition: all 0.25s ease-in-out;
                 background-color: #C1D9EE;
             }
+        }
+        .selected-value{
+            background-color: #C1D9EE !important;
         }
     }
 `;

@@ -11,7 +11,7 @@ import PrivacyPolicy from "./features/privacyPolicy/PrivacyPolicy";
 import FAQs from "./features/FAQs/FAQs";
 import ContactUs from "./features/contact-us/ContactUs";
 import ScrollToTop from "./controls/ScrollToTop";
-import Submit from "./submit/Submit";
+import Submit from "./features/submit/Submit";
 
 function App() {
   return (
