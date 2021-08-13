@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IHome } from '../../models/home';
 import { RootState } from '../../store';
 
-const initialState: IHome = {
+const initialState: IHome[] = [{
     bannerContent: {
         heading: 'Legal for Creative Minds',
         mainText: 'The legal expertise combined with tech savviness comes to offer a variety of tech law solutions. We pride ourselves on our international-mindedness. ',
@@ -140,7 +140,7 @@ const initialState: IHome = {
             },
         ]
     }
-};
+}];
 
 const homeSlice = createSlice({
     name: 'home',

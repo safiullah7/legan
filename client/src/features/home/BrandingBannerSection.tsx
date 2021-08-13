@@ -6,6 +6,10 @@ import styled from "styled-components";
 import EditIcon from '@material-ui/icons/Edit';
 import * as yup from 'yup';
 import { useFormik } from "formik";
+import { useAppDispatch } from "../../store.hooks";
+import { getHomeContentSelector, updateHomeContent } from "./home.slice";
+import { useSelector } from "react-redux";
+import { IBannerContent, IHome } from "../../models/home";
 
 interface IProps {
   heading: string;
@@ -13,7 +17,8 @@ interface IProps {
   bottomText: string;
 }
 const BrandingBannerSection: React.FC<IProps> = ({ heading, mainText, bottomText }) => {
-
+  const {bannerContent, expertiseContent, industryExpertise} = useSelector(getHomeContentSelector);
+  const dispatch = useAppDispatch();
   const [editmode, setEditMode] = useState(false);
   const validationSchema = yup.object({
     heading: yup
@@ -35,6 +40,12 @@ const BrandingBannerSection: React.FC<IProps> = ({ heading, mainText, bottomText
     validationSchema: validationSchema,
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
+      const homeState: IHome = {
+        bannerContent: values,
+        expertiseContent,
+        industryExpertise
+      }
+      dispatch(updateHomeContent(homeState));
     },
   });
 

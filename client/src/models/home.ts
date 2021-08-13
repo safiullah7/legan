@@ -4,19 +4,19 @@ export interface IHome {
   industryExpertise: IIndustryContent
 }
 
-interface IBannerContent {
+export interface IBannerContent {
   heading: string,
   mainText: string,
   bottomText: string
 }
 
-interface IExpertiseContent {
+export interface IExpertiseContent {
   heading: string,
   mainText: string,
   contentList: IExpertiseContentList[]
 }
 
-interface IIndustryContent {
+export interface IIndustryContent {
   heading: string,
   mainText: string,
   contentList: IIndustryExpertiseContentList[]
