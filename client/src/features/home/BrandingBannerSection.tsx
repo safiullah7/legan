@@ -17,7 +17,7 @@ interface IProps {
   bottomText: string;
 }
 const BrandingBannerSection: React.FC<IProps> = ({ heading, mainText, bottomText }) => {
-  const {bannerContent, expertiseContent, industryExpertise} = useSelector(getHomeContentSelector);
+  const { bannerContent, expertiseContent, industryExpertise } = useSelector(getHomeContentSelector);
   const dispatch = useAppDispatch();
   const [editmode, setEditMode] = useState(false);
   const validationSchema = yup.object({
@@ -45,7 +45,7 @@ const BrandingBannerSection: React.FC<IProps> = ({ heading, mainText, bottomText
         expertiseContent,
         industryExpertise
       }
-      dispatch(updateHomeContent(homeState));
+      //dispatch(updateHomeContent(homeState));
     },
   });
 
@@ -82,8 +82,8 @@ const BrandingBannerSection: React.FC<IProps> = ({ heading, mainText, bottomText
                     error={formik.touched.heading && Boolean(formik.errors.heading)}
                     helperText={formik.touched.heading && formik.errors.heading}
                   />
-                  <br/>
-                  <br/>
+                  <br />
+                  <br />
                   <TextField
                     multiline
                     fullWidth
@@ -95,8 +95,8 @@ const BrandingBannerSection: React.FC<IProps> = ({ heading, mainText, bottomText
                     error={formik.touched.mainText && Boolean(formik.errors.mainText)}
                     helperText={formik.touched.mainText && formik.errors.mainText}
                   />
-                  <br/>
-                  <br/>
+                  <br />
+                  <br />
                   <TextField
                     fullWidth
                     id="mainText"
