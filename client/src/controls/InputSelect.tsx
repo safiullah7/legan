@@ -33,12 +33,10 @@ const InputSelect: React.FC<IPropsOptions> = (
 ) => {
     const refClose = React.useRef(null);
     const [showDropDown, setShowDropDown] = React.useState<true | false>(false);
-    const [selectValue, setSelectValue] = React.useState<IPropsCountry>(defaultcountry);
     const handleShow = () => {
         setShowDropDown((showDropDown) => !showDropDown);
     }
     const handleValue = (value: IPropsCountry) => {
-        setSelectValue(value);
         setFieldValue(name, value.name);
     }
     const handleCLose = () => {

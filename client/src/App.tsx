@@ -12,6 +12,8 @@ import FAQs from "./features/FAQs/FAQs";
 import ContactUs from "./features/contact-us/ContactUs";
 import ScrollToTop from "./controls/ScrollToTop";
 import Submit from "./features/submit/Submit";
+import Login from "./features/login/Login";
+import NotFound from "./features/not-found/NotFound";
 
 function App() {
   return (
@@ -20,6 +22,9 @@ function App() {
         <ScrollToTop />
         <Navbar />
         <Switch>
+          <Route exact path="/login">
+            <Login />
+          </Route>
           <Route exact path="/whitepaper">
             <WhitePaper />
           </Route>
@@ -47,6 +52,7 @@ function App() {
           <Route exact path="/">
             <Home />
           </Route>
+          <Route path="*" component={NotFound} />
         </Switch>
         <Footer />
       </Router>

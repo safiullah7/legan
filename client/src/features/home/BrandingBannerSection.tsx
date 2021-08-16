@@ -1,6 +1,7 @@
 import { Button, Container, Grid } from "@material-ui/core";
 import { TrendingFlatOutlined } from "@material-ui/icons";
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 interface IProps {
@@ -26,14 +27,16 @@ const BrandingBannerSection: React.FC<IProps> = ({ heading, mainText, bottomText
                 {bottomText}
               </span>
               <br />
-              <Button
-                variant="outlined"
-                color="primary"
-                endIcon={<TrendingFlatOutlined className="large" />}
-              >
-                <span>SUBMIT A REQUEST</span>
-                {/* <img src="/arrow.svg" alt="arrow" style={{ color: 'white', backgroundColor: 'white' }} /> */}
-              </Button>
+              <Link to="/submit" style={{ textDecoration: 'none' }}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  endIcon={<TrendingFlatOutlined className="large" />}
+                >
+                  <span>SUBMIT A REQUEST</span>
+                  {/* <img src="/arrow.svg" alt="arrow" style={{ color: 'white', backgroundColor: 'white' }} /> */}
+                </Button>
+              </Link>
             </DivBrandingBannerContent>
           </Grid>
           <Grid item md={7} sm={12} xs={12}>

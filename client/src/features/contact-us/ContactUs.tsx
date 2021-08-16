@@ -114,6 +114,7 @@ const ContactUs = () => {
                                             <Checkbox
                                                 required
                                                 color="primary"
+                                                checked={formik.values.acceptTerms}
                                                 {...getFieldProps('acceptTerms')}
                                             />
                                             <p>
