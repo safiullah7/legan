@@ -1,11 +1,11 @@
 import React from 'react'
 // import styled from 'styled-components';
 import ExpertiseListItem from './ExpertiseListItem';
-import { IExpertiseContent } from '../../../models/home';
+import { IExpertiseContentList } from '../../../models/home';
 
 
 interface IProps {
-    contentList: IExpertiseContent[],
+    contentList: IExpertiseContentList[],
 };
 
 const ExpertiseList: React.FC<IProps> = (
