@@ -1,30 +1,116 @@
-import { Button, Container, Grid } from "@material-ui/core";
+import { Button, Container, Grid, IconButton, TextField } from "@material-ui/core";
 import { TrendingFlatOutlined } from "@material-ui/icons";
 import React from "react";
+import { useState } from "react";
 import styled from "styled-components";
+import EditIcon from '@material-ui/icons/Edit';
+import * as yup from 'yup';
+import { useFormik } from "formik";
+import { useAppDispatch } from "../../store.hooks";
+import { getHomeContentSelector, updateHomeContent } from "./home.slice";
+import { useSelector } from "react-redux";
+import { IBannerContent, IHome } from "../../models/home";
 
 interface IProps {
   heading: string;
   mainText: string;
   bottomText: string;
 }
-
 const BrandingBannerSection: React.FC<IProps> = ({ heading, mainText, bottomText }) => {
+  const { bannerContent, expertiseContent, industryExpertise } = useSelector(getHomeContentSelector);
+  const dispatch = useAppDispatch();
+  const [editmode, setEditMode] = useState(false);
+  const validationSchema = yup.object({
+    heading: yup
+      .string()
+      .required('Heading text is required'),
+    mainText: yup
+      .string()
+      .required('Main text is required'),
+    bottomText: yup
+      .string()
+      .required('BottomText is required')
+  });
+  const formik = useFormik({
+    initialValues: {
+      heading: heading || 'heading was empty',
+      mainText: mainText || 'mainText was empty',
+      bottomText: bottomText || 'bottom text was empty'
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+      const homeState: IHome = {
+        bannerContent: values,
+        expertiseContent,
+        industryExpertise
+      }
+      //dispatch(updateHomeContent(homeState));
+    },
+  });
   return (
     <>
       <Container maxWidth="xl" style={{ backgroundColor: 'white', paddingBottom: '50px' }}>
         <Grid container>
           <Grid item md={5} sm={12} xs={12} >
             <DivBrandingBannerContent>
-              <h1>
-                {heading}
-              </h1>
-              <p>
-                {mainText}
-              </p>
-              <span>
-                {bottomText}
-              </span>
+              <IconButton aria-label="edit" onClick={() => setEditMode(!editmode)}>
+                <EditIcon fontSize="inherit" />
+              </IconButton>
+              {editmode === false ? (
+                <div>
+                  <h1>
+                    {heading}
+                  </h1>
+                  <p>
+                    {mainText}
+                  </p>
+                  <span>
+                    {bottomText}
+                  </span>
+                </div>
+              ) : (
+                <form onSubmit={formik.handleSubmit}>
+                  <TextField
+                    fullWidth
+                    id="heading"
+                    name="heading"
+                    label="Heading"
+                    value={formik.values.heading}
+                    onChange={formik.handleChange}
+                    error={formik.touched.heading && Boolean(formik.errors.heading)}
+                    helperText={formik.touched.heading && formik.errors.heading}
+                  />
+                  <br />
+                  <br />
+                  <TextField
+                    multiline
+                    fullWidth
+                    id="mainText"
+                    name="mainText"
+                    label="Main Text"
+                    value={formik.values.mainText}
+                    onChange={formik.handleChange}
+                    error={formik.touched.mainText && Boolean(formik.errors.mainText)}
+                    helperText={formik.touched.mainText && formik.errors.mainText}
+                  />
+                  <br />
+                  <br />
+                  <TextField
+                    fullWidth
+                    id="mainText"
+                    name="mainText"
+                    label="Bottom Text"
+                    value={formik.values.bottomText}
+                    onChange={formik.handleChange}
+                    error={formik.touched.bottomText && Boolean(formik.errors.bottomText)}
+                    helperText={formik.touched.bottomText && formik.errors.bottomText}
+                  />
+                  <Button color="primary" variant="contained" fullWidth type="submit">
+                    Save
+                  </Button>
+                </form>
+              )}
               <br />
               <Button
                 variant="outlined"
