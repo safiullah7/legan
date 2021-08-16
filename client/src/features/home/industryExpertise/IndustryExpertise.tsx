@@ -28,9 +28,9 @@ const IndustryExpertise: React.FC<IPropsIndustryExpertise> = (
                 </h1>
                 <p>{text}</p>
               </Grid>
-              <Grid item md={5} sm={3}>
+              {/* <Grid item md={5} sm={3}>
                 <img className="stars" src="/stars.png" alt="stars container" />
-              </Grid>
+              </Grid> */}
             </Grid>
             <IndustryExpertiseList
               contentList={contentList}

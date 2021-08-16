@@ -93,6 +93,8 @@ padding: 30px 15px 30px 18px;
   }
   img{
     padding: 45px 0px;
+    width: 120px;
+    height: 117px;
   }
   @media (max-width: 850px){
     img{

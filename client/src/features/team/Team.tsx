@@ -92,13 +92,14 @@ border-radius: 15px;
 color: rgba(111, 139, 164, 1);
 font-size: 10px;
 text-decoration: none;
+margin-top: -6px;
 span{
   font-weight: 700;
   padding:5px;
   text-decoration: none;
 }
 &:hover{
-  box-shadow: inset 10em 0 0 0  rgba(111, 139, 164, 1);
+  box-shadow: inset 10em 0 0 0  rgba(34, 147, 251, 1);
   transition : all 0.5s ease-in-out;
   *{
     transition-delay: 0.25s;

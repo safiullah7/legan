@@ -53,9 +53,14 @@ margin-top: 80px;
     .member-info{
     img{
         padding: 10px;
-        border-radius: 50%;
-        width: 200px;
-        height: 215px;
+        -webkit-border-radius: 215px;
+        -webkit-background-clip: padding-box;
+        -moz-border-radius: 215px;
+        -moz-background-clip: padding;
+        border-radius: 215px;
+        background-clip: padding-box;
+        width: 205px;
+        height: 210px;
     }
     h3{
         font-size: 22px;
@@ -89,7 +94,7 @@ margin-top: 80px;
         ul{
             color: rgba(111, 139, 164, 1);
             li{
-                margin: 12px 0px;
+                margin: 12px -15px;
                 h5{
                     margin: 0px;
                     font-style: normal;
@@ -98,9 +103,10 @@ margin-top: 80px;
                     line-height: 20px;
                     letter-spacing: 0.05em;
                     color: #6F8BA4;
+                    margin-left: 15px;
                 }
                 p{
-                    margin: 0px;
+                    margin: 0px 0px 0px 15px;
                     padding: 6px 0px;
                     font-style: normal;
                     font-weight: normal;

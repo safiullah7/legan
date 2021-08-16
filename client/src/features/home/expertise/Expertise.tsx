@@ -20,7 +20,7 @@ interface IProps {
 const Expertise: React.FC<IProps> = (
     { heading, contentList, mainText }
 ) => {
-
+    const [head1, head2] = heading.split(' ');
     return (
         <>
             <DivHomeExpertise>
@@ -29,7 +29,7 @@ const Expertise: React.FC<IProps> = (
                         <Grid>
                             <Grid item md={7} sm={9} xs={12}>
                                 <h1>
-                                    {heading}
+                                    {head1} <span>{head2}</span>
                                 </h1>
                                 <p>
                                     {mainText}
@@ -64,11 +64,14 @@ h1{
     font-size: 28px;
     color: rgba(0, 102, 153, 1);
     font-weight: 700;
+    span{
+        font-weight: 500;
+    }
     }
 p{
     font-size: 20px;
-    font-weight: 400;
-    color: rgba(111, 139, 164, 1);
+    line-height: 23px;
+    color: #6F8BA4;
     }
 @media (max-width: 600px){
     width: 98%;

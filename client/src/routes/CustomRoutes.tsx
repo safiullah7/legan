@@ -4,6 +4,7 @@ import ContactUs from '../features/contact-us/ContactUs';
 import FAQs from '../features/FAQs/FAQs';
 import Home from '../features/home/Home';
 import PrivacyPolicy from '../features/privacyPolicy/PrivacyPolicy';
+import Submit from '../features/submit/Submit';
 import Team from '../features/team/Team';
 import TeamMember from '../features/team/TeamMember';
 import WhitePaper from '../features/whitepaper/WhitePaper';
@@ -33,6 +34,7 @@ const CustomRoutes = () => {
                         <Route path={'/privacypolicy'} exact component={() => <PrivacyPolicy />} />
                         <Route path={'/faqs'} exact component={() => <FAQs />} />
                         <Route path={'/contactus'} exact component={() => <ContactUs />} />
+                        <Route path={'/submit'} exact component={() => <Submit />} />
                         <Route path={'/'} exact component={() => <Home />} />
                     </MainLayout>
                 </Route>
