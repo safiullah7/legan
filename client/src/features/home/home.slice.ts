@@ -1,4 +1,4 @@
-import { IBannerContent } from './../../models/home';
+import { IBannerContent, IBriefAboutUsContent } from './../../models/home';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IHome } from '../../models/home';
 import { RootState } from '../../store';
@@ -8,6 +8,30 @@ const initialState: IHome = {
         heading: 'Legal for Creative Minds',
         mainText: 'The legal expertise combined with tech savviness comes to offer a variety of tech law solutions. We pride ourselves on our international-mindedness. ',
         bottomText: 'You can submit your case for a free assessment.We will get back to you shortly',
+    },
+    briefAboutUsContent: {
+        heading: 'BRIEFLY ABOUT US',
+        mainText: 'We are an international consulting agency operating out of Europe. Our online presence allows our reach go beyond one region. We serve start-ups, scale-ups, web-businesses and individuals from a wide variety of industries. Our priority is based on the following services.',
+        services: [
+            {
+                id: '1',
+                imageUrl: '/about-bag.png',
+                name: 'Consulting',
+                description: 'Provision of online consutling services in matters ranging from internet law to intellectual property.'
+            },
+            {
+                id: '2',
+                imageUrl: '/about-draft.png',
+                name: 'Document Drafting',
+                description: 'We draft/review any tech and non-tech contracts including NDAs, SLAs, IP Lisening/Assignment, EULAs, etc.'
+            },
+            {
+                id: '3',
+                imageUrl: '/about-research.png',
+                name: 'Legal Research',
+                description: 'We have extensive legal research skills, be it researching laws of various countries, or that of new technologies.'
+            },
+        ]
     },
     expertiseContent: {
         heading: 'LEGAL EXPERTISE',
@@ -149,12 +173,14 @@ const homeSlice = createSlice({
     reducers: {
         updateHomeContent: (state, action: PayloadAction<IBannerContent>) => {
            state.bannerContent = action.payload;
-           return state;
+        },
+        updateBriefAboutUsContent: (state, action: PayloadAction<IBriefAboutUsContent>) => {
+            state.briefAboutUsContent = action.payload;
         }
     }
 });
 
-export const { updateHomeContent } = homeSlice.actions;
+export const { updateHomeContent, updateBriefAboutUsContent } = homeSlice.actions;
 
 export const getHomeContentSelector = (state: RootState) => state.homeSlice;
 

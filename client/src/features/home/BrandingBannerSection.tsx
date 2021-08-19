@@ -8,17 +8,13 @@ import EditIcon from '@material-ui/icons/Edit';
 import * as yup from 'yup';
 import { useFormik } from "formik";
 import { useAppDispatch } from "../../store.hooks";
-import { getHomeContentSelector, updateHomeContent } from "./home.slice";
-import { useSelector } from "react-redux";
-import { IBannerContent, IHome } from "../../models/home";
+import { updateHomeContent } from "./home.slice";
+import { IBannerContent } from "../../models/home";
 
 interface IProps {
-  heading: string;
-  mainText: string;
-  bottomText: string;
+  bannerContent: IBannerContent
 }
-const BrandingBannerSection: React.FC<IProps> = ({ heading, mainText, bottomText }) => {
-  const { bannerContent, expertiseContent, industryExpertise } = useSelector(getHomeContentSelector);
+const BrandingBannerSection: React.FC<IProps> = ({ bannerContent }) => {
   const dispatch = useAppDispatch();
   const [editmode, setEditMode] = useState(false);
   const validationSchema = yup.object({
@@ -34,19 +30,15 @@ const BrandingBannerSection: React.FC<IProps> = ({ heading, mainText, bottomText
   });
   const formik = useFormik({
     initialValues: {
-      heading: heading || 'heading was empty',
-      mainText: mainText || 'mainText was empty',
-      bottomText: bottomText || 'bottom text was empty'
+      heading: bannerContent.heading || 'heading was empty',
+      mainText: bannerContent.mainText || 'mainText was empty',
+      bottomText: bannerContent.bottomText || 'bottom text was empty'
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
-      const homeState: IHome = {
-        bannerContent: values,
-        expertiseContent,
-        industryExpertise
-      }
-      //dispatch(updateHomeContent(homeState));
+
+      dispatch(updateHomeContent(values));
     },
   });
   return (
@@ -61,13 +53,13 @@ const BrandingBannerSection: React.FC<IProps> = ({ heading, mainText, bottomText
               {editmode === false ? (
                 <div>
                   <h1>
-                    {heading}
+                    {bannerContent.heading}
                   </h1>
                   <p>
-                    {mainText}
+                    {bannerContent.mainText}
                   </p>
                   <span>
-                    {bottomText}
+                    {bannerContent.bottomText}
                   </span>
                 </div>
               ) : (
@@ -99,8 +91,8 @@ const BrandingBannerSection: React.FC<IProps> = ({ heading, mainText, bottomText
                   <br />
                   <TextField
                     fullWidth
-                    id="mainText"
-                    name="mainText"
+                    id="bottomText"
+                    name="bottomText"
                     label="Bottom Text"
                     value={formik.values.bottomText}
                     onChange={formik.handleChange}
