@@ -1,58 +1,240 @@
-import { Container, Grid } from "@material-ui/core";
-import React from "react";
+import { Container, Grid, TextField, IconButton, Button } from "@material-ui/core";
+import EditIcon from '@material-ui/icons/Edit';
+import React, { useState } from "react";
 import styled from 'styled-components';
-const BriefAboutUsSection = () => {
+import { IBriefAboutUsContent, IService } from "../../models/home";
+import * as yup from 'yup';
+import { ErrorMessage, Field, FieldArray, Form, Formik, useFormik } from "formik";
+import { updateBriefAboutUsContent } from "./home.slice";
+import { makeStyles } from '@material-ui/core/styles';
+import { useAppDispatch } from "../../store.hooks";
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+
+interface IProps {
+  briefAboutUsContent: IBriefAboutUsContent
+}
+
+const BriefAboutUsSection: React.FC<IProps> = ({ briefAboutUsContent }) => {
+
+  const dispatch = useAppDispatch();
+  const { heading, mainText, services } = briefAboutUsContent
+  const [headingPart1, headingPart2] = heading.split(' ');
+
+  const [editmode, setEditMode] = useState(false);
+
+  const validationSchema = yup.object({
+    heading: yup
+      .string()
+      .required('Heading text is required'),
+    mainText: yup
+      .string()
+      .required('Main text is required'),
+    services: yup
+      .array()
+      .of(
+        yup.object().shape({
+          name: yup.string().min(4, 'too short').required('Required'), // these constraints take precedence
+          description: yup.string().min(3, 'cmon').required('Required'), // these constraints take precedence
+        })
+      )
+      .required('Must have services') // these constraints are shown if and only if inner constraints are satisfied
+      .min(3, 'Minimum of 3 services'),
+  });
+
+  const useStyles = makeStyles(() => ({
+    root: {
+      maxWidth: 343,
+      borderRadius: 20,
+    },
+    content: {
+      padding: 24,
+    },
+  }));
+
+  const classes = useStyles();
+
+
+  // const formik = useFormik({
+  //   initialValues: {
+  //     heading: briefAboutUsContent.heading || 'heading was empty',
+  //     mainText: briefAboutUsContent.mainText || 'mainText was empty',
+  //     services: briefAboutUsContent.services || 'bottom text was empty'
+  //   },
+  //   validationSchema: validationSchema,
+  //   onSubmit: (values) => {
+  //     alert(JSON.stringify(values, null, 2));
+
+  //     //dispatch(updateBriefAboutUsContent(values));
+  //   },
+  // });
+  const initialValues = {
+    heading: briefAboutUsContent.heading || 'heading was empty',
+    mainText: briefAboutUsContent.mainText || 'mainText was empty',
+    services: briefAboutUsContent.services || [
+      {
+        id: '1',
+        imageUrl: '/about-bag.png',
+        name: 'Consulting',
+        description: 'Provision of online consutling services in matters ranging from internet law to intellectual property.'
+      },
+      {
+        id: '2',
+        imageUrl: '/about-draft.png',
+        name: 'Document Drafting',
+        description: 'We draft/review any tech and non-tech contracts including NDAs, SLAs, IP Lisening/Assignment, EULAs, etc.'
+      },
+    ]
+  };
+
   return (
     <>
       <DivHomeAbout>
+        <IconButton aria-label="edit" onClick={() => setEditMode(!editmode)}>
+          <EditIcon fontSize="inherit" />
+        </IconButton>
         <Container className="container" maxWidth="xl">
-          <DivHomeAboutContent>
-            <Grid className="about-first-grid" container spacing={3}>
-              <Grid item md={7} sm={9} xs={12}>
-                <h1>
-                  <span className="bolder">BRIEFLY </span>
-                  <span className="bold">ABOUT US</span>
-                </h1>
-                <p>
-                  We are an international consulting agency operating out of Europe. Our online presence allows our reach go beyond one region. We serve start-ups, scale-ups, web-businesses and individuals from a wide variety of industries. Our priority is based on the following services.
-                </p>
-              </Grid>
-              {/* <Grid item md={5} sm={3}>
-                <img className="stars" src="/stars.png" alt="stars container" />
-              </Grid> */}
-            </Grid>
-            <Grid className="about-2nd-grid" container>
-              <Grid item md={4} sm={6} xs={12}>
-                <DivAboutGridConsulting>
-                  <img src="/about-bag.png" alt="about-bag" />
-                  <h3>Consulting</h3>
+          {!editmode ? (
+            <DivHomeAboutContent>
+              <Grid className="about-first-grid" container spacing={3}>
+                <Grid item md={7} sm={9} xs={12}>
+                  <h1>
+                    <span className="bolder">{headingPart1} </span>
+                    <span className="bold">{headingPart2}</span>
+                  </h1>
                   <p>
-                    Provision of online consutling services in matters ranging from internet law to intellectual property.
+                    {mainText}
                   </p>
-                </DivAboutGridConsulting>
+                </Grid>
               </Grid>
-              <Grid item md={4} sm={6} xs={12}>
-                <DivAboutGridDrafting>
-                  <img src="about-draft.png" alt="about-draft" />
-                  <h3>Document Drafting</h3>
-                  <p>
-                    We draft/review any tech and non-tech contracts including NDAs, SLAs, IP Lisening/Assignment, EULAs, etc.
-                  </p>
-                </DivAboutGridDrafting>
+              <Grid className="about-2nd-grid" container>
+                {services.map((service: IService) => {
+                  return (
+                    <Grid item md={4} sm={6} xs={12}>
+                      <DivAboutGridConsulting>
+                        <img src={service.imageUrl} alt="about-bag" />
+                        <h3>{service.name}</h3>
+                        <p>
+                          {service.description}
+                        </p>
+                      </DivAboutGridConsulting>
+                    </Grid>
+                  )
+                })}
               </Grid>
-              <Grid item md={4} sm={6} xs={12}>
-                <DivAboutGridResearch>
-                  <img src="/about-research.png" alt="about-research" />
-                  <h3>Legal Research</h3>
-                  <p>
-                    We have extensive legal research skills, be it researching laws of various countries, or that of new technologies.
-                  </p>
-                </DivAboutGridResearch>
-              </Grid>
-            </Grid>
-          </DivHomeAboutContent>
+            </DivHomeAboutContent>
+          ) : (
+            <DivHomeAboutContent>
+              <Formik
+                initialValues={initialValues}
+                // validationSchema={validationSchema}
+                onSubmit={async (values) => {
+
+                  console.log(JSON.stringify(values, null, 2));
+                }}
+              >
+                {({ values, handleChange, touched, errors }) => (
+                  <Form>
+                    <Grid className="about-first-grid" container spacing={3}>
+                      <Grid item md={7} sm={9} xs={12}>
+                        <TextField
+                          variant='outlined'
+                          fullWidth
+                          id="heading"
+                          name="heading"
+                          label="Heading"
+                          value={values.heading}
+                          onChange={handleChange}
+                          error={touched.heading && Boolean(errors.heading)}
+                          helperText={touched.heading && errors.heading}
+                        />
+                        <br />
+                        <br />
+                        <TextField
+                          variant='outlined'
+                          fullWidth
+                          multiline
+                          id="mainText"
+                          name="mainText"
+                          label="Main Text"
+                          value={values.mainText}
+                          onChange={handleChange}
+                          error={touched.mainText && Boolean(errors.mainText)}
+                          helperText={touched.mainText && errors.mainText}
+                        />
+                      </Grid>
+                    </Grid>
+                    <div>
+
+                      <FieldArray name="services">
+                        {({ insert, remove, push }) => (
+
+                          <div style={{ display: "flex" }}>
+                            {values.services.length > 0 &&
+                              values.services.map((service, index) => (
+                                <div key={index}>
+                                  <Card className={classes.root}>
+                                    <CardActionArea>
+                                      <CardMedia
+                                        component="img"
+                                        alt="Contemplative Reptile"
+                                        height="140"
+                                        image={service.imageUrl}
+                                      />
+                                      <CardContent>
+                                        <TextField
+                                          variant='outlined'
+                                          fullWidth
+                                          id={`services.${index}.id`}
+                                          name={`services.${index}.name`}
+                                          label="Name"
+                                          value={service.name}
+                                          onChange={handleChange}
+                                        // error={service.name && Boolean(errors.mainText)}
+                                        // helperText={touched.mainText && errors.mainText}
+                                        />
+                                        <br />
+                                        <br />
+                                        <TextField
+                                          variant='outlined'
+                                          fullWidth
+                                          multiline
+                                          id={`services.${index}.id`}
+                                          name={`services.${index}.description`}
+                                          label="Description"
+                                          value={service.description}
+                                          onChange={handleChange}
+                                        // error={service.name && Boolean(errors.mainText)}
+                                        // helperText={touched.mainText && errors.mainText}
+                                        />
+                                      </CardContent>
+                                    </CardActionArea>
+                                    <CardActions>
+                                      <Button size="small" color="secondary" onClick={() => remove(index)}>
+                                        Remove
+                                      </Button>
+                                    </CardActions>
+                                  </Card>
+                                </div>
+                              ))}
+                            <Button size="large" color="primary" onClick={() => push({ name: '', description: '' })}>
+                              Add service
+                            </Button>
+                          </div>
+                        )}
+                      </FieldArray>
+                      <button type="submit">Invite</button>
+                    </div>
+                  </Form>
+                )}
+              </Formik>
+            </DivHomeAboutContent>
+          )}
         </Container>
-      </DivHomeAbout>
+      </DivHomeAbout >
     </>
   );
 };
