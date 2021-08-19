@@ -45,17 +45,6 @@ const BriefAboutUsSection: React.FC<IProps> = ({ briefAboutUsContent }) => {
       .min(3, 'Minimum of 3 services'),
   });
 
-  const useStyles = makeStyles(() => ({
-    root: {
-      maxWidth: 343,
-      borderRadius: 20,
-    },
-    content: {
-      padding: 24,
-    },
-  }));
-
-  const classes = useStyles();
 
 
   // const formik = useFormik({
@@ -93,10 +82,10 @@ const BriefAboutUsSection: React.FC<IProps> = ({ briefAboutUsContent }) => {
   return (
     <>
       <DivHomeAbout>
-        <IconButton aria-label="edit" onClick={() => setEditMode(!editmode)}>
-          <EditIcon fontSize="inherit" />
-        </IconButton>
         <Container className="container" maxWidth="xl">
+          <IconButton className="edit-icon" color={editmode ? 'primary' : 'default'} aria-label="edit" onClick={() => setEditMode(!editmode)}>
+            <EditIcon fontSize="inherit" />
+          </IconButton>
           {!editmode ? (
             <DivHomeAboutContent>
               <Grid className="about-first-grid" container spacing={3}>
@@ -167,67 +156,73 @@ const BriefAboutUsSection: React.FC<IProps> = ({ briefAboutUsContent }) => {
                         />
                       </Grid>
                     </Grid>
-                    <div>
-
+                    <DivEditAboutUsContent>
                       <FieldArray name="services">
                         {({ insert, remove, push }) => (
-
-                          <div style={{ display: "flex" }}>
-                            {values.services.length > 0 &&
-                              values.services.map((service, index) => (
-                                <div key={index}>
-                                  <Card className={classes.root}>
-                                    <CardActionArea>
-                                      <CardMedia
-                                        component="img"
-                                        alt="Contemplative Reptile"
-                                        height="140"
-                                        image={service.imageUrl}
-                                      />
-                                      <CardContent>
-                                        <TextField
-                                          variant='outlined'
-                                          fullWidth
-                                          id={`services.${index}.id`}
-                                          name={`services.${index}.name`}
-                                          label="Name"
-                                          value={service.name}
-                                          onChange={handleChange}
-                                        // error={service.name && Boolean(errors.mainText)}
-                                        // helperText={touched.mainText && errors.mainText}
+                          <div className="edit-cards">
+                            <Grid container>
+                              {values.services.length > 0 &&
+                                values.services.map((service, index) => (
+                                  <Grid className="edit-card-grid" item md={4} sm={6} xs={12} key={index}>
+                                    <Card className="edit-card">
+                                      <CardActionArea>
+                                        <CardMedia
+                                          component="img"
+                                          alt="Contemplative Reptile"
+                                          height="140"
+                                          image={service.imageUrl}
                                         />
-                                        <br />
-                                        <br />
-                                        <TextField
-                                          variant='outlined'
-                                          fullWidth
-                                          multiline
-                                          id={`services.${index}.id`}
-                                          name={`services.${index}.description`}
-                                          label="Description"
-                                          value={service.description}
-                                          onChange={handleChange}
-                                        // error={service.name && Boolean(errors.mainText)}
-                                        // helperText={touched.mainText && errors.mainText}
-                                        />
-                                      </CardContent>
-                                    </CardActionArea>
-                                    <CardActions>
-                                      <Button size="small" color="secondary" onClick={() => remove(index)}>
-                                        Remove
-                                      </Button>
-                                    </CardActions>
-                                  </Card>
-                                </div>
-                              ))}
-                            <Button size="large" color="primary" onClick={() => push({ name: '', description: '', imageUrl: '/about-bag.png' })}>
-                              Add service
-                            </Button>
+                                        <CardContent>
+                                          <TextField
+                                            variant='outlined'
+                                            fullWidth
+                                            id={`services.${index}.id`}
+                                            name={`services.${index}.name`}
+                                            label="Name"
+                                            value={service.name}
+                                            onChange={handleChange}
+                                          // error={service.name && Boolean(errors.mainText)}
+                                          // helperText={touched.mainText && errors.mainText}
+                                          />
+                                          <br />
+                                          <br />
+                                          <TextField
+                                            variant='outlined'
+                                            className="edit-card-description"
+                                            fullWidth
+                                            multiline
+                                            maxRows={3}
+                                            id={`services.${index}.id`}
+                                            name={`services.${index}.description`}
+                                            label="Description"
+                                            value={service.description}
+                                            onChange={handleChange}
+                                          // error={service.name && Boolean(errors.mainText)}
+                                          // helperText={touched.mainText && errors.mainText}
+                                          />
+                                        </CardContent>
+                                      </CardActionArea>
+                                      <CardActions>
+                                        <Button size="small" fullWidth variant="contained" color="secondary" onClick={() => remove(index)}>
+                                          Remove
+                                        </Button>
+                                      </CardActions>
+                                    </Card>
+                                  </Grid>
+                                ))}
+                            </Grid>
+                            <div className="edit-btns">
+                              <Button variant="contained" fullWidth size="large" color="primary" onClick={() => push({ name: '', description: '', imageUrl: '/about-bag.png' })}>
+                                Add service
+                              </Button>
+                              <Button fullWidth variant="outlined" size="large" color="primary" type="submit">
+                                Invite
+                              </Button>
+                            </div>
                           </div>
                         )}
                       </FieldArray>
-                      <button type="submit">Invite</button>
-                    </div>
+                    </DivEditAboutUsContent>
                   </Form>
                 )}
               </Formik>
@@ -243,6 +238,13 @@ const DivHomeAbout = styled.div`
 .container{
   background-color: #F9FCFE;
   padding: 75px 65px;
+  .edit-icon{
+    position: relative;
+    top: -60px;
+    @media (max-width: 600px){
+      top: -30px;
+    } 
+  }
   @media (max-width: 550px){
     padding: 45px 10px;
   }
@@ -337,6 +339,51 @@ const DivAboutGridResearch = styled(DivAboutGridConsulting)`
   border-right: none;
   @media (max-width: 600px){
     border-bottom: none;
+  }
+`;
+const DivEditAboutUsContent = styled.div`
+.edit-card-grid{
+  padding: 15px;
+  .edit-card{
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    flex-flow: column;
+    border-radius: 15px;
+    height: 375px;
+    max-width: 450px;
+    img{
+      padding: 15px;
+    }
+    .edit-card-description{
+      *{
+         ::-webkit-scrollbar {
+          width: 7px;
+          border-radius: 25px;
+        }
+        ::-webkit-scrollbar-track {
+          background-color: rgba(0,0,0,0.06);
+        }
+        ::-webkit-scrollbar-thumb {
+          background-color: lightgrey;
+          border-radius: 25px;
+      }
+        }
+    }
+    button{
+      margin-top: -10px;
+      margin-bottom: 15px;
+    }
+  }
+}
+.edit-btns{
+    button{
+      margin: 5px 15px;
+      width: 200px;
+      @media (max-width: 600px){
+        width: 94%;
+      }
+    }
   }
 `;
 
