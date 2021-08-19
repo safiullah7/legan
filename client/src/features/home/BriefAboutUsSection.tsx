@@ -220,7 +220,7 @@ const BriefAboutUsSection: React.FC<IProps> = ({ briefAboutUsContent }) => {
                                   </Card>
                                 </div>
                               ))}
-                            <Button size="large" color="primary" onClick={() => push({ name: '', description: '' })}>
+                            <Button size="large" color="primary" onClick={() => push({ name: '', description: '', imageUrl: '/about-bag.png' })}>
                               Add service
                             </Button>
                           </div>
