@@ -212,11 +212,12 @@ const BriefAboutUsSection: React.FC<IProps> = ({ briefAboutUsContent }) => {
                                 ))}
                             </Grid>
                             <div className="edit-btns">
-                              <Button variant="contained" fullWidth size="large" color="primary" onClick={() => push({ name: '', description: '', imageUrl: '/about-bag.png' })}>
+                              <Button variant="contained" fullWidth size="large" color="primary" 
+                                onClick={() => push({ name: '', description: '', imageUrl: '/about-bag.png' })}>
                                 Add service
                               </Button>
                               <Button fullWidth variant="outlined" size="large" color="primary" type="submit">
-                                Invite
+                                Save
                               </Button>
                             </div>
                           </div>
