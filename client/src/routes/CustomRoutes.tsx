@@ -23,7 +23,7 @@ const CustomRoutes = () => {
                     </AuthLayout>
                 </Route>
                 <Route
-                    path={['', '/whitepaper', '/team', '/team/:id', '/blog', '/blog/:id', '/privacypolicy', '/faqs', '/contactus']}
+                    path={['', '/whitepaper', '/team', '/team/:id', '/blog', '/blog/:id', '/privacypolicy', '/faqs', '/contactus', '/submit']}
                     exact>
                     <MainLayout>
                         {/* <PrivateRoute path={['', '/articles']} exact component={() => <Articles />} />

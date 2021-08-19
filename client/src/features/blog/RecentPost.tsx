@@ -1,38 +1,60 @@
 import { Button, Grid, Tab, Tabs } from '@material-ui/core';
 import { FiberManualRecord } from '@material-ui/icons';
+import { Pagination } from '@material-ui/lab';
 import React from 'react'
 import styled from 'styled-components';
-import { IBlog, ICategory } from '../../models/blog';
+import { IBlog, ICategory, blog } from '../../models/blog';
 interface IPropsRecentBlog {
     recentBlog: IBlog[],
     categories: ICategory[],
+    page: number,
+    noOfPages: number
+    setPage: React.Dispatch<React.SetStateAction<number>>,
+    setTotalBlogs: React.Dispatch<React.SetStateAction<IBlog[]>>,
 }
 const RecentPost: React.FC<IPropsRecentBlog> = (
-    { recentBlog, categories }
+    { recentBlog, categories, page, setPage, noOfPages, setTotalBlogs }
 ) => {
     const [selectedTab, setSelectedTab] = React.useState<number>(0);
-    const handleClick = (value: number) => {
-        if (selectedTab !== value)
-            setSelectedTab(value);
+    const scrollRef = React.useRef(null);
+    const handleTabClick = (id: number, value: string) => {
+        if (selectedTab !== id) {
+            setSelectedTab(id);
+            setBlogs(value);
+        }
+    }
+    const setBlogs = (value: string) => {
+        if (value === '')
+            setTotalBlogs(blog.recentBlogs);
+        else
+            setTotalBlogs(blog.recentBlogs.filter(item => item.type === value));
+        setPage(1);
+    }
+    const handlePageChange = (pageNo: number) => {
+        (scrollRef as any).current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (page !== pageNo)
+            setPage(pageNo);
     }
     return (
         <>
             <DivRecentBlogs>
-                <div className="heading">
+                <div ref={scrollRef} className="heading">
                     <h3>Recent Post</h3>
                     <div className="hr"></div>
                 </div>
                 <DivCategoriesScrollBar>
                     <Tabs
+                        value={selectedTab}
                         className="tabs"
                         textColor="primary"
+                        indicatorColor="primary"
                         variant="scrollable"
                         scrollButtons="auto"
                         aria-label="scrollable auto tabs categories"
                     >
                         {
-                            categories.map(item => {
-                                return <Tab className={selectedTab === item.id ? 'tab selected-tab' : 'tab'} key={item.id} onClick={() => handleClick(item.id)} label={item.name} />
+                            categories.map((item) => {
+                                return <Tab className={selectedTab === item.id ? 'tab selected-tab' : 'tab'} key={item.id} value={item.id} onClick={() => handleTabClick(item.id, item.value)} label={item.name} />
                             })
                         }
                     </Tabs>
@@ -40,36 +62,39 @@ const RecentPost: React.FC<IPropsRecentBlog> = (
                 <Grid container>
                     <Grid className="blogs-container" container md={9} sm={7} xs={12}>
                         {
-                            recentBlog.map(blog => {
-                                return (
-                                    <Grid className="blog-container" key={blog.id} item md={4} sm={12} xs={12}>
-                                        <Grid item md={12} sm={12} xs={12} className="blog-image" >
+                            recentBlog.length > 0 ?
+                                recentBlog.map(blog => {
+                                    return (
+                                        <Grid className="blog-container" key={blog.id} item md={4} sm={12} xs={12}>
+                                            <Grid item md={12} sm={12} xs={12} className="blog-image" >
+                                            </Grid>
+                                            <Grid className="blog-content-container" item md={12} sm={12} xs={12}>
+                                                <p className="blog-type">
+                                                    {blog.type}
+                                                </p>
+                                                <p className="blog-date-name">
+                                                    <span className="date">
+                                                        {blog.date}&nbsp;
+                                                    </span>
+                                                    <span className="name">
+                                                        / {blog.writer}
+                                                    </span>
+                                                </p>
+                                                <h4>
+                                                    {blog.heading}
+                                                </h4>
+                                                <p className="blog-content">
+                                                    {blog.content}
+                                                </p>
+                                                <Button className="blog-btn">
+                                                    READ MORE
+                                                </Button>
+                                            </Grid>
                                         </Grid>
-                                        <Grid className="blog-content-container" item md={12} sm={12} xs={12}>
-                                            <p className="blog-type">
-                                                {blog.type}
-                                            </p>
-                                            <p className="blog-date-name">
-                                                <span className="date">
-                                                    {blog.date}&nbsp;
-                                                </span>
-                                                <span className="name">
-                                                    / {blog.writer}
-                                                </span>
-                                            </p>
-                                            <h4>
-                                                {blog.heading}
-                                            </h4>
-                                            <p className="blog-content">
-                                                {blog.content}
-                                            </p>
-                                            <Button className="blog-btn">
-                                                READ MORE
-                                            </Button>
-                                        </Grid>
-                                    </Grid>
-                                );
-                            })
+                                    );
+                                })
+                                :
+                                <h1>No posts found</h1>
                         }
                     </Grid>
                     <Grid className="blog-categoriers" item md={3} sm={5} xs={12}>
@@ -77,7 +102,7 @@ const RecentPost: React.FC<IPropsRecentBlog> = (
                             <h2>CATEGORIES</h2>
                             {
                                 categories.map(item => {
-                                    return <p className={selectedTab === item.id ? 'active-tab' : ''} onClick={() => handleClick(item.id)} key={item.id}>
+                                    return <p className={selectedTab === item.id ? 'active-tab' : ''} onClick={() => handleTabClick(item.id, item.value)} key={item.id}>
                                         {
                                             selectedTab === item.id && <FiberManualRecord className="active-icon" />
                                         }
@@ -88,6 +113,18 @@ const RecentPost: React.FC<IPropsRecentBlog> = (
                         </div>
                     </Grid>
                 </Grid>
+                <div>
+                    <Pagination
+                        className="pagination"
+                        hideNextButton
+                        hidePrevButton
+                        page={page}
+                        color="primary"
+                        count={noOfPages}
+                        size="medium"
+                        onChange={(e: any, pageNo: number) => handlePageChange(pageNo)}
+                    />
+                </div>
             </DivRecentBlogs>
         </>
     )
@@ -270,8 +307,11 @@ display: none;
     }
     .selected-tab{
         color: #006699 !important;
-        border-bottom: 1px solid #006699;
+        border-bottom: 1px solid #006699 !important;
     }
+}
+.PrivateTabIndicator-colorPrimary-2{
+    background-color: #006699 !important;
 }
 `;
 

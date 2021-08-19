@@ -84,26 +84,30 @@ const Login = () => {
 }
 
 const DivLogin = styled.div`
-margin-top: 80px;
 @media (max-width: 600px){
     margin-top: -15px;
 }
 .container{
+    min-height: 100vh;
     padding: 75px 15px;
-    background-color: white;
+    background-color: #F9FCFE;
     .colored-grid{
-    background-color: rgba(0,0,255,0.05);
 }
 }
 `;
 
 const DivLoginForm = styled.div`
+transition: all 0.25s ease-in-out;
 max-width: 400px;
 background-color: white;
 box-shadow: 0px 0px 10px 1px lightgrey;
 border-radius: 5px;
 margin: 45px auto;
 padding: 30px;
+&:hover{
+    transition: all 0.25s ease-in-out;
+    box-shadow: 0px 0px 10px 2px lightgrey;
+}
 img{
     margin: 15px 0px;
 }

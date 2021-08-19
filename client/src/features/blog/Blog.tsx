@@ -3,8 +3,19 @@ import React from "react";
 import styled from "styled-components";
 import RecentPost from "./RecentPost";
 import { blog, categories } from '../../models/blog';
-
+const noOfPost = 4;
 const Blog = () => {
+  const [totalBlogs, setTotalBlogs] = React.useState(blog.recentBlogs);
+  const noOfPages = Math.ceil(totalBlogs.length / noOfPost);
+  const [page, setPage] = React.useState<number>(1);
+  const defautBlogPost = totalBlogs.filter(item => (item.id > 0 * noOfPost && item.id <= noOfPost));
+  const [blogPost, setBlogPost] = React.useState(defautBlogPost);
+
+
+  React.useEffect(() => {
+    const selectedBlogs = totalBlogs.filter((item, index) => ((index >= (page - 1) * noOfPost && index < page * noOfPost) && index < totalBlogs.length));
+    setBlogPost(selectedBlogs);
+  }, [page, totalBlogs]);
   return (
     <>
       <DivBlog>
@@ -46,9 +57,14 @@ const Blog = () => {
               </Grid>
             </DivMainBlog>
             <RecentPost
-              recentBlog={blog.recentBlogs}
+              recentBlog={blogPost}
               categories={categories}
+              page={page}
+              setPage={setPage}
+              noOfPages={noOfPages}
+              setTotalBlogs={setTotalBlogs}
             />
+
           </DivBlogContainer>
         </Container>
       </DivBlog>
@@ -86,6 +102,29 @@ margin: 0px 55px;
     text-align: left;
     margin: 0px;
     padding: 0px;
+  }
+}
+.pagination{
+  display: inline-block;
+  margin-top:15px;
+  *{
+    margin: 10px;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  button{
+    border: 1px solid #2293FB;
+    color: #2293FB;
+    transition: all 0.5s ease-in-out;
+    &:hover{
+      transition: all 0.5s ease-in-out;
+      background-color: #2293FB;
+      color: white;
+    }
+  }
+  .MuiPaginationItem-textPrimary.Mui-selected{
+    color: white !important;
+    background-color: #2293FB;
   }
 }
 `;
