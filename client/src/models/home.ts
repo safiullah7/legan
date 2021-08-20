@@ -20,7 +20,7 @@ export interface IBriefAboutUsContent {
 export interface IExpertiseContent {
   heading: string,
   mainText: string,
-  contentList: IExpertiseContentList[]
+  contentList: IExpertiseContentListItem[]
 }
 
 export interface IIndustryContent {
@@ -29,7 +29,7 @@ export interface IIndustryContent {
   contentList: IIndustryExpertiseContentList[]
 }
 
-export interface IExpertiseContentList {
+export interface IExpertiseContentListItem {
   id: string,
   heading: string,
   subHeading: string,

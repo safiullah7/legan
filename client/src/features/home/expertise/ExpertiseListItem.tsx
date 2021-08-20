@@ -4,37 +4,37 @@ import styled from 'styled-components';
 import parse from 'html-react-parser';
 import EditIcon from '@material-ui/icons/Edit';
 import ExpertiseListItemForm from './ExpertiseListItemForm';
+import { IExpertiseContentListItem } from '../../../models/home';
 
 interface IExpertiseContent {
-    id: string,
-    heading: string,
-    subHeading: string,
-    content: string,
-    panel: string,
-    icon: string,
+    item: IExpertiseContentListItem,
     expanded: string | false,
     handleChange: (panel: string) => (event: React.ChangeEvent<{}>, newExpanded: boolean) => void;
 }
 
 const ExpertiseListItem: React.FC<IExpertiseContent> = (
-    { heading, subHeading, content, expanded, handleChange, panel, icon }
+    { item, expanded, handleChange }
 ) => {
     const [editMode, setEditMode] = useState(false);
+
+    const updateEditMode = () => {
+        setEditMode(!editMode);
+    }
     return (
         <>
             <DivCollapse>
                 {!editMode ? (
-                    <Accordion square expanded={expanded === panel} variant="elevation"
-                        style={{ border: 'none', outline: 'none', boxShadow: 'none' }} onChange={handleChange(panel)}>
+                    <Accordion square expanded={expanded === item.panel} variant="elevation"
+                        style={{ border: 'none', outline: 'none', boxShadow: 'none' }} onChange={handleChange(item.panel)}>
                         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header"
                             style={{ backgroundColor: 'rgba(249, 252, 254, 1)' }}>
                             <DivListHead>
-                                <img src={`/${icon}.png`} alt={`${icon}`} />
+                                <img src={`/${item.icon}.png`} alt={`${item.icon}`} />
                                 <h3>
-                                    {heading}
+                                    {item.heading}
                                 </h3>
                                 <p>
-                                    {subHeading}
+                                    {item.subHeading}
                                 </p>
                                 <IconButton aria-label="edit" onClick={() => setEditMode(!editMode)}>
                                     <EditIcon fontSize="inherit" />
@@ -50,15 +50,16 @@ const ExpertiseListItem: React.FC<IExpertiseContent> = (
                                         <img src="/elipse.png" alt="elipse" />
                                     </Grid>
                                     <Grid item md={10} sm={11} xs={11}>
-                                        {parse(content)}
+                                        {parse(item.content)}
                                     </Grid>
                                 </Grid>
                             </DivListItems>
                         </AccordionDetails>
                     </Accordion>
                 ) : (
-                    <ExpertiseListItemForm heading={heading} subHeading={subHeading}
-                        content={content} updateEditMode={setEditMode} />
+                    <ExpertiseListItemForm
+                        item={item}
+                        updateEditMode={updateEditMode} />
                 )}
 
             </DivCollapse>

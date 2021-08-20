@@ -7,34 +7,31 @@ import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import { stateFromHTML } from 'draft-js-import-html'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { useAppDispatch } from '../../../store.hooks';
+import { updateLegalExpertiseContent } from '../home.slice';
+import { IExpertiseContentListItem } from '../../../models/home';
 
 interface IProps {
-    heading: string,
-    subHeading: string,
-    content: string,
-    updateEditMode: (editMode: boolean) => void
+    item: IExpertiseContentListItem
+    updateEditMode: () => void
 }
 
 const ExpertiseListItemForm: React.FC<IProps> = ({
-    heading,
-    subHeading,
-    content,
+    item,
     updateEditMode
 }) => {
-
-    const htmlContent = convertFromHTML(content);
-
     // const [editorState, setEditorState] = React.useState(
     //     EditorState.createWithContent(
     //         ContentState.createFromBlockArray(htmlContent.contentBlocks, htmlContent.entityMap)
     //     )
     // );
-    const [editorState, setEditorState] = React.useState(EditorState.createWithContent(stateFromHTML(content)))
+    const dispatch = useAppDispatch();
+    const [editorState, setEditorState] = React.useState(EditorState.createWithContent(stateFromHTML(item.content)))
 
     const initialValues = {
-        heading: heading || 'heading was empty',
-        subHeading: subHeading || 'mainText was empty',
-        content: content
+        heading: item.heading || 'heading was empty',
+        subHeading: item.subHeading || 'mainText was empty',
+        content: item.content
     };
 
     return (
@@ -46,8 +43,15 @@ const ExpertiseListItemForm: React.FC<IProps> = ({
                 onSubmit={async (values) => {
                     values.content = draftToHtml(convertToRaw(editorState.getCurrentContent()))
                     console.log(values);
-                    // dispatch(updateBriefAboutUsContent(values));
-                    // setEditMode(!editmode);
+                    updateEditMode();
+                    dispatch(updateLegalExpertiseContent({
+                        id: item.id,
+                        icon: item.icon,
+                        panel: item.panel,
+                        subHeading: values.subHeading,
+                        content: values.content,
+                        heading: values.heading
+                    }));
                 }}
             >
                 {({ values, handleChange, touched, errors, setFieldValue }) => (

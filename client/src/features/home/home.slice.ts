@@ -1,4 +1,4 @@
-import { IBannerContent, IBriefAboutUsContent } from './../../models/home';
+import { IBannerContent, IBriefAboutUsContent, IExpertiseContentListItem } from './../../models/home';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IHome } from '../../models/home';
 import { RootState } from '../../store';
@@ -172,11 +172,15 @@ const homeSlice = createSlice({
         },
         updateBriefAboutUsContent: (state, action: PayloadAction<IBriefAboutUsContent>) => {
             state.briefAboutUsContent = action.payload;
+        },
+        updateLegalExpertiseContent:(state, action: PayloadAction<IExpertiseContentListItem>) => {
+            const index = state.expertiseContent.contentList.findIndex(item => item.id === action.payload.id);
+            state.expertiseContent.contentList[index] = action.payload;
         }
     }
 });
 
-export const { updateHomeContent, updateBriefAboutUsContent } = homeSlice.actions;
+export const { updateHomeContent, updateBriefAboutUsContent, updateLegalExpertiseContent } = homeSlice.actions;
 
 export const getHomeContentSelector = (state: RootState) => state.homeSlice;
 
