@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Blog from '../features/blog/Blog';
+import BlogPost from '../features/blog/BlogPost';
 import ContactUs from '../features/contact-us/ContactUs';
 import FAQs from '../features/FAQs/FAQs';
 import Home from '../features/home/Home';
@@ -32,7 +33,7 @@ const CustomRoutes = () => {
                         <Route path={'/team'} exact component={() => <Team />} />
                         <Route path={'/team/:memberId'} exact component={() => <TeamMember />} />
                         <Route path={'/blog'} exact component={() => <Blog />} />
-                        <Route path={'/blog/:id'} exact component={() => <Blog />} />
+                        <Route path={'/blog/:id'} exact component={() => <BlogPost />} />
                         <Route path={'/privacypolicy'} exact component={() => <PrivacyPolicy />} />
                         <Route path={'/faqs'} exact component={() => <FAQs />} />
                         <Route path={'/contactus'} exact component={() => <ContactUs />} />

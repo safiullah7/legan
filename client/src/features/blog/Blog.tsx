@@ -2,7 +2,8 @@ import { Button, Container, Grid } from "@material-ui/core";
 import React from "react";
 import styled from "styled-components";
 import RecentPost from "./RecentPost";
-import { blog, categories } from '../../models/blog';
+import { blog, categories, IStyled } from '../../models/blog';
+import { Link } from "react-router-dom";
 const noOfPost = 4;
 const Blog = () => {
   const [totalBlogs, setTotalBlogs] = React.useState(blog.recentBlogs);
@@ -26,7 +27,7 @@ const Blog = () => {
                 BLOG
               </h1>
             </div>
-            <DivMainBlog>
+            <DivMainBlog image={blog.heighlight.image}>
               <Grid container>
                 <Grid item md={6} sm={12} xs={12} className="main-blog-image"></Grid>
                 <Grid item md={6} sm={12} xs={12} className="main-blog-content">
@@ -48,11 +49,13 @@ const Blog = () => {
                   <p className="blog-content">
                     {blog.heighlight.content}
                   </p>
-                  <Button
-                    className="blog-btn"
-                  >
-                    READ MORE
-                  </Button>
+                  <Link style={{ textDecoration: 'none' }} to={`/blog/${blog.heighlight.id}`}>
+                    <Button
+                      className="blog-btn"
+                    >
+                      READ MORE
+                    </Button>
+                  </Link>
                 </Grid>
               </Grid>
             </DivMainBlog>
@@ -129,7 +132,7 @@ margin: 0px 55px;
 }
 `;
 
-const DivMainBlog = styled.div`
+const DivMainBlog = styled.div<IStyled>`
 transition: all 0.25s ease-in-out;
 width: 100%;
 min-height: 375px;
@@ -142,7 +145,7 @@ border-radius: 4px;
   box-shadow: 0px 0px 8px 2px rgba(111, 139, 164, 0.35);
 }
 .main-blog-image{
-  background-image: url("blog-laptop.png");
+  background-image:url(${(props => props.image)});
   background-repeat: no-repeat;
   background-size: cover;
   min-height: 375px;

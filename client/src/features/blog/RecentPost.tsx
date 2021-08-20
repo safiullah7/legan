@@ -2,8 +2,9 @@ import { Button, Grid, Tab, Tabs } from '@material-ui/core';
 import { FiberManualRecord } from '@material-ui/icons';
 import { Pagination } from '@material-ui/lab';
 import React from 'react'
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { IBlog, ICategory, blog } from '../../models/blog';
+import { IBlog, ICategory, blog, } from '../../models/blog';
 interface IPropsRecentBlog {
     recentBlog: IBlog[],
     categories: ICategory[],
@@ -66,7 +67,7 @@ const RecentPost: React.FC<IPropsRecentBlog> = (
                                 recentBlog.map(blog => {
                                     return (
                                         <Grid className="blog-container" key={blog.id} item md={4} sm={12} xs={12}>
-                                            <Grid item md={12} sm={12} xs={12} className="blog-image" >
+                                            <Grid item md={12} sm={12} xs={12} className="blog-image" style={{ backgroundImage: `url(${blog.image})` }} >
                                             </Grid>
                                             <Grid className="blog-content-container" item md={12} sm={12} xs={12}>
                                                 <p className="blog-type">
@@ -86,9 +87,11 @@ const RecentPost: React.FC<IPropsRecentBlog> = (
                                                 <p className="blog-content">
                                                     {blog.content}
                                                 </p>
-                                                <Button className="blog-btn">
-                                                    READ MORE
-                                                </Button>
+                                                <Link style={{ textDecoration: 'none' }} to={`/blog/${blog.id}`}>
+                                                    <Button className="blog-btn">
+                                                        READ MORE
+                                                    </Button>
+                                                </Link>
                                             </Grid>
                                         </Grid>
                                     );
@@ -165,7 +168,6 @@ const DivRecentBlogs = styled.div`
             box-shadow: 0px 0px 8px 2px rgba(111, 139, 164, 0.4);
         }
         .blog-image{
-                background-image: url("blog-image.jpg");
                 width: 100%;
                 min-height: 200px;
                 background-repeat: no-repeat;

@@ -238,6 +238,7 @@ const DivHomeAbout = styled.div`
 .container{
   background-color: #F9FCFE;
   padding: 75px 65px;
+  text-align: left;
   .edit-icon{
     position: relative;
     top: -60px;

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Container, Grid } from '@material-ui/core';
 import parse from 'html-react-parser';
 import BodyHeader from '../../controls/BodyHeader';
+import NotFound from '../not-found/NotFound';
 type teamMemberId = {
     memberId: string
 };
@@ -13,27 +14,33 @@ const TeamMember = () => {
     const member = getMember(+memberId);
     return (
         <>
-            <DivOurTeamMember>
-                <Container className="container" maxWidth="xl">
-                    <BodyHeader
-                        heading="Our Team"
-                        headingColor="rgba(0, 102, 153, 1)"
-                        subHeading={member.name}
-                        SubHeadingColor="rgba(59, 86, 110, 1)"
-                        path="/team"
-                    />
-                    <Grid container className="member">
-                        <Grid className="member-info" item md={4} sm={4} xs={12}>
-                            <img src={member.imgURL} alt={member.name} />
-                            <h3>{member.name}</h3>
-                            <p>{member.title}</p>
+            {
+                member !== undefined && member !== null ? <DivOurTeamMember>
+                    <Container className="container" maxWidth="xl">
+                        <BodyHeader
+                            heading="Our Team"
+                            headingColor="rgba(0, 102, 153, 1)"
+                            subHeading={member.name}
+                            SubHeadingColor="rgba(59, 86, 110, 1)"
+                            path="/team"
+                        />
+                        <Grid container className="member">
+                            <Grid className="member-info" item md={4} sm={4} xs={12}>
+                                <img src={member.imgURL} alt={member.name} />
+                                <h3>{member.name}</h3>
+                                <p>{member.title}</p>
+                            </Grid>
+                            <Grid className="member-description" item md={8} sm={8} xs={12}>
+                                {parse(member.Description)}
+                            </Grid>
                         </Grid>
-                        <Grid className="member-description" item md={8} sm={8} xs={12}>
-                            {parse(member.Description)}
-                        </Grid>
-                    </Grid>
-                </Container>
-            </DivOurTeamMember>
+                    </Container>
+                </DivOurTeamMember>
+                    :
+                    <div>
+                        <NotFound />
+                    </div>
+            }
         </>
     );
 };
