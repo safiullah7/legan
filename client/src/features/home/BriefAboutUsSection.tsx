@@ -13,6 +13,8 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
+import { v4 as uuidv4 } from 'uuid';
+
 
 interface IProps {
   briefAboutUsContent: IBriefAboutUsContent
@@ -45,21 +47,6 @@ const BriefAboutUsSection: React.FC<IProps> = ({ briefAboutUsContent }) => {
       .min(3, 'Minimum of 3 services'),
   });
 
-
-
-  // const formik = useFormik({
-  //   initialValues: {
-  //     heading: briefAboutUsContent.heading || 'heading was empty',
-  //     mainText: briefAboutUsContent.mainText || 'mainText was empty',
-  //     services: briefAboutUsContent.services || 'bottom text was empty'
-  //   },
-  //   validationSchema: validationSchema,
-  //   onSubmit: (values) => {
-  //     alert(JSON.stringify(values, null, 2));
-
-  //     //dispatch(updateBriefAboutUsContent(values));
-  //   },
-  // });
   const initialValues = {
     heading: briefAboutUsContent.heading || 'heading was empty',
     mainText: briefAboutUsContent.mainText || 'mainText was empty',
@@ -119,10 +106,11 @@ const BriefAboutUsSection: React.FC<IProps> = ({ briefAboutUsContent }) => {
             <DivHomeAboutContent>
               <Formik
                 initialValues={initialValues}
-                // validationSchema={validationSchema}
+                // to do
+                // validationSchema={validationSchema} 
                 onSubmit={async (values) => {
-
                   console.log(JSON.stringify(values, null, 2));
+                  dispatch(updateBriefAboutUsContent(values));
                 }}
               >
                 {({ values, handleChange, touched, errors }) => (
@@ -212,8 +200,8 @@ const BriefAboutUsSection: React.FC<IProps> = ({ briefAboutUsContent }) => {
                                 ))}
                             </Grid>
                             <div className="edit-btns">
-                              <Button variant="contained" fullWidth size="large" color="primary" 
-                                onClick={() => push({ name: '', description: '', imageUrl: '/about-bag.png' })}>
+                              <Button variant="contained" fullWidth size="large" color="primary"
+                                onClick={() => push({ id: uuidv4(), name: '', description: '', imageUrl: '/about-bag.png' })}>
                                 Add service
                               </Button>
                               <Button fullWidth variant="outlined" size="large" color="primary" type="submit">
