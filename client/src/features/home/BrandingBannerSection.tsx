@@ -36,8 +36,6 @@ const BrandingBannerSection: React.FC<IProps> = ({ bannerContent }) => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
-
       dispatch(updateHomeContent(values));
     },
   });

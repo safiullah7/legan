@@ -23,10 +23,11 @@ const ExpertiseList: React.FC<IProps> = (
             {
                 contentList.map(expertiseListItem => {
                     return <ExpertiseListItem
-                        key={expertiseListItem.heading}
+                        key={expertiseListItem.id}
+                        id={expertiseListItem.id}
                         heading={expertiseListItem.heading}
                         subHeading={expertiseListItem.subHeading}
-                        list={expertiseListItem.list}
+                        content={expertiseListItem.content}
                         panel={expertiseListItem.panel}
                         icon={expertiseListItem.icon}
                         expanded={expanded}

@@ -30,11 +30,12 @@ export interface IIndustryContent {
 }
 
 export interface IExpertiseContentList {
-    heading: string,
-    subHeading: string,
-    panel: string,
-    icon: string,
-    list: string[],
+  id: string,
+  heading: string,
+  subHeading: string,
+  panel: string,
+  icon: string,
+  content: string,
 }
 
 export interface IIndustryExpertiseContentList {

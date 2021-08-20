@@ -4,11 +4,12 @@ import styled from 'styled-components';
 import ExpertiseList from './ExpertiseList';
 
 interface IExpertiseContent {
+    id: string,
     heading: string,
     subHeading: string,
     panel: string,
     icon: string,
-    list: string[],
+    content: string,
 }
 
 interface IProps {

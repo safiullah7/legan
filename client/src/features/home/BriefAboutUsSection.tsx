@@ -111,6 +111,7 @@ const BriefAboutUsSection: React.FC<IProps> = ({ briefAboutUsContent }) => {
                 onSubmit={async (values) => {
                   console.log(JSON.stringify(values, null, 2));
                   dispatch(updateBriefAboutUsContent(values));
+                  setEditMode(!editmode);
                 }}
               >
                 {({ values, handleChange, touched, errors }) => (

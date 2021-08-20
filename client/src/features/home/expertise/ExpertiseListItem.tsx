@@ -1,13 +1,15 @@
-import { Accordion, AccordionDetails, AccordionSummary, Grid } from '@material-ui/core';
-import React from 'react'
+import { Accordion, AccordionDetails, AccordionSummary, Grid, IconButton } from '@material-ui/core';
+import React, { useState } from 'react'
 import styled from 'styled-components';
-
-
+import parse from 'html-react-parser';
+import EditIcon from '@material-ui/icons/Edit';
+import ExpertiseListItemForm from './ExpertiseListItemForm';
 
 interface IExpertiseContent {
+    id: string,
     heading: string,
     subHeading: string,
-    list: string[],
+    content: string,
     panel: string,
     icon: string,
     expanded: string | false,
@@ -15,48 +17,50 @@ interface IExpertiseContent {
 }
 
 const ExpertiseListItem: React.FC<IExpertiseContent> = (
-    { heading, subHeading, list, expanded, handleChange, panel, icon }
+    { heading, subHeading, content, expanded, handleChange, panel, icon }
 ) => {
+    const [editMode, setEditMode] = useState(false);
     return (
         <>
             <DivCollapse>
-                <Accordion square expanded={expanded === panel} variant="elevation" style={{ border: 'none', outline: 'none', boxShadow: 'none' }} onChange={handleChange(panel)}>
-                    <AccordionSummary aria-controls="panel1d-content" id="panel1d-header" style={{ backgroundColor: 'rgba(249, 252, 254, 1)' }}>
-                        <DivListHead>
-                            <img src={`/${icon}.png`} alt={`${icon}`} />
-                            <h3>
-                                {heading}
-                            </h3>
-                            <p>
-                                {subHeading}
-                            </p>
-                        </DivListHead>
-                    </AccordionSummary>
-                    <AccordionDetails style={{ border: 'none', outline: 'none', boxShadow: 'none' }}>
-                        <DivListItems>
-                            <Grid container>
-                                <Grid item md={2} sm={1} className="timeline">
-                                    <img src="/elipse.png" alt="elipse" />
-                                    <img src="/line.png" alt="line" />
-                                    <img src="/elipse.png" alt="elipse" />
+                {!editMode ? (
+                    <Accordion square expanded={expanded === panel} variant="elevation"
+                        style={{ border: 'none', outline: 'none', boxShadow: 'none' }} onChange={handleChange(panel)}>
+                        <AccordionSummary aria-controls="panel1d-content" id="panel1d-header"
+                            style={{ backgroundColor: 'rgba(249, 252, 254, 1)' }}>
+                            <DivListHead>
+                                <img src={`/${icon}.png`} alt={`${icon}`} />
+                                <h3>
+                                    {heading}
+                                </h3>
+                                <p>
+                                    {subHeading}
+                                </p>
+                                <IconButton aria-label="edit" onClick={() => setEditMode(!editMode)}>
+                                    <EditIcon fontSize="inherit" />
+                                </IconButton>
+                            </DivListHead>
+                        </AccordionSummary>
+                        <AccordionDetails style={{ border: 'none', outline: 'none', boxShadow: 'none' }}>
+                            <DivListItems>
+                                <Grid container>
+                                    <Grid item md={2} sm={1} className="timeline">
+                                        <img src="/elipse.png" alt="elipse" />
+                                        <img src="/line.png" alt="line" />
+                                        <img src="/elipse.png" alt="elipse" />
+                                    </Grid>
+                                    <Grid item md={10} sm={11} xs={11}>
+                                        {parse(content)}
+                                    </Grid>
                                 </Grid>
-                                <Grid item md={10} sm={11} xs={11}>
-                                    <ul>
-                                        {
-                                            list.map(listItem => {
-                                                return (
-                                                    <li className="list-item" key={listItem}>
-                                                        {listItem}
-                                                    </li>
-                                                );
-                                            })
-                                        }
-                                    </ul>
-                                </Grid>
-                            </Grid>
-                        </DivListItems>
-                    </AccordionDetails>
-                </Accordion>
+                            </DivListItems>
+                        </AccordionDetails>
+                    </Accordion>
+                ) : (
+                    <ExpertiseListItemForm heading={heading} subHeading={subHeading}
+                        content={content} updateEditMode={setEditMode} />
+                )}
+
             </DivCollapse>
         </>
     )
@@ -100,7 +104,7 @@ img{
 
 const DivListItems = styled.div`
 
-.list-item{
+li{
     font-size: 15px;
     font-weight: 700;
     color: #006699;
