@@ -38,7 +38,6 @@ export async function loginHandler(req: Request, res: Response) {
 
 export async function logoutHandler(req: Request, res: Response) {
     const sessionId = get(req, "user.session");
-    console.log(sessionId);
     await updateSession({ _id: sessionId }, { valid: false });
 
     return res.sendStatus(200);
