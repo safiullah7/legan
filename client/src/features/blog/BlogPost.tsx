@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import parse from 'html-react-parser';
 import styled from 'styled-components';
 import { getBlogPost, IBlog, IStyled } from '../../models/blog';
+import DivPageScrollProgress from '../../controls/PageScrollProgress';
 import NotFound from '../not-found/NotFound';
 interface IBlogId {
     id: string,
@@ -22,6 +23,7 @@ const BlogPost = () => {
                 blogPost !== undefined && blogPost !== null ?
                     <DivBlogPost>
                         <Container className="container" maxWidth="xl">
+                            <DivPageScrollProgress />
                             <DivBlogPostContainer image={blogPost.image}>
                                 <div className="view">
                                     <VisibilityOutlined className="view-icon" />
