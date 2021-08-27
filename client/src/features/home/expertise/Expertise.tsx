@@ -7,6 +7,8 @@ import * as Yup from 'yup';
 import { Form, FormikProvider, useFormik } from 'formik';
 import { useAppDispatch } from '../../../store.hooks';
 import { updateLegalExpertiseHead } from '../home.slice';
+import { getAuthSelector } from '../../login/auth.slice';
+import { useSelector } from 'react-redux';
 
 
 interface IExpertiseContent {
@@ -27,6 +29,8 @@ interface IProps {
 const Expertise: React.FC<IProps> = (
     { heading, contentList, mainText }
 ) => {
+    const { isLoggedIn } = useSelector(getAuthSelector);
+
     const dispatch = useAppDispatch();
     const fullHeading = heading.split(' ');
     const headingPart1 = fullHeading.shift();
@@ -109,9 +113,12 @@ const Expertise: React.FC<IProps> = (
                                         <>
                                             <h1 className="h1">
                                                 <div>{headingPart1} <span>{headingPart2}</span></div>
-                                                <IconButton className="edit-Expertise-icon" color='primary' aria-label="edit" onClick={() => setEditMode(true)}>
-                                                    <EditIcon fontSize="inherit" />
-                                                </IconButton>
+
+                                                {isLoggedIn && (
+                                                    <IconButton className="edit-Expertise-icon" color='primary' aria-label="edit" onClick={() => setEditMode(true)}>
+                                                        <EditIcon fontSize="inherit" />
+                                                    </IconButton>
+                                                )}
                                             </h1>
                                             <p>
                                                 {mainText}
@@ -121,7 +128,7 @@ const Expertise: React.FC<IProps> = (
                             </Grid>
                         </Grid>
                         <br />
-                        <ExpertiseList contentList={contentList} />
+                        <ExpertiseList isLoggedIn={isLoggedIn} contentList={contentList} />
                     </DivHomeExpertiseContent>
                 </Container>
             </DivHomeExpertise>

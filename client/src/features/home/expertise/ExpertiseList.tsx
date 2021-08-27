@@ -9,11 +9,12 @@ import { addLegalExpertiseContent } from '../home.slice';
 import { v4 as uuidv4 } from 'uuid';
 
 interface IProps {
+    isLoggedIn: boolean,
     contentList: IExpertiseContentListItem[],
 };
 
 const ExpertiseList: React.FC<IProps> = (
-    { contentList }
+    { isLoggedIn, contentList }
 ) => {
 
     const [expanded, setExpanded] = React.useState<string | false>('panel1');
@@ -44,6 +45,7 @@ const ExpertiseList: React.FC<IProps> = (
                 contentList.map(expertiseListItem => {
                     return <ExpertiseListItem
                         key={expertiseListItem.id}
+                        isLoggedIn={isLoggedIn}
                         item={expertiseListItem}
                         expanded={expanded}
                         itemCanDelete={contentList.length === 1}
@@ -52,9 +54,11 @@ const ExpertiseList: React.FC<IProps> = (
                     />
                 })
             }
-            <Button className="add-btn" fullWidth variant="contained" color="primary" onClick={handleAdd} >
-                Add More Collapse
-            </Button>
+            {isLoggedIn && (
+                <Button className="add-btn" fullWidth variant="contained" color="primary" onClick={handleAdd} >
+                    Add More Collapse
+                </Button>
+            )}
         </DivContentList>
     )
 }

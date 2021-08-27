@@ -12,6 +12,7 @@ import { TransitionProps } from '@material-ui/core/transitions';
 
 interface IExpertiseContent {
     item: IExpertiseContentListItem,
+    isLoggedIn: boolean,
     itemCanDelete: true | false,
     expanded: string | false,
     setExpanded: React.Dispatch<React.SetStateAction<string | false>>,
@@ -26,7 +27,7 @@ const Transition = React.forwardRef(function Transition(
 });
 
 const ExpertiseListItem: React.FC<IExpertiseContent> = (
-    { item, expanded, handleChange, itemCanDelete, setExpanded }
+    { item, isLoggedIn, expanded, handleChange, itemCanDelete, setExpanded }
 ) => {
     const [editMode, setEditMode] = useState(false);
     const [openDialog, setOpenDialog] = React.useState<true | false>(false);
@@ -66,12 +67,16 @@ const ExpertiseListItem: React.FC<IExpertiseContent> = (
                                 <p>
                                     {item.subHeading}
                                 </p>
-                                <IconButton disabled={itemCanDelete} className="del-icon" aria-label="delete" onClick={() => handleDialogOpen()}>
-                                    <Delete color={itemCanDelete ? 'disabled' : 'secondary'} fontSize="inherit" />
-                                </IconButton>
-                                <IconButton className="edit-icon" aria-label="edit" onClick={() => setEditMode(true)}>
-                                    <EditIcon color="primary" fontSize="inherit" />
-                                </IconButton>
+                                {isLoggedIn && (
+                                    <>
+                                        <IconButton disabled={itemCanDelete} className="del-icon" aria-label="delete" onClick={() => handleDialogOpen()}>
+                                            <Delete color={itemCanDelete ? 'disabled' : 'secondary'} fontSize="inherit" />
+                                        </IconButton>
+                                        <IconButton className="edit-icon" aria-label="edit" onClick={() => setEditMode(true)}>
+                                            <EditIcon color="primary" fontSize="inherit" />
+                                        </IconButton>
+                                    </>
+                                )}
                             </DivListHead>
                         </AccordionSummary>
                         <AccordionDetails style={{ border: 'none', outline: 'none', boxShadow: 'none' }}>

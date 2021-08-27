@@ -14,7 +14,7 @@ const Home = () => {
       />
 
       <BriefAboutUsSection briefAboutUsContent={briefAboutUsContent} />
-      
+
       <Expertise
         heading={expertiseContent.heading}
         mainText={expertiseContent.mainText}

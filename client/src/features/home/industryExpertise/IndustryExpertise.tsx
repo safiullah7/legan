@@ -8,6 +8,8 @@ import { Form, FormikProvider, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useAppDispatch } from '../../../store.hooks';
 import { updateIndustryExpertiseHead } from '../home.slice';
+import { getAuthSelector } from '../../login/auth.slice';
+import { useSelector } from 'react-redux';
 
 interface IPropsIndustryExpertise {
   mainHeading: string,
@@ -19,11 +21,14 @@ const IndustryExpertise: React.FC<IPropsIndustryExpertise> = (
   { mainHeading, text, contentList }
 ) => {
 
+  const { isLoggedIn } = useSelector(getAuthSelector);
+
   const dispatch = useAppDispatch();
   const heading = mainHeading.split(' ');
   const headingPart1 = heading.shift();
   const headingPart2 = heading.join(' ');
   const [editMode, setEditMode] = React.useState<true | false>(false);
+
   const newSchema = Yup.object().shape({
     heading: Yup.string().required('required'),
     description: Yup.string().required('required'),
@@ -51,6 +56,7 @@ const IndustryExpertise: React.FC<IPropsIndustryExpertise> = (
     }
   });
   const { handleSubmit, errors, touched, getFieldProps } = formik;
+
   return (
     <>
       <DivHomeIndustry>
@@ -100,9 +106,11 @@ const IndustryExpertise: React.FC<IPropsIndustryExpertise> = (
                           <span className="bolder">{headingPart1} </span>
                           <span className="bold">{headingPart2}</span>
                         </span>
-                        <IconButton className="edit-Expertise-icon" color='primary' aria-label="edit" onClick={() => setEditMode(true)}>
-                          <Edit fontSize="inherit" />
-                        </IconButton>
+                        {isLoggedIn && (
+                          <IconButton className="edit-Expertise-icon" color='primary' aria-label="edit" onClick={() => setEditMode(true)}>
+                            <Edit fontSize="inherit" />
+                          </IconButton>
+                        )}
                       </h1>
                       <p>{text}</p>
                     </>
@@ -113,6 +121,7 @@ const IndustryExpertise: React.FC<IPropsIndustryExpertise> = (
               </Grid> */}
             </Grid>
             <IndustryExpertiseList
+              isLoggedIn={isLoggedIn}
               contentList={contentList}
             />
           </DivHomeIndustryContent>

@@ -15,6 +15,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { AboutUsArray } from '../../models/home';
 import IconPicker from "../../controls/IconPicker";
 import { TransitionProps } from "@material-ui/core/transitions";
+import { useSelector } from "react-redux";
+import { getAuthSelector } from "../login/auth.slice";
 interface IProps {
   briefAboutUsContent: IBriefAboutUsContent
 }
@@ -29,6 +31,8 @@ const Transition = React.forwardRef(function Transition(
 
 const BriefAboutUsSection: React.FC<IProps> = ({ briefAboutUsContent }) => {
 
+  const { isLoggedIn } = useSelector(getAuthSelector);
+
   const dispatch = useAppDispatch();
   const { heading, mainText, services } = briefAboutUsContent;
   const fullHeading = heading.split(' ');
@@ -39,6 +43,7 @@ const BriefAboutUsSection: React.FC<IProps> = ({ briefAboutUsContent }) => {
   const [editmode, setEditMode] = useState(false);
   const [openDialog, setOpenDialog] = React.useState<true | false>(false);
   const [deleteIndex, SetDeleteIndex] = React.useState<number>(-1);
+
   const handleCloseDialog = () => {
     SetDeleteIndex(-1);
     setOpenDialog(false);
@@ -99,9 +104,11 @@ const BriefAboutUsSection: React.FC<IProps> = ({ briefAboutUsContent }) => {
                       <span className="bolder">{headingPart1} </span>
                       <span className="bold">{headingPart2}</span>
                     </span>
-                    <IconButton className="edit-icon" color='primary' aria-label="edit" onClick={() => setEditMode(true)}>
-                      <EditIcon fontSize="inherit" />
-                    </IconButton>
+                    {isLoggedIn && (
+                      <IconButton className="edit-icon" color='primary' aria-label="edit" onClick={() => setEditMode(true)}>
+                        <EditIcon fontSize="inherit" />
+                      </IconButton>
+                    )}
                   </h1>
                   <p>
                     {mainText}

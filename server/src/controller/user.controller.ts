@@ -49,4 +49,4 @@ export async function getUserSessionsHandler(req: Request, res: Response) {
     const sessions = await findSessions({ user: userId, valid: true });
   
     return res.send(sessions);
-  }
+}
