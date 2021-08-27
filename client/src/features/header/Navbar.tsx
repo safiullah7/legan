@@ -13,7 +13,8 @@ const Navbar = () => {
   const whitePaperActive = path === 'whitepaper' ? 'active-border' : '';
   const teamActive = path === 'team' ? 'active-border' : '';
   const blogActive = path === 'blog' ? 'active-border' : '';
-  if (whitePaperActive === '' && teamActive === '' && blogActive === '')
+  const letsTalkActive = path === 'contactus' ? 'active-border' : '';
+  if (whitePaperActive === '' && teamActive === '' && blogActive === '' && letsTalkActive === '')
     homeActive = 'active-border';
 
   const scrollHandler = () => {
@@ -31,12 +32,14 @@ const Navbar = () => {
         whitePaperActive={whitePaperActive}
         teamActive={teamActive}
         blogActive={blogActive}
+        letsTalkActive={letsTalkActive}
       />
       <NavbarMobile
         homeActive={homeActive}
         whitePaperActive={whitePaperActive}
         teamActive={teamActive}
         blogActive={blogActive}
+        letsTalkActive={letsTalkActive}
       />
     </>
   );
