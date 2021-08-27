@@ -1,7 +1,6 @@
-import { Button, Container, Grid, IconButton, TextField } from "@material-ui/core";
+import { Button, Container, Dialog, Grid, IconButton, Slide, TextField } from "@material-ui/core";
 import { TrendingFlatOutlined } from "@material-ui/icons";
 import React from "react";
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import styled from "styled-components";
 import EditIcon from '@material-ui/icons/Edit';
@@ -10,13 +9,30 @@ import { useFormik } from "formik";
 import { useAppDispatch } from "../../store.hooks";
 import { updateHomeContent } from "./home.slice";
 import { IBannerContent } from "../../models/home";
+import { TransitionProps } from "@material-ui/core/transitions";
+import Submit from "../submit/Submit";
 
 interface IProps {
   bannerContent: IBannerContent
 }
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & { children?: React.ReactElement<any, any> },
+  ref: React.Ref<unknown>,
+) {
+  return <Slide direction="down" ref={ref} {...props} />;
+});
+
 const BrandingBannerSection: React.FC<IProps> = ({ bannerContent }) => {
   const dispatch = useAppDispatch();
   const [editmode, setEditMode] = useState(false);
+  const [openDialog, setOpenDialog] = React.useState<true | false>(false);
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  }
+  const handleOpenDialog = () => {
+    setOpenDialog(true)
+  }
   const validationSchema = yup.object({
     heading: yup
       .string()
@@ -37,6 +53,7 @@ const BrandingBannerSection: React.FC<IProps> = ({ bannerContent }) => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       dispatch(updateHomeContent(values));
+      setEditMode(false);
     },
   });
   return (
@@ -45,32 +62,32 @@ const BrandingBannerSection: React.FC<IProps> = ({ bannerContent }) => {
         <Grid container>
           <Grid item md={5} sm={12} xs={12} >
             <DivBrandingBannerContent>
-              <IconButton aria-label="edit" onClick={() => setEditMode(!editmode)}>
-                <EditIcon fontSize="inherit" />
-              </IconButton>
               {editmode === false ? (
                 <div>
-                  <h1>
+                  <h1 className="h1">
                     {bannerContent.heading}
+                    <IconButton aria-label="edit" color="primary" onClick={() => setEditMode(true)}>
+                      <EditIcon fontSize="inherit" />
+                    </IconButton>
                   </h1>
                   <p>
                     {bannerContent.mainText}
                   </p>
-                  <span>
+                  <span className="text-span">
                     {bannerContent.bottomText}
                   </span>
                 </div>
               ) : (
                 <form onSubmit={formik.handleSubmit}>
                   <TextField
+                    variant="outlined"
                     fullWidth
                     id="heading"
                     name="heading"
                     label="Heading"
                     value={formik.values.heading}
                     onChange={formik.handleChange}
-                    error={formik.touched.heading && Boolean(formik.errors.heading)}
-                    helperText={formik.touched.heading && formik.errors.heading}
+                    error={Boolean(formik.touched.heading && formik.errors.heading)}
                   />
                   <br />
                   <br />
@@ -78,41 +95,41 @@ const BrandingBannerSection: React.FC<IProps> = ({ bannerContent }) => {
                     multiline
                     fullWidth
                     id="mainText"
+                    variant="outlined"
                     name="mainText"
                     label="Main Text"
                     value={formik.values.mainText}
                     onChange={formik.handleChange}
-                    error={formik.touched.mainText && Boolean(formik.errors.mainText)}
-                    helperText={formik.touched.mainText && formik.errors.mainText}
+                    error={Boolean(formik.touched.mainText && formik.errors.mainText)}
                   />
                   <br />
                   <br />
                   <TextField
                     fullWidth
+                    variant="outlined"
                     id="bottomText"
                     name="bottomText"
                     label="Bottom Text"
                     value={formik.values.bottomText}
                     onChange={formik.handleChange}
-                    error={formik.touched.bottomText && Boolean(formik.errors.bottomText)}
-                    helperText={formik.touched.bottomText && formik.errors.bottomText}
+                    error={Boolean(formik.touched.bottomText && formik.errors.bottomText)}
                   />
-                  <Button color="primary" variant="contained" fullWidth type="submit">
+                  <Button className="save-btn" size="small" color="primary" variant="contained" fullWidth type="submit" >
                     Save
                   </Button>
                 </form>
               )}
               <br />
-              <Link to="/submit" style={{ textDecoration: 'none' }}>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  endIcon={<TrendingFlatOutlined className="large" />}
-                >
-                  <span>SUBMIT A REQUEST</span>
-                  {/* <img src="/arrow.svg" alt="arrow" style={{ color: 'white', backgroundColor: 'white' }} /> */}
-                </Button>
-              </Link>
+              <Button
+                className='submit-btn'
+                variant="outlined"
+                color="primary"
+                endIcon={<TrendingFlatOutlined className="large" />}
+                onClick={() => handleOpenDialog()}
+              >
+                <span className="submit-span">SUBMIT A REQUEST</span>
+                {/* <img src="/arrow.svg" alt="arrow" style={{ color: 'white', backgroundColor: 'white' }} /> */}
+              </Button>
             </DivBrandingBannerContent>
           </Grid>
           <Grid item md={7} sm={12} xs={12}>
@@ -121,6 +138,18 @@ const BrandingBannerSection: React.FC<IProps> = ({ bannerContent }) => {
             </BrandingBannerMap>
           </Grid>
         </Grid>
+        <Dialog
+          className="dialog-box"
+          open={openDialog}
+          keepMounted
+          TransitionComponent={Transition}
+          transitionDuration={500}
+          onClose={handleCloseDialog}
+          fullWidth
+          scroll="body"
+        >
+          <Submit handleCloseDialog={handleCloseDialog} />
+        </Dialog>
       </Container>
     </>
   );
@@ -137,33 +166,45 @@ const DivBrandingBannerContent = styled.div`
     padding-left:5px;
     margin-top: 0px;
   }
-  h1{
+  .h1{
     font-size: 2rem;
     font-weight: 700;
     color: rgba(59, 86, 110, 1);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
   }
   p{
     font-size: 22px;
     font-weight: 400;
     color: rgba(111, 139, 164, 1);
   }
-  span{
+  .text-span{
     color: rgba(111, 139, 164, 1);
     font-weight: 300;
     font-size: 22px;
   }
-  button{
+  .save-btn{
+    margin-top: 15px;
+    padding: 6px 0px;
+    *{
+    color: white;
+    }
+  }
+  .submit-btn{
     margin-top: 30px;
     font-weight: 700;
     padding: 5px 30px;
+    color: rgba(34, 147, 251, 1);
     border-color: rgba(34, 147, 251, 1);
     .large{
       font-size: 36px;
     }
-    span{
+    .submit-span{
       font-size: 15px;
       font-weight: 500;
-      color: rgba(34, 147, 251, 1)
+      color: rgba(34, 147, 251, 1);
     }
     &:hover{
       box-shadow : inset 22em 0px 0px 0px #2293FB;

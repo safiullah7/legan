@@ -1,3 +1,4 @@
+export const AboutUsArray = [1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34, 37, 40];
 export interface IHome {
   bannerContent: IBannerContent,
   briefAboutUsContent: IBriefAboutUsContent
@@ -40,8 +41,8 @@ export interface IExpertiseContentListItem {
 
 export interface IIndustryExpertiseContentList {
   heading: string,
-  id: number,
-  list: string[],
+  id: string,
+  list: string,
 }
 
 export interface IService{
@@ -49,4 +50,15 @@ export interface IService{
   imageUrl: string,
   name: string,
   description: string
+}
+export interface Iid {
+  id: string,
+}
+export interface IExpertiseHead {
+  heading: string,
+  description: string,
+}
+export interface IIndutryHead {
+  heading: string,
+  description: string,
 }

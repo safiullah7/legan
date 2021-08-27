@@ -1,43 +1,76 @@
-import { Accordion, AccordionDetails, AccordionSummary, Grid, IconButton } from '@material-ui/core';
+import { Accordion, AccordionDetails, AccordionSummary, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, Slide } from '@material-ui/core';
 import React, { useState } from 'react'
 import styled from 'styled-components';
 import parse from 'html-react-parser';
 import EditIcon from '@material-ui/icons/Edit';
 import ExpertiseListItemForm from './ExpertiseListItemForm';
 import { IExpertiseContentListItem } from '../../../models/home';
+import { Delete } from '@material-ui/icons';
+import { useAppDispatch } from '../../../store.hooks';
+import { deleteLegalExpertiseContent } from '../home.slice';
+import { TransitionProps } from '@material-ui/core/transitions';
 
 interface IExpertiseContent {
     item: IExpertiseContentListItem,
+    itemCanDelete: true | false,
     expanded: string | false,
-    handleChange: (panel: string) => (event: React.ChangeEvent<{}>, newExpanded: boolean) => void;
+    setExpanded: React.Dispatch<React.SetStateAction<string | false>>,
+    handleChange: (panel: string) => (event: React.ChangeEvent<{}>, newExpanded: boolean) => void,
 }
 
+const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & { children?: React.ReactElement<any, any> },
+    ref: React.Ref<unknown>,
+) {
+    return <Slide direction="down" ref={ref} {...props} />;
+});
+
 const ExpertiseListItem: React.FC<IExpertiseContent> = (
-    { item, expanded, handleChange }
+    { item, expanded, handleChange, itemCanDelete, setExpanded }
 ) => {
     const [editMode, setEditMode] = useState(false);
-
+    const [openDialog, setOpenDialog] = React.useState<true | false>(false);
+    const scrollRef = React.useRef(null);
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+    }
     const updateEditMode = () => {
         setEditMode(!editMode);
+        setTimeout(() => {
+            setExpanded(item.panel);
+        }, 10)
+    }
+    const dispatch = useAppDispatch();
+    const handleDeleteTab = (id: string) => {
+        dispatch(deleteLegalExpertiseContent({ id }));
+    }
+    const handleDialogOpen = () => {
+        setTimeout(() => {
+            setExpanded(item.panel);
+        }, 10)
+        setOpenDialog(true);
     }
     return (
         <>
-            <DivCollapse>
+            <DivCollapse ref={scrollRef}>
                 {!editMode ? (
                     <Accordion square expanded={expanded === item.panel} variant="elevation"
                         style={{ border: 'none', outline: 'none', boxShadow: 'none' }} onChange={handleChange(item.panel)}>
                         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header"
                             style={{ backgroundColor: 'rgba(249, 252, 254, 1)' }}>
                             <DivListHead>
-                                <img src={`/${item.icon}.png`} alt={`${item.icon}`} />
+                                <img src={item.icon} alt={`${item.icon}`} />
                                 <h3>
                                     {item.heading}
                                 </h3>
                                 <p>
                                     {item.subHeading}
                                 </p>
-                                <IconButton aria-label="edit" onClick={() => setEditMode(!editMode)}>
-                                    <EditIcon fontSize="inherit" />
+                                <IconButton disabled={itemCanDelete} className="del-icon" aria-label="delete" onClick={() => handleDialogOpen()}>
+                                    <Delete color={itemCanDelete ? 'disabled' : 'secondary'} fontSize="inherit" />
+                                </IconButton>
+                                <IconButton className="edit-icon" aria-label="edit" onClick={() => setEditMode(true)}>
+                                    <EditIcon color="primary" fontSize="inherit" />
                                 </IconButton>
                             </DivListHead>
                         </AccordionSummary>
@@ -58,11 +91,38 @@ const ExpertiseListItem: React.FC<IExpertiseContent> = (
                     </Accordion>
                 ) : (
                     <ExpertiseListItemForm
+                        scrollRef={scrollRef}
                         item={item}
                         updateEditMode={updateEditMode} />
                 )}
 
             </DivCollapse>
+            <Dialog
+                className="dialog-box"
+                open={openDialog}
+                keepMounted
+                TransitionComponent={Transition}
+                transitionDuration={500}
+                onClose={handleCloseDialog}
+                fullWidth
+            >
+                <DialogTitle style={{ textAlign: 'center' }} >
+                    Confirmation Message
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Are you sure, you want to delete the tab ?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button style={{ width: '150px' }} size="small" onClick={handleCloseDialog} color="secondary" variant="contained">
+                        NO
+                    </Button>
+                    <Button style={{ width: '150px' }} size="small" onClick={() => handleDeleteTab(item.id)} color="primary" variant="contained">
+                        YES
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     )
 }
@@ -80,6 +140,7 @@ const DivListHead = styled.div`
 border: none;
 border-color: transparent !important;
 outline-color: transparent !important;
+width: 100%;
 *{
     display: inline-block; 
 }
@@ -99,8 +160,21 @@ p{
 img{
     padding-right: 20px;
     position: relative;
+    width: 24px;
+    height: 24px;
     top: 7px;
-} 
+}
+.edit-icon{
+    float: right;
+    position: relative;
+    top: -3px;
+}
+.del-icon{
+    float: right;
+    position: relative;
+    top: -3px;
+    margin: 0px 3px;
+}
 `;
 
 const DivListItems = styled.div`

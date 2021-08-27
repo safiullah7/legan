@@ -1,29 +1,72 @@
-import { Button, Grid } from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Slide } from '@material-ui/core';
 import React from 'react';
 import styled from 'styled-components';
-import IndustryExpertiseListItem from './IndustryExpertiseListItem';
 import { IIndustryExpertiseContentList } from '../../../models/home';
-
+import { AddCircle, Delete, Edit } from '@material-ui/icons';
+import parser from 'html-react-parser';
+import { useAppDispatch } from '../../../store.hooks';
+import { addIndustryExpertiseTab, deleteIndustryExpertiseTab } from '../home.slice';
+import { TransitionProps } from '@material-ui/core/transitions';
+import IndustryExpertiseEditContent from './IndustryExpertiseEditContent';
+import { v4 as uuidv4 } from 'uuid';
 
 interface IPropsIdustryExpertiseContentList {
     contentList: IIndustryExpertiseContentList[],
 }
 
+const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & { children?: React.ReactElement<any, any> },
+    ref: React.Ref<unknown>,
+) {
+    return <Slide direction="down" ref={ref} {...props} />;
+});
+
 const IndustryExpertiseList: React.FC<IPropsIdustryExpertiseContentList> = (
     { contentList }
 ) => {
-    const [active, setActive] = React.useState<number>(0);
-    let defaultItem = contentList.filter((item) => (active === item.id))[0].list;
-    const [activeTabsContent, setActiveTabsContent] = React.useState<string[]>(defaultItem);
-    const handleActiveClick = (id: number) => {
-        if (id !== active)
+    const [editMode, setEditMode] = React.useState<true | false>(false);
+    const [active, setActive] = React.useState<string>('0');
+    const [openDialog, setOpenDialog] = React.useState<true | false>(false);
+    const defaultValue = contentList.filter((item) => (active === item.id))[0];
+    const [activeTabsContent, setActiveTabsContent] = React.useState<string>(defaultValue !== undefined ? defaultValue.list : '');
+    const handleActiveClick = (id: string) => {
+        if (id !== active) {
             setActive(id);
+            setEditMode(false);
+        }
     }
     React.useEffect(() => {
+        const newValue = contentList.filter((item) => (active === item.id))[0];
         setActiveTabsContent(
-            contentList.filter((item) => (active === item.id))[0].list
+            newValue !== undefined ? newValue.list : ''
         );
-    }, [active, contentList]);
+    }, [active, contentList, openDialog]);
+    const handleAddTab = () => {
+        dispatch(
+            addIndustryExpertiseTab({
+                id: uuidv4(),
+                heading: 'Tab Heading',
+                list: `<ol>
+                <li>You can edit content by clicking the editing icon</li>
+                </ol>`
+            })
+        );
+    }
+    const handleDeleteTab = () => {
+        if (contentList.length > 1) {
+            handleCloseDialog();
+            let index = contentList.findIndex(item => item.id === active);
+            index === 0 ? index++ : index--;
+            setActive(contentList[index].id);
+            dispatch(
+                deleteIndustryExpertiseTab({ id: active })
+            );
+        }
+    }
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+    }
+    const dispatch = useAppDispatch();
     return (
         <>
             <DivIndustryTabs>
@@ -43,13 +86,71 @@ const IndustryExpertiseList: React.FC<IPropsIdustryExpertiseContentList> = (
                                 )
                             })
                         }
+                        <Button className="add-more-tabs-btn" color="primary" variant="contained" fullWidth onClick={handleAddTab}>
+                            <AddCircle className="icon" />
+                            Add more Tabs
+                        </Button>
                     </Grid>
                     <Grid className="list-grid" item xl={9} md={8} sm={8} xs={8}>
-                        <IndustryExpertiseListItem
-                            activeTabsContent={activeTabsContent}
-                        />
+                        {
+                            editMode ?
+                                <IndustryExpertiseEditContent
+                                    heading={defaultValue.heading}
+                                    list={defaultValue.list}
+                                    id={defaultValue.id}
+                                    setEditMode={setEditMode}
+                                />
+                                :
+                                <div className="active-tab">
+                                    <div className="active-tab-content">
+                                        {parser(activeTabsContent)}
+                                    </div>
+                                    <div className="control-btns">
+                                        <Grid container spacing={2}>
+                                            <Grid item md={6} sm={6} xs={12}>
+                                                <Button color="primary" variant="contained" size="small" fullWidth onClick={() => setEditMode(true)}>
+                                                    <Edit className="icon" />
+                                                    Edit
+                                                </Button>
+                                            </Grid>
+                                            <Grid item md={6} sm={6} xs={12}>
+                                                <Button color="secondary" variant="contained" size="small" disabled={contentList.length <= 1} fullWidth onClick={() => setOpenDialog(true)}>
+                                                    <Delete className="icon" />
+                                                    Delete
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                    </div>
+                                </div>
+                        }
                     </Grid>
                 </Grid>
+                <Dialog
+                    className="dialog-box"
+                    open={openDialog}
+                    keepMounted
+                    TransitionComponent={Transition}
+                    transitionDuration={500}
+                    onClose={handleCloseDialog}
+                    fullWidth
+                >
+                    <DialogTitle style={{ textAlign: 'center' }} >
+                        Confirmation Message
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Are you sure, you want to delete the tab ?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button style={{ width: '150px' }} size="small" onClick={handleCloseDialog} color="secondary" variant="contained">
+                            NO
+                        </Button>
+                        <Button style={{ width: '150px' }} size="small" onClick={handleDeleteTab} color="primary" variant="contained">
+                            YES
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </DivIndustryTabs>
         </>
     );
@@ -59,7 +160,7 @@ const DivIndustryTabs = styled.div`
 button{
     display: inline-block !important;
     border-radius: 8px;
-    text-align: left !important;
+    text-align: left;
     padding: 10px 15px;
 }
 .btns-grid{
@@ -105,5 +206,63 @@ button{
         font-size: 12px;
     }
  }
+ .active-tab{
+     display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    align-items: stretch;
+    align-content: center;
+    height: 100%;
+     .control-btns{
+        margin-left: 15px;
+        button{
+            text-align: center;
+            padding: 6px 0px;
+            *{
+                display: flex;
+                align-items: center;
+                align-content: center;
+            }
+            .icon{
+                padding: 0px 5px;
+                width: 18px;
+            }
+        }
+    }
+     .active-tab-content{
+         *{
+            color: rgba(111, 139, 164, 1);
+         }
+        p,li{
+            font-size: 15px;
+            font-weight: 400;
+            padding: 0px 0px 15px 15px;
+            @media (max-width: 750px){
+                font-size: 11px;
+            }
+            @media (max-width: 550px){
+                font-size: 10px;
+                padding: 0px 0px 5px 5px;
+            }
+        }
+    }
+ }
+.add-more-tabs-btn{
+    margin-top: 15px;
+    padding: 6px 0px 6px 10px;
+        *{
+            display: flex;
+            align-items: center;
+            align-content: center;
+            justify-content: flex-start;
+        }
+        .icon{
+            padding: 0px 5px;
+            width: 18px;
+        }
+    
+}
+.dialog-box{
+}
 `;
 export default IndustryExpertiseList;

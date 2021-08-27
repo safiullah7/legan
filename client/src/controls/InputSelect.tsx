@@ -120,11 +120,11 @@ const DivInput = styled.div<IPropsStyled>`
     .select-icon{
         width: 15px;
         position: relative;
-        top: -20px;
-        left: 100px;
+        top: -21px;
+        left: 210px;
         padding: 0px;
         @media ( max-width: 550px){
-            left: 70px;
+            left: 160px;
         }
         cursor: pointer;
     }
