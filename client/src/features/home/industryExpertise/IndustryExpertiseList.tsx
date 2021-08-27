@@ -11,6 +11,7 @@ import IndustryExpertiseEditContent from './IndustryExpertiseEditContent';
 import { v4 as uuidv4 } from 'uuid';
 
 interface IPropsIdustryExpertiseContentList {
+    isLoggedIn: boolean,
     contentList: IIndustryExpertiseContentList[],
 }
 
@@ -22,7 +23,7 @@ const Transition = React.forwardRef(function Transition(
 });
 
 const IndustryExpertiseList: React.FC<IPropsIdustryExpertiseContentList> = (
-    { contentList }
+    { isLoggedIn, contentList }
 ) => {
     const [editMode, setEditMode] = React.useState<true | false>(false);
     const [active, setActive] = React.useState<string>('0');
@@ -86,10 +87,12 @@ const IndustryExpertiseList: React.FC<IPropsIdustryExpertiseContentList> = (
                                 )
                             })
                         }
-                        <Button className="add-more-tabs-btn" color="primary" variant="contained" fullWidth onClick={handleAddTab}>
-                            <AddCircle className="icon" />
-                            Add more Tabs
-                        </Button>
+                        {isLoggedIn && (
+                            <Button className="add-more-tabs-btn" color="primary" variant="contained" fullWidth onClick={handleAddTab}>
+                                <AddCircle className="icon" />
+                                Add more Tabs
+                            </Button>
+                        )}
                     </Grid>
                     <Grid className="list-grid" item xl={9} md={8} sm={8} xs={8}>
                         {
@@ -105,22 +108,24 @@ const IndustryExpertiseList: React.FC<IPropsIdustryExpertiseContentList> = (
                                     <div className="active-tab-content">
                                         {parser(activeTabsContent)}
                                     </div>
-                                    <div className="control-btns">
-                                        <Grid container spacing={2}>
-                                            <Grid item md={6} sm={6} xs={12}>
-                                                <Button color="primary" variant="contained" size="small" fullWidth onClick={() => setEditMode(true)}>
-                                                    <Edit className="icon" />
-                                                    Edit
-                                                </Button>
+                                    {isLoggedIn && (
+                                        <div className="control-btns">
+                                            <Grid container spacing={2}>
+                                                <Grid item md={6} sm={6} xs={12}>
+                                                    <Button color="primary" variant="contained" size="small" fullWidth onClick={() => setEditMode(true)}>
+                                                        <Edit className="icon" />
+                                                        Edit
+                                                    </Button>
+                                                </Grid>
+                                                <Grid item md={6} sm={6} xs={12}>
+                                                    <Button color="secondary" variant="contained" size="small" disabled={contentList.length <= 1} fullWidth onClick={() => setOpenDialog(true)}>
+                                                        <Delete className="icon" />
+                                                        Delete
+                                                    </Button>
+                                                </Grid>
                                             </Grid>
-                                            <Grid item md={6} sm={6} xs={12}>
-                                                <Button color="secondary" variant="contained" size="small" disabled={contentList.length <= 1} fullWidth onClick={() => setOpenDialog(true)}>
-                                                    <Delete className="icon" />
-                                                    Delete
-                                                </Button>
-                                            </Grid>
-                                        </Grid>
-                                    </div>
+                                        </div>
+                                    )}
                                 </div>
                         }
                     </Grid>

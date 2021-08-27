@@ -11,6 +11,8 @@ import { updateHomeContent } from "./home.slice";
 import { IBannerContent } from "../../models/home";
 import { TransitionProps } from "@material-ui/core/transitions";
 import Submit from "../submit/Submit";
+import { getAuthSelector } from "../login/auth.slice";
+import { useSelector } from "react-redux";
 
 interface IProps {
   bannerContent: IBannerContent
@@ -24,9 +26,12 @@ const Transition = React.forwardRef(function Transition(
 });
 
 const BrandingBannerSection: React.FC<IProps> = ({ bannerContent }) => {
+  const { isLoggedIn } = useSelector(getAuthSelector);
+
   const dispatch = useAppDispatch();
   const [editmode, setEditMode] = useState(false);
   const [openDialog, setOpenDialog] = React.useState<true | false>(false);
+
   const handleCloseDialog = () => {
     setOpenDialog(false);
   }
@@ -66,9 +71,11 @@ const BrandingBannerSection: React.FC<IProps> = ({ bannerContent }) => {
                 <div>
                   <h1 className="h1">
                     {bannerContent.heading}
-                    <IconButton aria-label="edit" color="primary" onClick={() => setEditMode(true)}>
-                      <EditIcon fontSize="inherit" />
-                    </IconButton>
+                    {isLoggedIn && (
+                      <IconButton aria-label="edit" color="primary" onClick={() => setEditMode(true)}>
+                        <EditIcon fontSize="inherit" />
+                      </IconButton>
+                    )}
                   </h1>
                   <p>
                     {bannerContent.mainText}
