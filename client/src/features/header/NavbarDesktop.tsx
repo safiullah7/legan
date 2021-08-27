@@ -3,6 +3,7 @@ import { MoreHoriz } from '@material-ui/icons';
 import React from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useHistory } from "react-router-dom"
 
 interface INavbarComponentProps {
   showNavbarBorder: boolean;
@@ -19,6 +20,9 @@ interface INavbarDesktop {
 const NavbarDesktop: React.FC<INavbarDesktop> = (
   { showNavbarBorder, homeActive, whitePaperActive, teamActive, blogActive }
 ) => {
+
+  const history = useHistory();
+
   return (
     <>
       <DivNavBar showNavbarBorder={showNavbarBorder}>
@@ -48,7 +52,7 @@ const NavbarDesktop: React.FC<INavbarDesktop> = (
                     <hr className={blogActive} />
                   </li>
                 </Link>
-                <NavbarListItem>
+                <NavbarListItem onClick={() => history.push("contactus")}>
                   <MoreHoriz fontSize="large" />
                   <span>LET'S TALK</span>
                 </NavbarListItem>
