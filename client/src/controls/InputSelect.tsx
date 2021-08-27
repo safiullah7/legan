@@ -33,12 +33,10 @@ const InputSelect: React.FC<IPropsOptions> = (
 ) => {
     const refClose = React.useRef(null);
     const [showDropDown, setShowDropDown] = React.useState<true | false>(false);
-    const [selectValue, setSelectValue] = React.useState<IPropsCountry>(defaultcountry);
     const handleShow = () => {
         setShowDropDown((showDropDown) => !showDropDown);
     }
     const handleValue = (value: IPropsCountry) => {
-        setSelectValue(value);
         setFieldValue(name, value.name);
     }
     const handleCLose = () => {
@@ -122,11 +120,11 @@ const DivInput = styled.div<IPropsStyled>`
     .select-icon{
         width: 15px;
         position: relative;
-        top: -20px;
-        left: 100px;
+        top: -21px;
+        left: 210px;
         padding: 0px;
         @media ( max-width: 550px){
-            left: 70px;
+            left: 160px;
         }
         cursor: pointer;
     }

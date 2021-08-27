@@ -6,15 +6,15 @@ import { getHomeContentSelector } from "./home.slice";
 import IndustryExpertise from "./industryExpertise/IndustryExpertise";
 
 const Home = () => {
-  const {bannerContent, expertiseContent, industryExpertise} = useSelector(getHomeContentSelector);
+  const { bannerContent, briefAboutUsContent, expertiseContent, industryExpertise } = useSelector(getHomeContentSelector);
   return (
     <div>
       <BrandingBannerSection
-        heading={bannerContent.heading}
-        mainText={bannerContent.mainText}
-        bottomText={bannerContent.bottomText}
+        bannerContent={bannerContent}
       />
-      <BriefAboutUsSection />
+
+      <BriefAboutUsSection briefAboutUsContent={briefAboutUsContent} />
+      
       <Expertise
         heading={expertiseContent.heading}
         mainText={expertiseContent.mainText}

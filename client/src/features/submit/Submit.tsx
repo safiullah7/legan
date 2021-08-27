@@ -3,7 +3,6 @@ import { Button, Checkbox, Container } from '@material-ui/core';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import BodyHeader from '../../controls/BodyHeader'
 import InputFeild from '../../controls/InputFeild';
 import InputSelect from '../../controls/InputSelect';
 import InputTextArea from '../../controls/InputTextArea';
@@ -12,8 +11,13 @@ import * as Yup from 'yup';
 import { Form, FormikProvider, useFormik } from 'formik';
 import { Cancel } from '@material-ui/icons';
 
+interface ISubmitProps {
+    handleCloseDialog: () => void
+}
 
-const Submit = () => {
+const Submit: React.FC<ISubmitProps> = (
+    { handleCloseDialog }
+) => {
     const [fileName, setFileName] = React.useState('');
 
     const newUserScema = Yup.object().shape({
@@ -43,6 +47,7 @@ const Submit = () => {
             try {
                 // API call
                 console.log(values);
+                handleCloseDialog();
                 resetForm();
                 setSubmitting(false);
             }
@@ -88,10 +93,6 @@ const Submit = () => {
         <>
             <DivSubmit>
                 <Container className="container" maxWidth="xl">
-                    <BodyHeader
-                        heading="Free Case Assesment"
-                        headingColor="#3B566E"
-                    />
                     <DivAssesmentForm>
                         <p className="form-head">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit,
@@ -240,13 +241,8 @@ const Submit = () => {
 };
 
 const DivSubmit = styled.div`
-margin-top: 80px;
-@media (max-width: 600px){
-    margin-top: -15px;
-}
 .container{
-    padding: 75px 15px;
-    background-color: white;
+    background-color: rgba(223, 240, 250, 1);
 }
 `;
 
@@ -254,7 +250,6 @@ const DivAssesmentForm = styled.div`
     max-width: 700px;
     background-color: rgba(223, 240, 250, 1);
     border-radius: 5px;
-    margin: 45px auto;
     padding: 15px 30px;
     .form-head{
         width: 80%;
@@ -282,23 +277,22 @@ const DivAssesmentForm = styled.div`
             font-weight: 500;
             box-shadow: none;
             padding: 5px 30px;
+            width: 100%;
         }
     }
     .form-terms{
-        max-width: 60%;
+        max-width: 100%;
         margin: 0px auto 30px auto;
         display: flex;
         justify-content: flex-start;
-        align-content: flex-start;
+        align-content: center;
         align-items: center;
         @media (max-width: 600px){
             max-width: 95%;
         }
         .span{
-            max-width: 70%;
+            max-width: 100%;
             color: #6F8BA4;
-            position: relative;
-            top: 5px;
             font-size: 12px;
             text-align: center;
             @media (max-width: 400px){
