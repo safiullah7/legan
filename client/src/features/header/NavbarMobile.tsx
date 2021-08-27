@@ -8,10 +8,11 @@ interface INavbarMobile {
   whitePaperActive: string,
   teamActive: string,
   blogActive: string,
+  letsTalkActive: string
 }
 
 const NavbarMobile: React.FC<INavbarMobile> = (
-  { homeActive, whitePaperActive, teamActive, blogActive }
+  { homeActive, whitePaperActive, teamActive, blogActive, letsTalkActive }
 ) => {
   return (
     <>
@@ -29,10 +30,12 @@ const NavbarMobile: React.FC<INavbarMobile> = (
               <span>Whitepaper</span>
             </li>
           </Link>
-          <li >
-            <SendOutlined fontSize="large" />
-            <span>Let's Talk</span>
-          </li>
+          <Link to='/contactus'>
+            <li className={letsTalkActive}>
+              <SendOutlined fontSize="large" />
+              <span>Let's Talk</span>
+            </li>
+          </Link>
           <Link to='/team' style={{ textDecoration: 'none' }}>
             <li className={teamActive}>
               <GroupOutlined fontSize="large" />

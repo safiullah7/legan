@@ -15,10 +15,11 @@ interface INavbarDesktop {
   whitePaperActive: string,
   teamActive: string,
   blogActive: string,
+  letsTalkActive: string
 }
 
 const NavbarDesktop: React.FC<INavbarDesktop> = (
-  { showNavbarBorder, homeActive, whitePaperActive, teamActive, blogActive }
+  { showNavbarBorder, homeActive, whitePaperActive, teamActive, blogActive, letsTalkActive }
 ) => {
 
   const history = useHistory();
