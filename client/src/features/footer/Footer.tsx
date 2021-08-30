@@ -70,6 +70,8 @@ const Footer = () => {
 const DivFoot = styled.div`
   bottom: 0px;
   width: 100%;
+  z-index: 26;
+  position: relative;
   @media (max-width: 550px){
     margin-bottom: 60px;
   }

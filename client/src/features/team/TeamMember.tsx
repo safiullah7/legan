@@ -8,11 +8,10 @@ import { useSelector } from 'react-redux';
 import { getTeamContentSelector, setTeamMember } from './team.slice';
 import { useAppDispatch } from '../../store.hooks';
 import { Skeleton } from '@material-ui/lab';
-
+import NotFound from '../not-found/NotFound';
 type IId = {
     memberId: string,
 }
-
 let member: any;
 const TeamMember = () => {
     const [loading, setLoading] = React.useState<false | true>(false);
@@ -31,29 +30,31 @@ const TeamMember = () => {
     return (
         <>
             {
-                (member !== null && member !== undefined && loading) ?
+                loading ?
+                    (member !== null && member !== undefined) ?
+                        <DivOurTeamMember>
+                            <Container className="container" maxWidth="xl">
+                                <BodyHeader
+                                    heading="Our Team"
+                                    headingColor="rgba(0, 102, 153, 1)"
+                                    subHeading={member.name}
+                                    SubHeadingColor="rgba(59, 86, 110, 1)"
+                                    path="/team"
+                                />
+                                <Grid container className="member">
+                                    <Grid className="member-info" item md={4} sm={4} xs={12}>
+                                        <img src={member.imgURL} alt={member.name} />
+                                        <h3>{member.name}</h3>
+                                        <p>{member.title}</p>
+                                    </Grid>
+                                    <Grid className="member-description" item md={8} sm={8} xs={12}>
+                                        {parse(member.Description)}
+                                    </Grid>
+                                </Grid>
+                            </Container>
+                        </DivOurTeamMember> : <NotFound />
+                    :
                     <DivOurTeamMember>
-                        <Container className="container" maxWidth="xl">
-                            <BodyHeader
-                                heading="Our Team"
-                                headingColor="rgba(0, 102, 153, 1)"
-                                subHeading={member.name}
-                                SubHeadingColor="rgba(59, 86, 110, 1)"
-                                path="/team"
-                            />
-                            <Grid container className="member">
-                                <Grid className="member-info" item md={4} sm={4} xs={12}>
-                                    <img src={member.imgURL} alt={member.name} />
-                                    <h3>{member.name}</h3>
-                                    <p>{member.title}</p>
-                                </Grid>
-                                <Grid className="member-description" item md={8} sm={8} xs={12}>
-                                    {parse(member.Description)}
-                                </Grid>
-                            </Grid>
-                        </Container>
-                    </DivOurTeamMember>
-                    : <DivOurTeamMember>
                         <Container className="container" maxWidth="xl">
                             <BodyHeader
                                 heading="Our Team"

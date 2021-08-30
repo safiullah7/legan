@@ -7,7 +7,7 @@ const store = configureStore({
     reducer: {
         homeSlice,
         authSlice,
-        teamSlice
+        teamSlice,
     }
 });
 
