@@ -1,12 +1,14 @@
 import { Container, Grid } from "@material-ui/core";
 import { MoreHoriz } from "@material-ui/icons";
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { ourTeam } from '../../models/team';
 import BodyHeader from '../../controls/BodyHeader';
-
+import { getTeamContentSelector } from "./team.slice";
 const Team = () => {
+  const { team } = useSelector(getTeamContentSelector);
+  const ourTeam = team;
   return (
     <>
       <DivOurTeam>

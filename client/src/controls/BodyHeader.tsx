@@ -1,3 +1,4 @@
+import { Skeleton } from '@material-ui/lab';
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
@@ -8,10 +9,11 @@ interface IPropsBodyHeader {
     headingColor: string,
     SubHeadingColor?: string,
     path?: string,
+    loading?: true | false,
 }
 
 const BodyHeader: React.FC<IPropsBodyHeader> = (
-    { heading, subHeading, headingColor, SubHeadingColor, path }
+    { heading, subHeading, headingColor, SubHeadingColor, path, loading }
 ) => {
     const location = useLocation();
     const currentPath = location.pathname;
@@ -31,7 +33,7 @@ const BodyHeader: React.FC<IPropsBodyHeader> = (
                                 {heading} /
                             </Link>
                             <span>
-                                {' ' + subHeading}
+                                {(loading !== undefined ? loading : true) ? ` ${subHeading}` : <Skeleton variant="text" width="75px" height="25px" style={{ display: 'inline-block', margin: '10px 0px 0px 5px' }} />}
                             </span>
                         </h1>
                         : <h1 style={{ color: headingColor }}>{heading}</h1>
