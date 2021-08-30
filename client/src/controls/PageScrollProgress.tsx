@@ -19,11 +19,11 @@ const PageScrollProgress = () => {
     React.useEffect(() => {
         if (window.scrollY === 0)
             setWidth(0);
-        setTimeout(() => {
+        return () => {
             document.removeEventListener('scroll', calculateScroll);
             window.removeEventListener('resize', calculateScroll);
-        }, 10)
-    })
+        }
+    }, [setWidth])
     console.log(width);
     return (
         <DivPageScrollProgress>

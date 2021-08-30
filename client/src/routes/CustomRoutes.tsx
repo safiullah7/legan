@@ -7,7 +7,6 @@ import Home from '../features/home/Home';
 import Login from '../features/login/Login';
 import NotFound from '../features/not-found/NotFound';
 import PrivacyPolicy from '../features/privacyPolicy/PrivacyPolicy';
-import Submit from '../features/submit/Submit';
 import Team from '../features/team/Team';
 import TeamMember from '../features/team/TeamMember';
 import WhitePaper from '../features/whitepaper/WhitePaper';
@@ -24,7 +23,7 @@ const CustomRoutes = () => {
                     </AuthLayout>
                 </Route>
                 <Route
-                    path={['', '/whitepaper', '/team', '/team/:id', '/blog', '/blog/:id', '/privacypolicy', '/faqs', '/contactus', '/submit']}
+                    path={['', '/whitepaper', '/team', '/team/:id', '/blog', '/blog/:id', '/privacypolicy', '/faqs', '/contactus',]}
                     exact>
                     <MainLayout>
                         {/* <PrivateRoute path={['', '/articles']} exact component={() => <Articles />} />
@@ -37,7 +36,6 @@ const CustomRoutes = () => {
                         <Route path={'/privacypolicy'} exact component={() => <PrivacyPolicy />} />
                         <Route path={'/faqs'} exact component={() => <FAQs />} />
                         <Route path={'/contactus'} exact component={() => <ContactUs />} />
-                        <Route path={'/submit'} exact component={() => <Submit />} />
                         <Route path={'/'} exact component={() => <Home />} />
                     </MainLayout>
                 </Route>
