@@ -6,6 +6,7 @@ import parse from 'html-react-parser';
 import styled from 'styled-components';
 import { getBlogPost, IBlog, IStyled } from '../../models/blog';
 import NotFound from '../not-found/NotFound';
+import PageScrollProgress from '../../controls/PageScrollProgress';
 interface IBlogId {
     id: string,
 }
@@ -22,6 +23,7 @@ const BlogPost = () => {
                 blogPost !== undefined && blogPost !== null ?
                     <DivBlogPost>
                         <Container className="container" maxWidth="xl">
+                            <PageScrollProgress />
                             <DivBlogPostContainer image={blogPost.image}>
                                 <div className="view">
                                     <VisibilityOutlined className="view-icon" />
