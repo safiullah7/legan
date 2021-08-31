@@ -14,13 +14,13 @@ type IId = {
 }
 let member: any;
 const TeamMember = () => {
-    const [loading, setLoading] = React.useState<false | true>(false);
+    const [loading, setLoading] = React.useState<false | true>(true);
     const { memberId } = useParams<IId>();
     const id = memberId;
     const dispatch = useAppDispatch();
     React.useEffect(() => {
         setTimeout(() => {
-            setLoading(true);
+            setLoading(false);
         }, 1000)
         dispatch(setTeamMember({ memberId: id }));
     }, [id, dispatch]);
@@ -30,7 +30,7 @@ const TeamMember = () => {
     return (
         <>
             {
-                loading ?
+                !loading ?
                     (member !== null && member !== undefined) ?
                         <DivOurTeamMember>
                             <Container className="container" maxWidth="xl">
@@ -62,7 +62,7 @@ const TeamMember = () => {
                                 subHeading={'loading'}
                                 SubHeadingColor="rgba(59, 86, 110, 1)"
                                 path="/team"
-                                loading={loading}
+                                loading={!loading}
                             />
                             <Grid container className="member">
                                 <Grid className="member-info" item md={4} sm={4} xs={12}>

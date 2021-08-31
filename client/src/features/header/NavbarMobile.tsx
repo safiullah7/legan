@@ -30,7 +30,7 @@ const NavbarMobile: React.FC<INavbarMobile> = (
               <span>Whitepaper</span>
             </li>
           </Link>
-          <Link to='/contactus'>
+          <Link to='/contactus' style={{ textDecoration: 'none' }}>
             <li className={letsTalkActive}>
               <SendOutlined fontSize="large" />
               <span>Let's Talk</span>
