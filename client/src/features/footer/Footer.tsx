@@ -1,5 +1,7 @@
 import { Container, Divider, Grid } from "@material-ui/core";
 import React from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebookSquare, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import styled from "styled-components";
 
 const Footer = () => {
@@ -49,8 +51,8 @@ const Footer = () => {
                     SOCIAL MEDIA
                   </h3>
                   <span>
-                    <img src="/footer-facebook.png" alt="footer-facebook" />
-                    <img src="/footer-linkedin.png" alt="footer-linkedin" />
+                    <FontAwesomeIcon className="font-aw-icon" icon={faFacebookSquare} />
+                    <FontAwesomeIcon className="font-aw-icon" icon={faLinkedin} />
                   </span>
                 </div>
               </DivFooterSocialMedia>
@@ -180,8 +182,12 @@ div{
   margin-top: -3px;
 }
 span{
-  img{
-    margin: 0px 20px;
+  .font-aw-icon{
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 35px;
+    color: #6F8BA4;
+    margin: 0px 15px;
     cursor: pointer;
   }
 }
