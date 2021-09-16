@@ -10,7 +10,6 @@ import { useAppDispatch } from "../../store.hooks";
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import { v4 as uuidv4 } from 'uuid';
 import { AboutUsArray } from '../../models/home';
 import IconPicker from "../../controls/IconPicker";
@@ -78,13 +77,13 @@ const BriefAboutUsSection: React.FC<IProps> = ({ briefAboutUsContent }) => {
     services: briefAboutUsContent.services || [
       {
         id: '1',
-        imageUrl: '/about-bag.png',
+        imageUrl: '/Consulting.svg',
         name: 'Consulting',
         description: 'Provision of online consutling services in matters ranging from internet law to intellectual property.'
       },
       {
         id: '2',
-        imageUrl: '/about-draft.png',
+        imageUrl: '/Document_Drafting.svg',
         name: 'Document Drafting',
         description: 'We draft/review any tech and non-tech contracts including NDAs, SLAs, IP Lisening/Assignment, EULAs, etc.'
       },
@@ -120,7 +119,7 @@ const BriefAboutUsSection: React.FC<IProps> = ({ briefAboutUsContent }) => {
                   return (
                     <Grid item md={4} sm={6} xs={12}>
                       <DivAboutGridConsulting size={services.length} index={index} check={AboutUsArray.includes(index)}>
-                        <img src={service.imageUrl} alt="about-bag" />
+                        <object aria-label={service.name} className="about-us-logos" data={service.imageUrl} type="image/svg+xml" ></object>
                         <h3>{service.name}</h3>
                         <p>
                           {service.description}
@@ -186,13 +185,7 @@ const BriefAboutUsSection: React.FC<IProps> = ({ briefAboutUsContent }) => {
                                 values.services.map((service, index) => (
                                   <Grid className={`edit-card-grid`} item md={4} sm={6} xs={12} key={index}>
                                     <Card className="edit-card">
-                                      <CardMedia
-                                        component="img"
-                                        alt="Contemplative Reptile"
-                                        height="140"
-                                        image={service.imageUrl}
-                                        style={{ margin: '0px auto' }}
-                                      />
+                                      <object aria-label={service.name} className="about-us-logo-changer" data={service.imageUrl} type="image/svg+xml" ></object>
                                       <CardContent>
                                         <IconPicker index={index} image={service.imageUrl} setFieldValue={setFieldValue} />
                                         <TextField
@@ -260,7 +253,7 @@ const BriefAboutUsSection: React.FC<IProps> = ({ briefAboutUsContent }) => {
                             </Grid>
                             <div className="edit-btns">
                               <Button variant="contained" fullWidth size="large" color="primary"
-                                onClick={() => push({ id: uuidv4(), name: '', description: '', imageUrl: '/about-bag.png' })}>
+                                onClick={() => push({ id: uuidv4(), name: '', description: '', imageUrl: '/Consulting.svg' })}>
                                 Add service
                               </Button>
                               <Button fullWidth variant="outlined" size="large" color="primary" type="submit">
@@ -299,7 +292,7 @@ const DivHomeAboutContent = styled.div`
   margin: 0px auto;
   padding-left: 3px;
   text-align: left;
-  img{
+  .about-us-logos{
     width: 85px;
     height: 85px;
   }
@@ -401,8 +394,11 @@ const DivEditAboutUsContent = styled.div`
     border-radius: 15px;
     height: 420px;
     max-width: 450px;
-    img{
+  .about-us-logo-changer{
       padding: 15px;
+      height: 90px;
+      width: 90px;
+      margin: 0px auto;
     }
     .edit-card-description{
       *{

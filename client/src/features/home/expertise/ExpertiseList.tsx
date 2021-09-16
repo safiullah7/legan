@@ -32,7 +32,7 @@ const ExpertiseList: React.FC<IProps> = (
             heading: 'Heading',
             subHeading: 'SubHeading',
             panel: `panel${id}`,
-            icon: '/world.png',
+            icon: '/Legal_expertise_data_protection.svg',
             content: `<ul>
             <li>you can edit the content by editing the content</li>
             </ul>`

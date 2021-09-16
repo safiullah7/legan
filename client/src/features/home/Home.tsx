@@ -3,21 +3,37 @@ import { useSelector } from "react-redux";
 import BrandingBannerSection from "./BrandingBannerSection";
 import BriefAboutUsSection from "./BriefAboutUsSection";
 import Expertise from "./expertise/Expertise";
-import { getHomeContentSelector } from "./home.slice";
+import { getHomeContentSelector, updateSplash } from "./home.slice";
 import IndustryExpertise from "./industryExpertise/IndustryExpertise";
 import HomeLoader from './HomeLoader';
+import { useAppDispatch } from "../../store.hooks";
 
 const Home = () => {
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = React.useState<true | false>(true);
   React.useEffect(() => {
     setTimeout(() => {
       setLoading(false);
+      window.scrollTo(0, 0);
     }, 1000);
-  }, [])
-  const { bannerContent, briefAboutUsContent, expertiseContent, industryExpertise } = useSelector(getHomeContentSelector);
+    setTimeout(() => {
+      dispatch(
+        updateSplash()
+      );
+    }, 4000)
+  }, [dispatch])
+  const { bannerContent, briefAboutUsContent, expertiseContent, industryExpertise, splash } = useSelector(getHomeContentSelector);
   return (<>
     {
-      loading ? <HomeLoader /> :
+      splash.loadSplash ? <object style={{
+        width: '100%',
+        height: '100%',
+        position: "fixed",
+        top: '0px',
+        left: '0px',
+        zIndex: 1500,
+        backgroundColor: 'white'
+      }} aria-label="legan-logo" data="/logo-leganix.svg" type="image/svg+xml" ></object> : loading ? <HomeLoader /> :
         <div>
           <BrandingBannerSection
             bannerContent={bannerContent}

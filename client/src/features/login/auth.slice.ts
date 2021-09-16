@@ -16,7 +16,7 @@ interface IAuth {
     user: IUser
 }
 const initialState: IAuth = {
-    isLoggedIn: false,
+    isLoggedIn: true,
     user: {
         _id: "",
         email: "",

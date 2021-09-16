@@ -24,7 +24,6 @@ const PageScrollProgress = () => {
             window.removeEventListener('resize', calculateScroll);
         }
     }, [setWidth])
-    console.log(width);
     return (
         <DivPageScrollProgress>
             <LinearProgress className="progress-bar" value={width} variant="determinate" />

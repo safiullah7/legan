@@ -4,6 +4,7 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useHistory } from "react-router-dom"
+import LeganLogo from '../../controls/legan_logo';
 
 interface INavbarComponentProps {
   showNavbarBorder: boolean;
@@ -29,7 +30,8 @@ const NavbarDesktop: React.FC<INavbarDesktop> = (
       <DivNavBar showNavbarBorder={showNavbarBorder}>
         <Container maxWidth="xl">
           <DivHeader>
-            <img src="/leganix_logo1.jpg" alt="navbar-head" />
+            {/* <img src="/leganix_logo1.jpg" alt="navbar-head" /> */}
+            <LeganLogo />
             <DivNavbarList>
               <ul>
                 <Link to='/' style={{ textDecoration: 'none' }}>
@@ -89,13 +91,15 @@ const DivHeader = styled.div`
   align-items: center;
   align-content: center;
   padding-top: 5px;
-  img{
-    margin-left: 45px;
+  .legan-logo{
+    width: 175px;
+    height: 80px;
+    margin-left: 20px;
   }
   @media(max-width: 820px){
     flex-direction: column;
     justify-content: center;
-    img{
+    .legan-logo{
       margin:10px 0px 0px 0px;
     }
   }
