@@ -5,7 +5,7 @@ import { RootState } from '../../store';
 
 const initialState: IHome = {
     splash: {
-        loadSplash: true
+        loadSplash: false
     },
     bannerContent: {
         heading: 'Legal for Creative Minds',

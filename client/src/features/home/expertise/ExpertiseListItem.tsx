@@ -81,10 +81,10 @@ const ExpertiseListItem: React.FC<IExpertiseContent> = (
                         </AccordionSummary>
                         <AccordionDetails style={{ border: 'none', outline: 'none', boxShadow: 'none' }}>
                             <DivListItems>
-                                <Grid container>
+                                <Grid className="list-main" container>
                                     <Grid item md={1} sm={1} className="timeline">
                                         <img src="/elipse.png" alt="elipse" />
-                                        <img src="/line.png" alt="line" />
+                                        <img className="line" src="/line.png" alt="line" />
                                         <img src="/elipse.png" alt="elipse" />
                                     </Grid>
                                     <Grid className="list-content" item md={11} sm={11} xs={11}>
@@ -183,16 +183,32 @@ p{
 `;
 
 const DivListItems = styled.div`
-
+width: 100%;
 .list-content{
     color: #6F8BA4;
+    margin-left: -45px;
+    @media (max-width : 900px ){
+        margin-left: -30px;
+    }
+    @media (max-width: 650px){
+        margin-left: -15px;
+    }
+    @media(max-width: 500px){
+        margin-left: 0px;
+    }
+    *{
+        margin: 3px 0px;
+    }
 }
 .timeline{
     display: flex;
     flex-flow: column;
     justify-content: center;
     align-content: center;
-    align-items: center; 
+    align-items: center;
+    .line{
+        height: 90%;
+    }
 }
 `;
 

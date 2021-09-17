@@ -30,8 +30,7 @@ const NavbarDesktop: React.FC<INavbarDesktop> = (
       <DivNavBar showNavbarBorder={showNavbarBorder}>
         <Container maxWidth="xl">
           <DivHeader>
-            {/* <img src="/leganix_logo1.jpg" alt="navbar-head" /> */}
-            <LeganLogo />
+            <img className="legan-logo" src="/leganix_logo1.jpg" alt="navbar-head" />
             <DivNavbarList>
               <ul>
                 <Link to='/' style={{ textDecoration: 'none' }}>
@@ -92,9 +91,7 @@ const DivHeader = styled.div`
   align-content: center;
   padding-top: 5px;
   .legan-logo{
-    width: 175px;
-    height: 80px;
-    margin-left: 20px;
+    margin-left: 45px;
   }
   @media(max-width: 820px){
     flex-direction: column;

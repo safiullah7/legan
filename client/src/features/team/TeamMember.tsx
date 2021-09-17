@@ -119,10 +119,11 @@ margin-top: 80px;
         -webkit-background-clip: padding-box;
         -moz-border-radius: 215px;
         -moz-background-clip: padding;
-        border-radius: 215px;
+        border-radius: 50%;
         background-clip: padding-box;
         width: 205px;
         height: 210px;
+        object-fit: cover;
     }
     h3{
         font-size: 22px;

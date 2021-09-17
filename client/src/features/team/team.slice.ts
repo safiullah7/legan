@@ -6,137 +6,26 @@ const initialState: ITeam = {
     selectedTeamMember: null,
     team: [
     {
-        name: 'John Doe',
-        id: '1',
-        imgURL: '/team-john.png',
-        title: 'Legal Consultant',
-        Description: `<p>
-                                There are many variations of passages of Lorem Ipsume available, but the majority.
-                                Many museu are transforming thanks to echnology. They are adding beyaz engin
-                                interactivity and magic to the visitorer experience. Estimote lorem ispum dolor
-                                Beacons have helped the Guggenheim in New York to be at the forefront of rok
-                                this process. The club uses Estimote Beacons to transform the in-stadium experience
-                                for its guests.
-                            </p>
-                            <p>
-                                There are many variations of passages of Lorem Ipsume available, but the majority.
-                                Many museu are transforming thanks to echnology. They are adding beyaz engin
-                                interactivity and magic to the visitorer experience.
-                            </p>
-                            <h4>
-                                Education
-                            </h4>
-                            <ul>
-                                <li>
-                                    <h5>
-                                        The Academy of Public Administration, Azerbaijan
-                                    </h5>
-                                    <p>
-                                        Bachelor of Jurisprudence (LLB)
-                                    </p>
-                                </li>
-                                <li>
-                                    <h5>
-                                        University of Lausanne, Switzerland
-                                    </h5>
-                                    <p>
-                                        Advanced Masters in Intrenational Commercial Law (LL.M.)
-                                    </p>
-                                </li>
-                                <li>
-                                    <h5>
-                                        The Academy of Public Administration, Azerbaijan
-                                    </h5>
-                                    <p>
-                                        Bachelor of Jurisprudence (LLB)
-                                    </p>
-                                </li>
-                            </ul>`,
-    },
-    {
-        name: 'Jane Doe',
+        name: 'Mubariz Aliyev',
         id: '2',
-        imgURL: '/team-jane.png',
+        imgURL: '/team_1.jpg',
         title: 'Legal Consultant',
         Description: `<p>
-                                There are many variations of passages of Lorem Ipsume available, but the majority.
-                                Many museu are transforming thanks to echnology. They are adding beyaz engin
-                                interactivity and magic to the visitorer experience. Estimote lorem ispum dolor
-                                Beacons have helped the Guggenheim in New York to be at the forefront of rok
-                                this process. The club uses Estimote Beacons to transform the in-stadium experience
-                                for its guests.
+                                Mubariz Aliyev is a consultant specializing in the field of information technology law. He has worked at law firms across different countries and has advised clients on a wide range of legal issues including data protection & GDPR, intellectual property, blockchain, international tech contracts, and software licensing. 
                             </p>
                             <p>
-                                There are many variations of passages of Lorem Ipsume available, but the majority.
-                                Many museu are transforming thanks to echnology. They are adding beyaz engin
-                                interactivity and magic to the visitorer experience.
+                                He holds master’s degrees in IT Law and International Commercial Law. He is currently pursuing a Ph.D. degree and his current research focus is on the legal aspects of Artificial Intelligence.
                             </p>
                             <h4>
                                 Education
                             </h4>
                             <ul>
-                                <li>
-                                    <h5>
-                                        The Academy of Public Administration, Azerbaijan
-                                    </h5>
-                                    <p>
-                                        Bachelor of Jurisprudence (LLB)
-                                    </p>
-                                </li>
-                                <li>
-                                    <h5>
-                                        University of Lausanne, Switzerland
-                                    </h5>
-                                    <p>
-                                        Advanced Masters in Intrenational Commercial Law (LL.M.)
-                                    </p>
-                                </li>
                                 <li>
                                     <h5>
                                         University of Montreal, Canada
                                     </h5>
                                     <p>
-                                        PhD in Innovation, Science, Technology and Law
-                                    </p>
-                                </li>
-                            </ul>`,
-    },
-    {
-        name: 'Hector Doe',
-        id: '3',
-        imgURL: '/team-hector.png',
-        title: 'Legal Consultant',
-        Description: `<p>
-                                There are many variations of passages of Lorem Ipsume available, but the majority.
-                                Many museu are transforming thanks to echnology. They are adding beyaz engin
-                                interactivity and magic to the visitorer experience. Estimote lorem ispum dolor
-                                Beacons have helped the Guggenheim in New York to be at the forefront of rok
-                                this process. The club uses Estimote Beacons to transform the in-stadium experience
-                                for its guests.
-                            </p>
-                            <p>
-                                There are many variations of passages of Lorem Ipsume available, but the majority.
-                                Many museu are transforming thanks to echnology. They are adding beyaz engin
-                                interactivity and magic to the visitorer experience.
-                            </p>
-                            <h4>
-                                Education
-                            </h4>
-                            <ul>
-                                <li>
-                                    <h5>
-                                        The Academy of Public Administration, Azerbaijan
-                                    </h5>
-                                    <p>
-                                        Bachelor of Jurisprudence (LLB)
-                                    </p>
-                                </li>
-                                <li>
-                                    <h5>
-                                        University of Lausanne, Switzerland
-                                    </h5>
-                                    <p>
-                                        Advanced Masters in Intrenational Commercial Law (LL.M.)
+                                        Ph.D. in Innovation & Technology Law
                                     </p>
                                 </li>
                                 <li>
@@ -144,15 +33,64 @@ const initialState: ITeam = {
                                         University of Tartu, Estonia
                                     </h5>
                                     <p>
-                                        Master of Arts in Law in Information Technology Law (MA)
+                                        Master of Arts (MA) in Information Technology Law
                                     </p>
                                 </li>
                                 <li>
                                     <h5>
-                                        University of Montreal, Canada
+                                        University of Lausanne, Switzerland
                                     </h5>
                                     <p>
-                                        PhD in Innovation, Science, Technology and Law
+                                        Advanced Masters in International Commercial Law (LL.M.)
+                                    </p>
+                                </li>
+                                 <li>
+                                    <h5>
+                                        Academy of Public Administration, Azerbaijan 
+                                    </h5>
+                                    <p>
+                                        Bachelor of Laws (LL.B.)
+                                    </p>
+                                </li>
+                            </ul>`,
+    },
+    {
+        name: 'Kadir Hazan',
+        id: '3',
+        imgURL: '/team_2.jpg',
+        title: 'Legal Consultant',
+        Description: `<p>
+                               Kadir Hazan is a legal consultant specializing in data protection law, corporate and tax law. He completed his Master of International and Comparative Law in French and English languages at the University of Lausanne, Switzerland, and worked as a legal consultant for a law firm in Turkey for a year. Subsequently, he worked in countries such as Mauritius, France, and Morocco as a human resources and legal affairs manager in an international tourism company for 3 years.
+                            </p>
+                            <p>
+                                He voluntarily writes blog posts and works as a translator in a personal data-oriented organization in Turkey called KOIOIS. He is especially passionate about IT law and currently pursuing a Ph.D. degree in tax, robotics, and AI Law.  
+                            </p>
+                            <h4>
+                                Education
+                            </h4>
+                            <ul>
+                                <li>
+                                    <h5>
+                                        University of Lausanne, Switzerland
+                                    </h5>
+                                    <p>
+                                        Master of International and Comparative Law
+                                    </p>
+                                </li>
+                                <li>
+                                    <h5>
+                                       University of Orleans, France
+                                    </h5>
+                                    <p>
+                                        Bachelor of Laws (Exchange) 
+                                    </p>
+                                </li>
+                                <li>
+                                    <h5>
+                                       University of Erzincan, Turkey
+                                    </h5>
+                                    <p>
+                                     Bachelor of Laws (LL.B.)
                                     </p>
                                 </li>
                             </ul>`,

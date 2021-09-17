@@ -14,7 +14,7 @@ const Footer = () => {
               <DivFooterDescription>
                 <img src="/footerImg.png" alt="footer-logo" />
                 <p>
-                  Lorem ipsum dolor sit amet consedtur ipse ctetur, adipisicing elit. Repellendus solor se porro illum dolorem doloremque
+                  Leganix is a consulting company and not a law firm, not a company of attorneys.
                 </p>
               </DivFooterDescription>
             </Grid>
@@ -189,6 +189,10 @@ span{
     color: #6F8BA4;
     margin: 0px 15px;
     cursor: pointer;
+    &:hover{
+      transition: all 0.15s ease-in-out;
+      color: #3B566E;
+    }
   }
 }
 @media (max-width: 600px){

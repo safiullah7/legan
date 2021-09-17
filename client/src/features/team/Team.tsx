@@ -74,6 +74,7 @@ margin-top: 80px;
     width: 175px;
     height: 205px;
     cursor: pointer;
+    object-fit: cover;
     &:hover{
       transition: all 0.25s ease-in-out;
       opacity: 0.75;
