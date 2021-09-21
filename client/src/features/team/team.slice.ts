@@ -8,7 +8,7 @@ const initialState: ITeam = {
     {
         name: 'Mubariz Aliyev',
         id: '2',
-        imgURL: '/team_1.jpg',
+        imgURL: '/team_2.jpg',
         title: 'Legal Consultant',
         Description: `<p>
                                 Mubariz Aliyev is a consultant specializing in the field of information technology law. He has worked at law firms across different countries and has advised clients on a wide range of legal issues including data protection & GDPR, intellectual property, blockchain, international tech contracts, and software licensing. 
@@ -57,7 +57,7 @@ const initialState: ITeam = {
     {
         name: 'Kadir Hazan',
         id: '3',
-        imgURL: '/team_2.jpg',
+        imgURL: '/team_1.jpg',
         title: 'Legal Consultant',
         Description: `<p>
                                Kadir Hazan is a legal consultant specializing in data protection law, corporate and tax law. He completed his Master of International and Comparative Law in French and English languages at the University of Lausanne, Switzerland, and worked as a legal consultant for a law firm in Turkey for a year. Subsequently, he worked in countries such as Mauritius, France, and Morocco as a human resources and legal affairs manager in an international tourism company for 3 years.
