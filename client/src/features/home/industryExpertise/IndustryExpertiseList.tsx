@@ -241,7 +241,7 @@ button{
         p,li{
             font-size: 15px;
             font-weight: 400;
-            padding: 0px 0px 15px 15px;
+            padding:10px;
             @media (max-width: 750px){
                 font-size: 11px;
             }

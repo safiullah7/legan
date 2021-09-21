@@ -114,7 +114,7 @@ const ExpertiseListItemForm: React.FC<IProps> = ({
                             </Grid>
                             <Grid item md={5} sm={5} xs={12}>
                                 <div className="change-icon">
-                                    <img src={values.icon} alt={values.heading} />
+                                    <object aria-label={values.heading} className="expertise-icons" data={values.icon} type="image/svg+xml" ></object>
                                     <Button variant="contained" size="small" fullWidth className="icon-btn" color="primary" onClick={handleOpenDialog}>
                                         Change Icon
                                     </Button>
@@ -130,12 +130,16 @@ const ExpertiseListItemForm: React.FC<IProps> = ({
                                     <h3 style={{ margin: '15px 0px', textAlign: 'center', }}>Select Icon</h3>
                                     <DivDialogContent>
                                         {
-                                            iconsArray.map((icon, index) => <img className={`${values.icon === icon.imgUrl && 'selected'}`} src={icon.imgUrl} alt={icon.imgUrl} key={index} onClick={() => {
-                                                if (icon.imgUrl !== values.icon) {
-                                                    setFieldValue('icon', icon.imgUrl);
-                                                    handleCloseDialog();
-                                                }
-                                            }} />)
+                                            iconsArray.map((icon, index) => <div key={index} className={`logo-changer-div ${icon.imgUrl === values.icon && 'selected'}`}
+                                                onClick={() => {
+                                                    console.log("click");
+                                                    if (icon.imgUrl !== values.icon) {
+                                                        setFieldValue('icon', icon.imgUrl);
+                                                        handleCloseDialog();
+                                                    }
+
+                                                }}
+                                            ><object aria-label={icon.imgUrl} className={`logo-changer-image`} data={icon.imgUrl} type="image/svg+xml" ></object></div>)
                                         }
                                     </DivDialogContent>
                                 </Dialog>
@@ -210,9 +214,10 @@ border-top: 0.5px solid lightgrey;
     justify-content: flex-end;
     align-items: center;
     min-height: 200px;
-    img{
+    .expertise-icons{
         display: block;
-        width: 30px;
+        width: 75px;
+        height: 75px;
         margin: 30px auto;
     }
 }
@@ -227,12 +232,17 @@ flex-wrap: wrap;
 align-items: center;
 justify-content: center;
 align-content: center;
-img{
+.logo-changer-image{
     transition: all 0.25s ease-in-out;
-    margin: 10px;
-    padding: 5px;
-    width: 30px;
+    margin: 5px;
+    padding: 3px;
+    width: 50px;
+    height: 50px;
+    pointer-events: none;
+}
+.logo-changer-div{
     cursor: pointer;
+    margin: 5px;
     &:hover{
         transition: all 0.25s ease-in-out;
         box-shadow: 0px 0px 2px 1px #77ADCA;

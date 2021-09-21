@@ -1,9 +1,14 @@
 export const AboutUsArray = [1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34, 37, 40];
 export interface IHome {
+  splash: ISplash,
   bannerContent: IBannerContent,
   briefAboutUsContent: IBriefAboutUsContent
   expertiseContent: IExpertiseContent,
   industryExpertise: IIndustryContent
+}
+
+export interface ISplash {
+  loadSplash : true | false
 }
 
 export interface IBannerContent {

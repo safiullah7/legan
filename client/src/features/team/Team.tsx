@@ -1,12 +1,21 @@
 import { Container, Grid } from "@material-ui/core";
 import { MoreHoriz } from "@material-ui/icons";
+import { Skeleton } from "@material-ui/lab";
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { ourTeam } from '../../models/team';
 import BodyHeader from '../../controls/BodyHeader';
-
+import { getTeamContentSelector } from "./team.slice";
 const Team = () => {
+  const { team } = useSelector(getTeamContentSelector);
+  const ourTeam = team;
+  const [loading, setLoading] = React.useState<true | false>(true);
+  React.useEffect(() => {
+    setTimeout(() => {
+      setLoading(false)
+    }, 1000);
+  }, [])
   return (
     <>
       <DivOurTeam>
@@ -19,7 +28,7 @@ const Team = () => {
             {
               ourTeam.map(member => {
                 return (
-                  <Grid className="team-member-grid" key={member.id} item md={4} sm={6} xs={12}>
+                  !loading ? <Grid className="team-member-grid" key={member.id} item md={4} sm={6} xs={12}>
                     <Link to={`/team/${member.id}`}>
                       <img src={member.imgURL} alt={member.name} />
                     </Link>
@@ -31,7 +40,13 @@ const Team = () => {
                         <span>Read more</span>
                       </MemberBtn>
                     </Link>
-                  </Grid>
+                  </Grid> :
+                    <Grid md={4} sm={6} xs={12}>
+                      <Skeleton variant="rect" width="40%" height="200px" style={{ margin: '0px auto 15px auto' }} />
+                      <Skeleton variant="text" width="40%" height="18px" style={{ margin: '5px auto' }} />
+                      <Skeleton variant="text" width="40%" height="15px" style={{ margin: '5px auto' }} />
+                      <Skeleton variant="text" width="30%" height="30px" style={{ margin: '5px auto' }} />
+                    </Grid>
                 );
               })
             }
@@ -59,6 +74,7 @@ margin-top: 80px;
     width: 175px;
     height: 205px;
     cursor: pointer;
+    object-fit: cover;
     &:hover{
       transition: all 0.25s ease-in-out;
       opacity: 0.75;

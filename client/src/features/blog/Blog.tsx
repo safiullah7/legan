@@ -4,73 +4,82 @@ import styled from "styled-components";
 import RecentPost from "./RecentPost";
 import { blog, categories, IStyled } from '../../models/blog';
 import { Link } from "react-router-dom";
+import BlogLoader from "./BlogLoader";
 const noOfPost = 4;
 const Blog = () => {
+  const [loading, setLoading] = React.useState<true | false>(true);
   const [totalBlogs, setTotalBlogs] = React.useState(blog.recentBlogs);
   const noOfPages = Math.ceil(totalBlogs.length / noOfPost);
   const [page, setPage] = React.useState<number>(1);
   const defautBlogPost = totalBlogs.filter(item => (item.id > 0 * noOfPost && item.id <= noOfPost));
   const [blogPost, setBlogPost] = React.useState(defautBlogPost);
 
-
   React.useEffect(() => {
     const selectedBlogs = totalBlogs.filter((item, index) => ((index >= (page - 1) * noOfPost && index < page * noOfPost) && index < totalBlogs.length));
     setBlogPost(selectedBlogs);
   }, [page, totalBlogs]);
+  React.useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000)
+  }, [])
   return (
     <>
-      <DivBlog>
-        <Container className="container" maxWidth="xl">
-          <DivBlogContainer>
-            <div className="blog-head">
-              <h1>
-                BLOG
-              </h1>
-            </div>
-            <DivMainBlog image={blog.heighlight.image}>
-              <Grid container>
-                <Grid item md={6} sm={12} xs={12} className="main-blog-image"></Grid>
-                <Grid item md={6} sm={12} xs={12} className="main-blog-content">
-                  <p className="blog-privacy">
-                    {blog.heighlight.type}
-                  </p>
-                  <br />
-                  <p className="blog-name-date">
-                    <span className="date">
-                      {blog.heighlight.date}&nbsp;
-                    </span>
-                    <span className="name">
-                      / {blog.heighlight.writer}
-                    </span>
-                  </p>
-                  <h1 className="blog-heading">
-                    {blog.heighlight.heading}
+      {
+        loading ? <BlogLoader /> :
+          <DivBlog>
+            <Container className="container" maxWidth="xl">
+              <DivBlogContainer>
+                <div className="blog-head">
+                  <h1>
+                    BLOG
                   </h1>
-                  <p className="blog-content">
-                    {blog.heighlight.content}
-                  </p>
-                  <Link style={{ textDecoration: 'none' }} to={`/blog/${blog.heighlight.id}`}>
-                    <Button
-                      className="blog-btn"
-                    >
-                      READ MORE
-                    </Button>
-                  </Link>
-                </Grid>
-              </Grid>
-            </DivMainBlog>
-            <RecentPost
-              recentBlog={blogPost}
-              categories={categories}
-              page={page}
-              setPage={setPage}
-              noOfPages={noOfPages}
-              setTotalBlogs={setTotalBlogs}
-            />
+                </div>
+                <DivMainBlog image={blog.heighlight.image}>
+                  <Grid container>
+                    <Grid item md={6} sm={12} xs={12} className="main-blog-image"></Grid>
+                    <Grid item md={6} sm={12} xs={12} className="main-blog-content">
+                      <p className="blog-privacy">
+                        {blog.heighlight.type}
+                      </p>
+                      <br />
+                      <p className="blog-name-date">
+                        <span className="date">
+                          {blog.heighlight.date}&nbsp;
+                        </span>
+                        <span className="name">
+                          / {blog.heighlight.writer}
+                        </span>
+                      </p>
+                      <h1 className="blog-heading">
+                        {blog.heighlight.heading}
+                      </h1>
+                      <p className="blog-content">
+                        {blog.heighlight.content}
+                      </p>
+                      <Link style={{ textDecoration: 'none' }} to={`/blog/${blog.heighlight.id}`}>
+                        <Button
+                          className="blog-btn"
+                        >
+                          READ MORE
+                        </Button>
+                      </Link>
+                    </Grid>
+                  </Grid>
+                </DivMainBlog>
+                <RecentPost
+                  recentBlog={blogPost}
+                  categories={categories}
+                  page={page}
+                  setPage={setPage}
+                  noOfPages={noOfPages}
+                  setTotalBlogs={setTotalBlogs}
+                />
 
-          </DivBlogContainer>
-        </Container>
-      </DivBlog>
+              </DivBlogContainer>
+            </Container>
+          </DivBlog>
+      }
     </>
   );
 };

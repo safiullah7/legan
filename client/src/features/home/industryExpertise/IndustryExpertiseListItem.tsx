@@ -28,7 +28,6 @@ const DivIndustryTabsListContent = styled.div`
 ol{
     li{
         font-size: 15px;
-        padding: 0px 0px 15px 15px;
         color: rgba(111, 139, 164, 1);
         font-weight: 400;
         @media (max-width: 750px){

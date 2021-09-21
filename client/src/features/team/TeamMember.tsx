@@ -1,45 +1,100 @@
 import React from 'react';
-import { getMember } from '../../models/team';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Container, Grid } from '@material-ui/core';
 import parse from 'html-react-parser';
 import BodyHeader from '../../controls/BodyHeader';
+import { useSelector } from 'react-redux';
+import { getTeamContentSelector, setTeamMember } from './team.slice';
+import { useAppDispatch } from '../../store.hooks';
+import { Skeleton } from '@material-ui/lab';
 import NotFound from '../not-found/NotFound';
-type teamMemberId = {
-    memberId: string
-};
+type IId = {
+    memberId: string,
+}
+let member: any;
 const TeamMember = () => {
-    const { memberId } = useParams<teamMemberId>();
-    const member = getMember(+memberId);
+    const [loading, setLoading] = React.useState<false | true>(true);
+    const { memberId } = useParams<IId>();
+    const id = memberId;
+    const dispatch = useAppDispatch();
+    React.useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 1000)
+        dispatch(setTeamMember({ memberId: id }));
+    }, [id, dispatch]);
+    const { selectedTeamMember } = useSelector(getTeamContentSelector);
+    if (selectedTeamMember !== null && selectedTeamMember !== undefined)
+        member = selectedTeamMember;
     return (
         <>
             {
-                member !== undefined && member !== null ? <DivOurTeamMember>
-                    <Container className="container" maxWidth="xl">
-                        <BodyHeader
-                            heading="Our Team"
-                            headingColor="rgba(0, 102, 153, 1)"
-                            subHeading={member.name}
-                            SubHeadingColor="rgba(59, 86, 110, 1)"
-                            path="/team"
-                        />
-                        <Grid container className="member">
-                            <Grid className="member-info" item md={4} sm={4} xs={12}>
-                                <img src={member.imgURL} alt={member.name} />
-                                <h3>{member.name}</h3>
-                                <p>{member.title}</p>
-                            </Grid>
-                            <Grid className="member-description" item md={8} sm={8} xs={12}>
-                                {parse(member.Description)}
-                            </Grid>
-                        </Grid>
-                    </Container>
-                </DivOurTeamMember>
+                !loading ?
+                    (member !== null && member !== undefined) ?
+                        <DivOurTeamMember>
+                            <Container className="container" maxWidth="xl">
+                                <BodyHeader
+                                    heading="Our Team"
+                                    headingColor="rgba(0, 102, 153, 1)"
+                                    subHeading={member.name}
+                                    SubHeadingColor="rgba(59, 86, 110, 1)"
+                                    path="/team"
+                                />
+                                <Grid container className="member">
+                                    <Grid className="member-info" item md={4} sm={4} xs={12}>
+                                        <img src={member.imgURL} alt={member.name} />
+                                        <h3>{member.name}</h3>
+                                        <p>{member.title}</p>
+                                    </Grid>
+                                    <Grid className="member-description" item md={8} sm={8} xs={12}>
+                                        {parse(member.Description)}
+                                    </Grid>
+                                </Grid>
+                            </Container>
+                        </DivOurTeamMember> : <NotFound />
                     :
-                    <div>
-                        <NotFound />
-                    </div>
+                    <DivOurTeamMember>
+                        <Container className="container" maxWidth="xl">
+                            <BodyHeader
+                                heading="Our Team"
+                                headingColor="rgba(0, 102, 153, 1)"
+                                subHeading={'loading'}
+                                SubHeadingColor="rgba(59, 86, 110, 1)"
+                                path="/team"
+                                loading={!loading}
+                            />
+                            <Grid container className="member">
+                                <Grid className="member-info" item md={4} sm={4} xs={12}>
+                                    {
+                                        <Skeleton variant="circle" width="50%" height="222px" style={{ margin: '0px auto' }} />
+                                    }
+                                    <h3>{<Skeleton variant="text" width="60%" height="30px" style={{ margin: '0px auto' }} />}</h3>
+                                    <p>{<Skeleton variant="text" width="60%" height="30px" style={{ margin: '0px auto' }} />}</p>
+                                </Grid>
+                                <Grid className="member-description" item md={8} sm={8} xs={12}>
+                                    {
+                                        <div className="">
+                                            <Skeleton variant="text" width="100%" height="18px" style={{ margin: '3px auto' }} />
+                                            <Skeleton variant="text" width="100%" height="18px" style={{ margin: '3px auto' }} />
+                                            <Skeleton variant="text" width="100%" height="18px" style={{ margin: '3px auto' }} />
+                                            <Skeleton variant="text" width="60%" height="15px" />
+                                            <br />
+                                            <Skeleton variant="text" width="100%" height="18px" style={{ margin: '3px auto' }} />
+                                            <Skeleton variant="text" width="100%" height="18px" style={{ margin: '3px auto' }} />
+                                            <Skeleton variant="text" width="60%" height="15px" />
+                                            <br />
+                                            <Skeleton variant="text" width="30%" height="30px" />
+                                            <br />
+                                            <Skeleton variant="text" width="100%" height="18px" style={{ margin: '3px auto' }} />
+                                            <Skeleton variant="text" width="100%" height="18px" style={{ margin: '3px auto' }} />
+                                            <Skeleton variant="text" width="60%" height="15px" />
+                                        </div>
+                                    }
+                                </Grid>
+                            </Grid>
+                        </Container>
+                    </DivOurTeamMember>
             }
         </>
     );
@@ -64,10 +119,11 @@ margin-top: 80px;
         -webkit-background-clip: padding-box;
         -moz-border-radius: 215px;
         -moz-background-clip: padding;
-        border-radius: 215px;
+        border-radius: 50%;
         background-clip: padding-box;
         width: 205px;
         height: 210px;
+        object-fit: cover;
     }
     h3{
         font-size: 22px;

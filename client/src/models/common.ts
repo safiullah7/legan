@@ -6,9 +6,11 @@ export const getDate = () => {
     return `${month[mm]} ${dd}, ${year}`;
 }
 export const iconsArray = [
-    { imgUrl: '/about-bag.png' },
-    { imgUrl: '/about-draft.png' },
-    { imgUrl: '/about-research.png' },
-    { imgUrl: '/world.png' },
-    { imgUrl: '/rocket.png' },
+    { imgUrl: '/Legal_expertise_data_protection.svg' },
+    { imgUrl: '/Legal_expertise_tech_contracts.svg' },
+    { imgUrl: '/Legal_expertise_intellectual_property.svg' },
+    { imgUrl: '/Legal_expertise_Internet_law.svg' },
+    { imgUrl: '/Legal_Research.svg' },
+    { imgUrl: '/Document_Drafting.svg' },
+    { imgUrl: '/Consulting.svg' }
 ];

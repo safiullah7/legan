@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { getBlogPost, IBlog, IStyled } from '../../models/blog';
 import NotFound from '../not-found/NotFound';
 import PageScrollProgress from '../../controls/PageScrollProgress';
+import { Skeleton } from '@material-ui/lab';
 interface IBlogId {
     id: string,
 }
@@ -14,12 +15,18 @@ const BlogPost = () => {
     const blogId: IBlogId = useParams();
     const blogPost: IBlog = getBlogPost(+blogId.id);
     const [likedPost, setLikedPost] = React.useState<true | false>(false);
+    const [loading, setLoading] = React.useState<true | false>(true);
+    React.useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 1000)
+    })
     const handleLikes = () => {
         setLikedPost((likedPost) => !likedPost);
     }
     return (
         <>
-            {
+            {!loading ?
                 blogPost !== undefined && blogPost !== null ?
                     <DivBlogPost>
                         <Container className="container" maxWidth="xl">
@@ -69,7 +76,23 @@ const BlogPost = () => {
                         </Container>
                     </DivBlogPost>
                     :
-                    <NotFound />
+                    <NotFound /> :
+                <DivBlogPost>
+                    <Container className="container" maxWidth="xl">
+                        <DivSkeleton>
+                            <br />
+                            <Skeleton variant="text" width="100px" height="18px" /> <br />
+                            <Skeleton variant="text" width="120px" height="21px" style={{ display: 'inline-block' }} /> <Skeleton variant="text" width="120px" height="21px" style={{ display: 'inline-block', margin: '0px 30px' }} /><br /><br />
+                            <Skeleton variant="text" height="60px" />
+                            <Skeleton variant="rect" width="100%" height="450px" /><br />
+                            <Skeleton variant="text" />
+                            <Skeleton variant="text" />
+                            <Skeleton variant="text" />
+                            <Skeleton variant="text" />
+                            <Skeleton variant="text" width="60%" />
+                        </DivSkeleton>
+                    </Container>
+                </DivBlogPost>
             }
         </>
     );
@@ -197,4 +220,13 @@ margin-left: 45px;
 }
 `;
 
-export default BlogPost
+const DivSkeleton = styled.div`
+padding: 15px;
+margin-left: 45px;
+text-align: left;
+@media (max-width:600px){
+    margin: 0px;
+}
+`;
+
+export default BlogPost;

@@ -60,7 +60,7 @@ const ExpertiseListItem: React.FC<IExpertiseContent> = (
                         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header"
                             style={{ backgroundColor: 'rgba(249, 252, 254, 1)' }}>
                             <DivListHead>
-                                <img src={item.icon} alt={`${item.icon}`} />
+                                <object aria-label={item.heading} className="expertise-icons" data={item.icon} type="image/svg+xml" ></object>
                                 <h3>
                                     {item.heading}
                                 </h3>
@@ -81,13 +81,13 @@ const ExpertiseListItem: React.FC<IExpertiseContent> = (
                         </AccordionSummary>
                         <AccordionDetails style={{ border: 'none', outline: 'none', boxShadow: 'none' }}>
                             <DivListItems>
-                                <Grid container>
-                                    <Grid item md={2} sm={1} className="timeline">
+                                <Grid className="list-main" container>
+                                    <Grid item md={1} sm={1} className="timeline">
                                         <img src="/elipse.png" alt="elipse" />
-                                        <img src="/line.png" alt="line" />
+                                        <img className="line" src="/line.png" alt="line" />
                                         <img src="/elipse.png" alt="elipse" />
                                     </Grid>
-                                    <Grid item md={10} sm={11} xs={11}>
+                                    <Grid className="list-content" item md={11} sm={11} xs={11}>
                                         {parse(item.content)}
                                     </Grid>
                                 </Grid>
@@ -162,7 +162,7 @@ p{
     margin: 0px;
     color: rgba(0, 102, 153, 0.96);
 }
-img{
+.expertise-icons{
     padding-right: 20px;
     position: relative;
     width: 24px;
@@ -183,20 +183,32 @@ img{
 `;
 
 const DivListItems = styled.div`
-
-li{
-    font-size: 15px;
-    font-weight: 700;
-    color: #006699;
-    padding-left: 15px;
-    width: 100%;
+width: 100%;
+.list-content{
+    color: #6F8BA4;
+    margin-left: -45px;
+    @media (max-width : 900px ){
+        margin-left: -30px;
+    }
+    @media (max-width: 650px){
+        margin-left: -15px;
+    }
+    @media(max-width: 500px){
+        margin-left: 0px;
+    }
+    *{
+        margin: 3px 0px;
+    }
 }
 .timeline{
     display: flex;
     flex-flow: column;
     justify-content: center;
     align-content: center;
-    align-items: center; 
+    align-items: center;
+    .line{
+        height: 90%;
+    }
 }
 `;
 
