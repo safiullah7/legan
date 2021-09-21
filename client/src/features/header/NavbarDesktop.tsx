@@ -30,8 +30,8 @@ const NavbarDesktop: React.FC<INavbarDesktop> = (
       <DivNavBar showNavbarBorder={showNavbarBorder}>
         <Container maxWidth="xl">
           <DivHeader>
-            <object aria-label="map-image" className="map-img"
-              style={{ marginLeft: '42px', width: '160' }}
+            <object aria-label="map-image" className="map-img .legan-logo"
+              style={{ width: '160' }}
               data="/leganix-logo-quality.svg" type="image/svg+xml" ></object>
             <DivNavbarList>
               <ul>
@@ -95,10 +95,17 @@ const DivHeader = styled.div`
   .legan-logo{
     margin-left: 45px;
   }
+  object{
+    margin-left: 45px;
+    width: 160px;
+  }
   @media(max-width: 820px){
     flex-direction: column;
     justify-content: center;
     .legan-logo{
+      margin:10px 0px 0px 0px;
+    }
+    object{
       margin:10px 0px 0px 0px;
     }
   }
