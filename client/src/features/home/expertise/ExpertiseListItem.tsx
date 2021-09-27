@@ -123,7 +123,7 @@ const ExpertiseListItem: React.FC<IExpertiseContent> = (
                     <Button style={{ width: '150px' }} size="small" onClick={handleCloseDialog} color="secondary" variant="contained">
                         NO
                     </Button>
-                    <Button style={{ width: '150px' }} size="small" onClick={() => handleDeleteTab(item.id)} color="primary" variant="contained">
+                    <Button style={{ width: '150px' }} size="small" onClick={() => handleDeleteTab(item._id)} color="primary" variant="contained">
                         YES
                     </Button>
                 </DialogActions>

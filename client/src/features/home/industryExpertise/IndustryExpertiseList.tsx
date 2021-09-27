@@ -28,7 +28,7 @@ const IndustryExpertiseList: React.FC<IPropsIdustryExpertiseContentList> = (
     const [editMode, setEditMode] = React.useState<true | false>(false);
     const [active, setActive] = React.useState<string>('0');
     const [openDialog, setOpenDialog] = React.useState<true | false>(false);
-    const defaultValue = contentList.filter((item) => (active === item.id))[0];
+    const defaultValue = contentList.filter((item) => (active === item._id))[0];
     const [activeTabsContent, setActiveTabsContent] = React.useState<string>(defaultValue !== undefined ? defaultValue.list : '');
     const handleActiveClick = (id: string) => {
         if (id !== active) {
@@ -37,7 +37,8 @@ const IndustryExpertiseList: React.FC<IPropsIdustryExpertiseContentList> = (
         }
     }
     React.useEffect(() => {
-        const newValue = contentList.filter((item) => (active === item.id))[0];
+        console.log(contentList);
+        const newValue = contentList.filter((item) => (active === item._id))[0];
         setActiveTabsContent(
             newValue !== undefined ? newValue.list : ''
         );
@@ -45,7 +46,7 @@ const IndustryExpertiseList: React.FC<IPropsIdustryExpertiseContentList> = (
     const handleAddTab = () => {
         dispatch(
             addIndustryExpertiseTab({
-                id: uuidv4(),
+                _id: uuidv4(),
                 heading: 'Tab Heading',
                 list: `<ol>
                 <li>You can edit content by clicking the editing icon</li>
@@ -56,9 +57,9 @@ const IndustryExpertiseList: React.FC<IPropsIdustryExpertiseContentList> = (
     const handleDeleteTab = () => {
         if (contentList.length > 1) {
             handleCloseDialog();
-            let index = contentList.findIndex(item => item.id === active);
+            let index = contentList.findIndex(item => item._id === active);
             index === 0 ? index++ : index--;
-            setActive(contentList[index].id);
+            setActive(contentList[index]._id);
             dispatch(
                 deleteIndustryExpertiseTab({ id: active })
             );
@@ -73,13 +74,13 @@ const IndustryExpertiseList: React.FC<IPropsIdustryExpertiseContentList> = (
             <DivIndustryTabs>
                 <Grid container>
                     <Grid className="btns-grid" item xl={3} md={4} sm={4} xs={4}>
-                        {
+                        {contentList &&
                             contentList.map(btn => {
                                 return (
                                     <Button
-                                        key={btn.id}
-                                        className={active === btn.id ? 'active' : 'non-active'}
-                                        onClick={() => handleActiveClick(btn.id)}
+                                        key={btn._id}
+                                        className={active === btn._id ? 'active' : 'non-active'}
+                                        onClick={() => handleActiveClick(btn._id)}
                                         fullWidth
                                     >
                                         {btn.heading}
@@ -100,7 +101,7 @@ const IndustryExpertiseList: React.FC<IPropsIdustryExpertiseContentList> = (
                                 <IndustryExpertiseEditContent
                                     heading={defaultValue.heading}
                                     list={defaultValue.list}
-                                    id={defaultValue.id}
+                                    id={defaultValue._id}
                                     setEditMode={setEditMode}
                                 />
                                 :

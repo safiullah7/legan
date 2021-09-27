@@ -3,26 +3,27 @@ import { useSelector } from "react-redux";
 import BrandingBannerSection from "./BrandingBannerSection";
 import BriefAboutUsSection from "./BriefAboutUsSection";
 import Expertise from "./expertise/Expertise";
-import { getHomeContentSelector, updateSplash } from "./home.slice";
+import { getHomeContentAsync, getHomeContentSelector, updateSplash } from "./home.slice";
 import IndustryExpertise from "./industryExpertise/IndustryExpertise";
 import HomeLoader from './HomeLoader';
 import { useAppDispatch } from "../../store.hooks";
 
 const Home = () => {
   const dispatch = useAppDispatch();
-  const [loading, setLoading] = React.useState<true | false>(true);
+  // const [loading, setLoading] = React.useState<true | false>(true);
   React.useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-      window.scrollTo(0, 0);
-    }, 1000);
-    setTimeout(() => {
-      dispatch(
-        updateSplash()
-      );
-    }, 4000)
+    dispatch(getHomeContentAsync());
+    // setTimeout(() => {
+    //   setLoading(false);
+    //   window.scrollTo(0, 0);
+    // }, 1000);
+    // setTimeout(() => {
+    //   dispatch(
+    //     updateSplash()
+    //   );
+    // }, 4000)
   }, [dispatch])
-  const { bannerContent, briefAboutUsContent, expertiseContent, industryExpertise, splash } = useSelector(getHomeContentSelector);
+  const { homeContent, loadingContent, splash } = useSelector(getHomeContentSelector);
   return (<>
     {
       splash.loadSplash ? <object style={{
@@ -33,23 +34,23 @@ const Home = () => {
         left: '0px',
         zIndex: 1500,
         backgroundColor: 'white'
-      }} aria-label="legan-logo" data="/logo-leganix.svg" type="image/svg+xml" ></object> : loading ? <HomeLoader /> :
+      }} aria-label="legan-logo" data="/logo-leganix.svg" type="image/svg+xml" ></object> : loadingContent ? <HomeLoader /> :
         <div>
           <BrandingBannerSection
-            bannerContent={bannerContent}
+            bannerContent={homeContent.bannerContent}
           />
 
-          <BriefAboutUsSection briefAboutUsContent={briefAboutUsContent} />
+          <BriefAboutUsSection briefAboutUsContent={homeContent.briefAboutUsContent} />
 
           <Expertise
-            heading={expertiseContent.heading}
-            mainText={expertiseContent.mainText}
-            contentList={expertiseContent.contentList}
+            heading={homeContent.expertiseContent.heading}
+            mainText={homeContent.expertiseContent.mainText}
+            contentList={homeContent.expertiseContent.expertiseContentList}
           />
           <IndustryExpertise
-            mainHeading={industryExpertise.heading}
-            text={industryExpertise.mainText}
-            contentList={industryExpertise.contentList}
+            mainHeading={homeContent.industryExpertise.heading}
+            text={homeContent.industryExpertise.mainText}
+            contentList={homeContent.industryExpertise.industryExpertiseContentList}
           />
         </div>
     }

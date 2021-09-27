@@ -1,10 +1,13 @@
 export const AboutUsArray = [1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34, 37, 40];
 export interface IHome {
-  splash: ISplash,
+  _id: string,
+  createdAt: Date | null,
+  updatedAt: Date | null,
+  __v: number | null,
   bannerContent: IBannerContent,
   briefAboutUsContent: IBriefAboutUsContent
   expertiseContent: IExpertiseContent,
-  industryExpertise: IIndustryContent
+  industryExpertise: IIndustryContent,
 }
 
 export interface ISplash {
@@ -26,17 +29,17 @@ export interface IBriefAboutUsContent {
 export interface IExpertiseContent {
   heading: string,
   mainText: string,
-  contentList: IExpertiseContentListItem[]
+  expertiseContentList: IExpertiseContentListItem[]
 }
 
 export interface IIndustryContent {
   heading: string,
   mainText: string,
-  contentList: IIndustryExpertiseContentList[]
+  industryExpertiseContentList: IIndustryExpertiseContentList[]
 }
 
 export interface IExpertiseContentListItem {
-  id: string,
+  _id: string,
   heading: string,
   subHeading: string,
   panel: string,
@@ -46,7 +49,7 @@ export interface IExpertiseContentListItem {
 
 export interface IIndustryExpertiseContentList {
   heading: string,
-  id: string,
+  _id: string,
   list: string,
 }
 

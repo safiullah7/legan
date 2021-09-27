@@ -70,7 +70,7 @@ const ExpertiseListItemForm: React.FC<IProps> = ({
                     updateEditMode();
                     (scrollRef as any).current.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     dispatch(updateLegalExpertiseContent({
-                        id: item.id,
+                        _id: item._id,
                         icon: values.icon,
                         panel: item.panel,
                         subHeading: values.subHeading,

@@ -46,7 +46,7 @@ const IndustryExpertiseEditContent: React.FC<IIndustryExpertiseEditContentProps>
                         console.log(values);
                         dispatch(
                             updateIndustryExpertiseTab({
-                                id: id,
+                                _id: id,
                                 heading: values.heading,
                                 list: values.list,
                             })

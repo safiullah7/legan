@@ -120,10 +120,14 @@ const IndustryExpertise: React.FC<IPropsIndustryExpertise> = (
                 <img className="stars" src="/stars.png" alt="stars container" />
               </Grid> */}
             </Grid>
-            <IndustryExpertiseList
-              isLoggedIn={isLoggedIn}
-              contentList={contentList}
-            />
+            {
+              contentList &&
+              <IndustryExpertiseList
+                isLoggedIn={isLoggedIn}
+                contentList={contentList}
+              />
+            }
+
           </DivHomeIndustryContent>
         </Container>
       </DivHomeIndustry>

@@ -9,10 +9,11 @@ import { useAppDispatch } from '../../../store.hooks';
 import { updateLegalExpertiseHead } from '../home.slice';
 import { getAuthSelector } from '../../login/auth.slice';
 import { useSelector } from 'react-redux';
+import { IExpertiseContentListItem } from '../../../models/home';
 
 
 interface IExpertiseContent {
-    id: string,
+    _id: string,
     heading: string,
     subHeading: string,
     panel: string,
@@ -23,7 +24,7 @@ interface IExpertiseContent {
 interface IProps {
     heading: string,
     mainText: string,
-    contentList: IExpertiseContent[],
+    contentList: IExpertiseContentListItem[],
 };
 
 const Expertise: React.FC<IProps> = (
@@ -115,7 +116,8 @@ const Expertise: React.FC<IProps> = (
                                                 <div>{headingPart1} <span>{headingPart2}</span></div>
 
                                                 {isLoggedIn && (
-                                                    <IconButton className="edit-Expertise-icon" color='primary' aria-label="edit" onClick={() => setEditMode(true)}>
+                                                    <IconButton className="edit-Expertise-icon" color='primary'
+                                                        aria-label="edit" onClick={() => setEditMode(true)}>
                                                         <EditIcon fontSize="inherit" />
                                                     </IconButton>
                                                 )}

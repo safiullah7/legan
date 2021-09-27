@@ -23,12 +23,12 @@ const ExpertiseList: React.FC<IProps> = (
         setExpanded(newExpanded ? panel : false);
     };
 
-    const dispath = useAppDispatch();
+    const dispatch = useAppDispatch();
 
     const handleAdd = () => {
         const id = uuidv4();
-        dispath(addLegalExpertiseContent({
-            id: id,
+        dispatch(addLegalExpertiseContent({
+            _id: id,
             heading: 'Heading',
             subHeading: 'SubHeading',
             panel: `panel${id}`,
@@ -41,10 +41,10 @@ const ExpertiseList: React.FC<IProps> = (
 
     return (
         <DivContentList>
-            {
+            {contentList &&
                 contentList.map(expertiseListItem => {
                     return <ExpertiseListItem
-                        key={expertiseListItem.id}
+                        key={expertiseListItem._id}
                         isLoggedIn={isLoggedIn}
                         item={expertiseListItem}
                         expanded={expanded}
