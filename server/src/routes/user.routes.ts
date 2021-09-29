@@ -4,7 +4,7 @@ import { requiresUser, validateRequest } from '../middlewares';
 import { createUserSchema, loginSchema } from '../schema/user.schema';
 
 export default function (app: Express) {
-    app.post("/api/users", validateRequest(createUserSchema), createUserHandler);
+    app.post("/api/register", validateRequest(createUserSchema), createUserHandler);
 
     app.post("/api/login", validateRequest(loginSchema), loginHandler);
 

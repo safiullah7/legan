@@ -72,22 +72,9 @@ const BriefAboutUsSection: React.FC<IProps> = ({ briefAboutUsContent }) => {
   });
 
   const initialValues = {
-    heading: briefAboutUsContent.heading || 'heading was empty',
-    mainText: briefAboutUsContent.mainText || 'mainText was empty',
-    services: briefAboutUsContent.services || [
-      {
-        id: '1',
-        imageUrl: '/Consulting.svg',
-        name: 'Consulting',
-        description: 'Provision of online consutling services in matters ranging from internet law to intellectual property.'
-      },
-      {
-        id: '2',
-        imageUrl: '/Document_Drafting.svg',
-        name: 'Document Drafting',
-        description: 'We draft/review any tech and non-tech contracts including NDAs, SLAs, IP Lisening/Assignment, EULAs, etc.'
-      },
-    ]
+    heading: briefAboutUsContent.heading || '',
+    mainText: briefAboutUsContent.mainText || '',
+    services: briefAboutUsContent.services || null
   };
 
   return (
@@ -115,9 +102,9 @@ const BriefAboutUsSection: React.FC<IProps> = ({ briefAboutUsContent }) => {
                 </Grid>
               </Grid>
               <Grid className="about-2nd-grid" container>
-                {services.map((service: IService, index: number) => {
+                {services && services.map((service: IService, index: number) => {
                   return (
-                    <Grid item md={4} sm={6} xs={12}>
+                    <Grid item md={4} sm={6} xs={12} key={index}>
                       <DivAboutGridConsulting size={services.length} index={index} check={AboutUsArray.includes(index)}>
                         <object aria-label={service.name} className="about-us-logos" data={service.imageUrl} type="image/svg+xml" ></object>
                         <h3>{service.name}</h3>
@@ -181,7 +168,7 @@ const BriefAboutUsSection: React.FC<IProps> = ({ briefAboutUsContent }) => {
                         {({ insert, remove, push }) => (
                           <div className="edit-cards">
                             <Grid container>
-                              {values.services.length > 0 &&
+                              {values && values.services && values.services.length > 0 &&
                                 values.services.map((service, index) => (
                                   <Grid className={`edit-card-grid`} item md={4} sm={6} xs={12} key={index}>
                                     <Card className="edit-card">
@@ -253,7 +240,7 @@ const BriefAboutUsSection: React.FC<IProps> = ({ briefAboutUsContent }) => {
                             </Grid>
                             <div className="edit-btns">
                               <Button variant="contained" fullWidth size="large" color="primary"
-                                onClick={() => push({ id: uuidv4(), name: '', description: '', imageUrl: '/Consulting.svg' })}>
+                                onClick={() => push({ _id: uuidv4(), name: '', description: '', imageUrl: '/Consulting.svg' })}>
                                 Add service
                               </Button>
                               <Button fullWidth variant="outlined" size="large" color="primary" type="submit">

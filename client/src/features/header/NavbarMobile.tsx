@@ -1,7 +1,9 @@
 import { GroupOutlined, HomeOutlined, LibraryBooksOutlined, ReceiptOutlined, SendOutlined } from '@material-ui/icons';
 import React from 'react'
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { getAuthSelector } from '../login/auth.slice';
 
 interface INavbarMobile {
   homeActive: string,
@@ -14,6 +16,9 @@ interface INavbarMobile {
 const NavbarMobile: React.FC<INavbarMobile> = (
   { homeActive, whitePaperActive, teamActive, blogActive, letsTalkActive }
 ) => {
+
+  const { isLoggedIn } = useSelector(getAuthSelector);
+
   return (
     <>
       <DivNavbarBottom>
@@ -48,6 +53,14 @@ const NavbarMobile: React.FC<INavbarMobile> = (
               <span>Blog</span>
             </li>
           </Link>
+          { isLoggedIn && 
+            <Link to='/blog' style={{ textDecoration: 'none' }}>
+              <li className={blogActive}>
+                <LibraryBooksOutlined fontSize="large" />
+                <span>Blog</span>
+              </li>
+            </Link>
+          }
         </ul>
       </DivNavbarBottom>
     </>

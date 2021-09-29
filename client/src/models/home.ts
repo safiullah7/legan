@@ -23,19 +23,19 @@ export interface IBannerContent {
 export interface IBriefAboutUsContent {
   heading: string,
   mainText: string,
-  services: IService[]
+  services: IService[] | null
 }
 
 export interface IExpertiseContent {
   heading: string,
   mainText: string,
-  expertiseContentList: IExpertiseContentListItem[]
+  expertiseContentList: IExpertiseContentListItem[] | null
 }
 
 export interface IIndustryContent {
   heading: string,
   mainText: string,
-  industryExpertiseContentList: IIndustryExpertiseContentList[]
+  industryExpertiseContentList: IIndustryExpertiseContentList[] | null
 }
 
 export interface IExpertiseContentListItem {

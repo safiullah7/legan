@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import ScrollToTop from '../controls/ScrollToTop';
 import Blog from '../features/blog/Blog';
 import BlogPost from '../features/blog/BlogPost';
 import ContactUs from '../features/contact-us/ContactUs';

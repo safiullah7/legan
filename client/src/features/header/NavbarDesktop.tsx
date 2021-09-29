@@ -4,7 +4,9 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useHistory } from "react-router-dom"
-import LeganLogo from '../../controls/legan_logo';
+import { useSelector } from 'react-redux';
+import { getAuthSelector, logout } from '../login/auth.slice';
+import { useAppDispatch } from '../../store.hooks';
 
 interface INavbarComponentProps {
   showNavbarBorder: boolean;
@@ -24,7 +26,14 @@ const NavbarDesktop: React.FC<INavbarDesktop> = (
 ) => {
 
   const history = useHistory();
+  const { isLoggedIn } = useSelector(getAuthSelector);
+  const dispatch = useAppDispatch();
 
+  const logout = () => {
+    //dispatch(logout);
+    localStorage.removeItem("user");
+    history.push('/login');
+  }
   return (
     <>
       <DivNavBar showNavbarBorder={showNavbarBorder}>
@@ -56,6 +65,13 @@ const NavbarDesktop: React.FC<INavbarDesktop> = (
                     <hr className={blogActive} />
                   </li>
                 </Link>
+                {isLoggedIn &&
+                  <Link to='/login' onClick={logout} style={{ textDecoration: 'none' }}>
+                    <li>LOGOUT
+                      <hr className={blogActive} />
+                    </li>
+                  </Link>
+                }
                 <NavbarListItem onClick={() => history.push("contactus")}>
                   <MoreHoriz fontSize="large" />
                   <span>LET'S TALK</span>

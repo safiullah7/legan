@@ -2,6 +2,7 @@ import { AxiosResponse } from 'axios';
 import axios from 'axios';
 import { useHistory } from "react-router-dom"
 import { IHome } from '../models/home';
+import { ILogin, IUser } from '../models/user';
 
 axios.defaults.baseURL = 'http://localhost:1337/api';
 
@@ -62,6 +63,11 @@ const home = {
     // unattend: (id: string) => requests.del(`/activities/${id}/attend`)
 };
 
+const user = {
+    login: (login: ILogin): Promise<IUser> => requests.post('/login', { email: login.email, password: login.password })
+}
+
 export default {
-    home
+    home,
+    user
 };

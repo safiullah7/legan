@@ -1,9 +1,26 @@
 import { Button, Container, Grid, TextField } from '@material-ui/core';
-import React from 'react'
+import { useSelector } from "react-redux";
 import styled from 'styled-components';
 import * as Yup from 'yup';
 import { Form, FormikProvider, useFormik } from 'formik';
+import { useAppDispatch } from '../../store.hooks';
+import { loginAsync } from './auth.slice';
+import { useHistory } from 'react-router';
+import { getAuthSelector } from "./auth.slice";
+import { useEffect } from 'react';
+
 const Login = () => {
+
+    const dispatch = useAppDispatch();
+    const history = useHistory();
+    const { isLoggedIn } = useSelector(getAuthSelector);
+
+    useEffect(() => {
+        if (isLoggedIn && localStorage.getItem("user") !== null) {
+            history.push("/");
+        }
+    }, [isLoggedIn, history])
+
     const newUserSchema = Yup.object().shape({
         email: Yup.string().required("email is required").email(),
         password: Yup.string().required("password is required"),
@@ -17,10 +34,11 @@ const Login = () => {
         validationSchema: newUserSchema,
         onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
             try {
-                // API call
+                dispatch(loginAsync(values));
                 console.log(values);
                 resetForm();
                 setSubmitting(false);
+                history.push("/");
             } catch (error) {
                 console.log(error);
                 setSubmitting(false);

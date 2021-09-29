@@ -1,45 +1,68 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import agent from '../../api/agent';
+import { ILogin, IUser } from '../../models/user';
 import { RootState } from '../../store';
 
-interface IUser {
-    _id: string,
-    email: string,
-    name: string,
-    accessToken: string,
-    refreshToken: string,
-    // createdAt: Date,
-    // updatedAt: Date,
-    
-}
-interface IAuth {
+export const loginAsync = createAsyncThunk('auth/login', async (loginObject: ILogin) => {
+    const user = await agent.user.login(loginObject);
+    return user;
+})
+
+interface IAuthState {
     isLoggedIn: boolean,
-    user: IUser
+    loading: boolean,
+    errorMessage?: string,
+    user: IUser | null
 }
-const initialState: IAuth = {
+
+const initialState: IAuthState = {
     isLoggedIn: false,
-    user: {
-        _id: "",
-        email: "",
-        name: "",
-        accessToken: "",
-        refreshToken: "",
-        // createdAt: "2021-08-25T11:39:55.099Z",
-        // updatedAt: Date,
-    }
+    loading: false,
+    errorMessage: '',
+    user: null
 }
 
 const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        login: (state, action) => {
-            //state.bannerContent = action.payload;
+        logout: (state, action) => {
+            localStorage.removeItem("user");
+            state.isLoggedIn = false;
+            state.user = null;
         },
+        updateUserObject: (state, action: PayloadAction<IUser>) => {
+            state.isLoggedIn = true;
+            state.user = action.payload;
+        }
+    },
+    extraReducers: builder => {
+        builder.addCase(loginAsync.pending, (state, action) => ({
+            ...state,
+            loading: true
+        }))
+        builder.addCase(loginAsync.fulfilled, (state, action) => {
+            localStorage.setItem('user', JSON.stringify(action.payload));
+            return {
+                ...state,
+                loading: false,
+                errorMessage: '',
+                user: action.payload,
+                isLoggedIn: true
+            }
+        })
+        builder.addCase(loginAsync.rejected, (state, action) => ({
+            ...state,
+            loading: false,
+            errorMessage: action.error.message,
+            user: null
+        }))
     }
 });
 
 export const {
-    login
+    logout,
+    updateUserObject
 } = authSlice.actions;
 
 export const getAuthSelector = (state: RootState) => state.authSlice;
