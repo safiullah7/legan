@@ -50,11 +50,11 @@ export interface IExpertiseContentListItem {
 export interface IIndustryExpertiseContentList {
   heading: string,
   _id: string,
-  list: string,
+  content: string,
 }
 
 export interface IService{
-  id: string,
+  _id: string,
   imageUrl: string,
   name: string,
   description: string

@@ -40,8 +40,14 @@ const Login = () => {
                             <DivLoginForm>
                                 <FormikProvider value={formik}>
                                     <Form noValidate onSubmit={handleSubmit}>
-                                        <img src="/leganix_logo1.jpg" alt="login" />
+                                        <DivObject style={{ width: '260' }}>
+                                            <object aria-label="map-image" className="map-img"
+                                                data="/leganix-logo-quality.svg" type="image/svg+xml" ></object>
+                                        </DivObject>
+                                        <br />
+                                        <br />
                                         <TextField
+                                            variant="outlined"
                                             fullWidth
                                             label="Email"
                                             {...getFieldProps('email')}
@@ -50,7 +56,9 @@ const Login = () => {
                                         <p>
                                             {(touched.email && errors.email)}
                                         </p>
+                                        <br />
                                         <TextField
+                                            variant="outlined"
                                             fullWidth
                                             label="Password"
                                             type="password"
@@ -65,7 +73,7 @@ const Login = () => {
                                             fullWidth
                                             color="primary"
                                             variant="contained"
-                                            size="small"
+                                            size="large"
                                             type="submit"
                                         >
                                             Log In
@@ -82,6 +90,12 @@ const Login = () => {
         </>
     )
 }
+const DivObject = styled.div`
+    width: 260px;
+    object {
+        width: 260px;
+    }
+`;
 
 const DivLogin = styled.div`
 @media (max-width: 600px){

@@ -30,7 +30,7 @@ const NavbarDesktop: React.FC<INavbarDesktop> = (
       <DivNavBar showNavbarBorder={showNavbarBorder}>
         <Container maxWidth="xl">
           <DivHeader>
-            <object aria-label="map-image" className="map-img .legan-logo"
+            <object aria-label="map-image" className="map-img"
               style={{ width: '160' }}
               data="/leganix-logo-quality.svg" type="image/svg+xml" ></object>
             <DivNavbarList>

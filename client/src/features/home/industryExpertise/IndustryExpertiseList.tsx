@@ -26,10 +26,10 @@ const IndustryExpertiseList: React.FC<IPropsIdustryExpertiseContentList> = (
     { isLoggedIn, contentList }
 ) => {
     const [editMode, setEditMode] = React.useState<true | false>(false);
-    const [active, setActive] = React.useState<string>('0');
+    const [active, setActive] = React.useState<string>(contentList[0]._id);
     const [openDialog, setOpenDialog] = React.useState<true | false>(false);
     const defaultValue = contentList.filter((item) => (active === item._id))[0];
-    const [activeTabsContent, setActiveTabsContent] = React.useState<string>(defaultValue !== undefined ? defaultValue.list : '');
+    const [activeTabsContent, setActiveTabsContent] = React.useState<string>(defaultValue !== undefined ? defaultValue.content : '');
     const handleActiveClick = (id: string) => {
         if (id !== active) {
             setActive(id);
@@ -40,7 +40,7 @@ const IndustryExpertiseList: React.FC<IPropsIdustryExpertiseContentList> = (
         console.log(contentList);
         const newValue = contentList.filter((item) => (active === item._id))[0];
         setActiveTabsContent(
-            newValue !== undefined ? newValue.list : ''
+            newValue !== undefined ? newValue.content : ''
         );
     }, [active, contentList, openDialog]);
     const handleAddTab = () => {
@@ -48,7 +48,7 @@ const IndustryExpertiseList: React.FC<IPropsIdustryExpertiseContentList> = (
             addIndustryExpertiseTab({
                 _id: uuidv4(),
                 heading: 'Tab Heading',
-                list: `<ol>
+                content: `<ol>
                 <li>You can edit content by clicking the editing icon</li>
                 </ol>`
             })
@@ -100,7 +100,7 @@ const IndustryExpertiseList: React.FC<IPropsIdustryExpertiseContentList> = (
                             editMode ?
                                 <IndustryExpertiseEditContent
                                     heading={defaultValue.heading}
-                                    list={defaultValue.list}
+                                    list={defaultValue.content}
                                     id={defaultValue._id}
                                     setEditMode={setEditMode}
                                 />

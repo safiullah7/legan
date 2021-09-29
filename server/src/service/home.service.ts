@@ -10,3 +10,9 @@ export async function getHomeContent() {
 export async function createHomeContent(input: DocumentDefinition<IHome>) {
     return Home.create(input);
 }
+
+export async function updateHomeContent(_id: string, input: DocumentDefinition<IHome>) {
+    await Home.findByIdAndUpdate(_id, input);
+
+    return Home.findById(_id);
+}
