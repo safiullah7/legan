@@ -1,4 +1,4 @@
-import {Express} from 'express'
+import { Express } from 'express'
 import { createUserHandler, getUserSessionsHandler, loginHandler, logoutHandler } from '../controller/user.controller';
 import { requiresUser, validateRequest } from '../middlewares';
 import { createUserSchema, loginSchema } from '../schema/user.schema';

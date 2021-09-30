@@ -3,12 +3,12 @@ import axios from 'axios';
 import { IHome } from '../models/home';
 import { ILogin, IUser } from '../models/user';
 
-axios.defaults.baseURL = 'http://localhost:5000/api';
+axios.defaults.baseURL = 'http://localhost:1337/api';
 
 axios.interceptors.request.use(
     (config) => {
-        const token = window.localStorage.getItem('jwt');
-        if (token) config.headers.authorization = `Bearer ${token}`;
+        const user: IUser = JSON.parse(window.localStorage.getItem('user')!);
+        if (user !== null) config.headers.authorization = `Bearer ${user.accessToken}`;
         return config;
     },
     (error) => {
