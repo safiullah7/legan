@@ -9,6 +9,12 @@ export const getHomeContentAsync = createAsyncThunk('home/getHomeContent', async
     return homeContent;
 })
 
+export const updateHomeContentAsync = createAsyncThunk('home/updateHomeContentAsync', 
+    async (updatedHomeContent: IHome) => {
+    const homeContent = agent.home.updateContent(updatedHomeContent);
+    return homeContent;
+})
+
 interface IHomeState {
     splash: ISplash,
     loadingContent: boolean,
@@ -57,7 +63,7 @@ const homeSlice = createSlice({
         updateSplash: (state) => {
             state.splash.loadSplash = false;
         },
-        updateHomeContent: (state, action: PayloadAction<IBannerContent>) => {
+        updateHomeBannerContent: (state, action: PayloadAction<IBannerContent>) => {
            state.homeContent.bannerContent = action.payload;
         },
         updateBriefAboutUsContent: (state, action: PayloadAction<IBriefAboutUsContent>) => {
@@ -112,12 +118,27 @@ const homeSlice = createSlice({
             ...state,
             errorMessage: action.error.message
         }))
+
+        builder.addCase(updateHomeContentAsync.pending, (state, action) => ({
+            ...state,
+            loadingContent: true,
+        }))
+        builder.addCase(updateHomeContentAsync.fulfilled, (state, action) => ({
+            ...state,
+            errorMessage: '',
+            loadingContent: false,
+            homeContent: action.payload
+        }))
+        builder.addCase(updateHomeContentAsync.rejected, (state, action) => ({
+            ...state,
+            errorMessage: action.error.message
+        }))
     }
 });
 
 export const {
     updateSplash,
-    updateHomeContent,
+    updateHomeBannerContent,
     updateBriefAboutUsContent,
     updateLegalExpertiseHead,
     updateLegalExpertiseContent,

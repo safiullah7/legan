@@ -1,5 +1,5 @@
 export default {
-    port: 1337,
+    port: 5000,
     host: 'localhost',
     saltWorkFactor: 10,
     accessTokenTtl: '15m',

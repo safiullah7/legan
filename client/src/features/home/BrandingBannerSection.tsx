@@ -7,7 +7,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import * as yup from 'yup';
 import { useFormik } from "formik";
 import { useAppDispatch } from "../../store.hooks";
-import { updateHomeContent } from "./home.slice";
+import { getHomeContentSelector, updateHomeContentAsync } from "./home.slice";
 import { IBannerContent } from "../../models/home";
 import { TransitionProps } from "@material-ui/core/transitions";
 import Submit from "../submit/Submit";
@@ -27,6 +27,7 @@ const Transition = React.forwardRef(function Transition(
 
 const BrandingBannerSection: React.FC<IProps> = ({ bannerContent }) => {
   const { isLoggedIn } = useSelector(getAuthSelector);
+  const { homeContent } = useSelector(getHomeContentSelector);
 
   const dispatch = useAppDispatch();
   const [editmode, setEditMode] = useState(false);
@@ -57,7 +58,9 @@ const BrandingBannerSection: React.FC<IProps> = ({ bannerContent }) => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      dispatch(updateHomeContent(values));
+      const updatedHomeContent = Object.assign({}, homeContent);
+      updatedHomeContent.bannerContent = values;
+      dispatch(updateHomeContentAsync(updatedHomeContent));
       setEditMode(false);
     },
   });

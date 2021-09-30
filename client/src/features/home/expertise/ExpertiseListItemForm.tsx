@@ -7,12 +7,13 @@ import draftToHtml from 'draftjs-to-html';
 import { stateFromHTML } from 'draft-js-import-html'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { useAppDispatch } from '../../../store.hooks';
-import { updateLegalExpertiseContent } from '../home.slice';
-import { IExpertiseContentListItem } from '../../../models/home';
+import { getHomeContentSelector, updateHomeContentAsync, updateLegalExpertiseContent } from '../home.slice';
+import { IExpertiseContentListItem, IHome } from '../../../models/home';
 import * as Yup from 'yup';
 import styled from 'styled-components';
 import { TransitionProps } from '@material-ui/core/transitions';
 import { iconsArray } from '../../../models/common';
+import { useSelector } from 'react-redux';
 
 interface IProps {
     scrollRef: React.MutableRefObject<null>,
@@ -37,6 +38,7 @@ const ExpertiseListItemForm: React.FC<IProps> = ({
     //         ContentState.createFromBlockArray(htmlContent.contentBlocks, htmlContent.entityMap)
     //     )
     // );
+    const { homeContent } = useSelector(getHomeContentSelector);
     const dispatch = useAppDispatch();
     const [editorState, setEditorState] = React.useState(EditorState.createWithContent(stateFromHTML(item.content)));
     const [openDialog, setOpenDialog] = React.useState<true | false>(false);
@@ -48,6 +50,8 @@ const ExpertiseListItemForm: React.FC<IProps> = ({
     }
 
     const initialValues = {
+        _id: item._id,
+        panel: item.panel,
         heading: item.heading || 'heading was empty',
         subHeading: item.subHeading || 'mainText was empty',
         icon: item.icon || 'no Icon',
@@ -65,18 +69,18 @@ const ExpertiseListItemForm: React.FC<IProps> = ({
                 // to do
                 validationSchema={validationSchema}
                 onSubmit={async (values) => {
+
                     values.content = draftToHtml(convertToRaw(editorState.getCurrentContent()))
-                    console.log(values);
+                    const updatedHomeContent: IHome = JSON.parse(JSON.stringify(homeContent));
+
+                    let index = updatedHomeContent.expertiseContent.expertiseContentList?.findIndex(x => x._id === values._id);
+                    index = index === undefined ? -1 : index;
+                    updatedHomeContent.expertiseContent.expertiseContentList![index] = values;
+
                     updateEditMode();
                     (scrollRef as any).current.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    dispatch(updateLegalExpertiseContent({
-                        _id: item._id,
-                        icon: values.icon,
-                        panel: item.panel,
-                        subHeading: values.subHeading,
-                        content: values.content,
-                        heading: values.heading
-                    }));
+
+                    dispatch(updateHomeContentAsync(updatedHomeContent));
                 }}
             >
                 {({ values, handleChange, touched, errors, setFieldValue }) => (

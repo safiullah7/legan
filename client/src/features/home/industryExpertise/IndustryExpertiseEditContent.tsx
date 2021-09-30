@@ -8,7 +8,9 @@ import { EditorState, convertToRaw, } from 'draft-js';
 import { stateFromHTML } from 'draft-js-import-html'
 import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
-import { updateIndustryExpertiseTab } from '../home.slice';
+import { getHomeContentSelector, updateHomeContentAsync, updateIndustryExpertiseTab } from '../home.slice';
+import { useSelector } from 'react-redux';
+import { IHome } from '../../../models/home';
 
 interface IIndustryExpertiseEditContentProps {
     id: string,
@@ -20,6 +22,11 @@ interface IIndustryExpertiseEditContentProps {
 const IndustryExpertiseEditContent: React.FC<IIndustryExpertiseEditContentProps> = (
     { heading, list, id, setEditMode }
 ) => {
+
+    const { homeContent } = useSelector(getHomeContentSelector);
+    const dispatch = useAppDispatch();
+    const [editorState, setEditorState] = React.useState(EditorState.createWithContent(stateFromHTML(list)))
+
     const EditModeOff = () => {
         setEditMode(false);
     }
@@ -31,8 +38,6 @@ const IndustryExpertiseEditContent: React.FC<IIndustryExpertiseEditContentProps>
         heading: heading || 'Heading is empty',
         list: list || 'list is empty',
     }
-    const dispatch = useAppDispatch();
-    const [editorState, setEditorState] = React.useState(EditorState.createWithContent(stateFromHTML(list)))
 
     return (
         <>
@@ -42,15 +47,19 @@ const IndustryExpertiseEditContent: React.FC<IIndustryExpertiseEditContentProps>
                     initialValues={initialValues}
                     onSubmit={async (values) => {
                         values.list = draftToHtml(convertToRaw(editorState.getCurrentContent()))
+
+                        const updatedHomeContent: IHome = JSON.parse(JSON.stringify(homeContent));
+                        let index = updatedHomeContent.industryExpertise.industryExpertiseContentList?.findIndex(x => x._id === id);
+                        index = index === undefined ? -1 : index;
+                        updatedHomeContent.industryExpertise.industryExpertiseContentList![index] = {
+                            _id: id,
+                            heading: values.heading,
+                            content: values.list,
+                        };
+
                         EditModeOff();
                         console.log(values);
-                        dispatch(
-                            updateIndustryExpertiseTab({
-                                _id: id,
-                                heading: values.heading,
-                                content: values.list,
-                            })
-                        );
+                        dispatch(updateHomeContentAsync(updatedHomeContent));
                     }
                     }
                 >

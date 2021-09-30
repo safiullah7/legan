@@ -2,12 +2,12 @@ import { Button, Container, Grid, IconButton, TextField } from '@material-ui/cor
 import React from 'react'
 import styled from 'styled-components';
 import IndustryExpertiseList from './IndustryExpertiseList';
-import { IIndustryExpertiseContentList } from '../../../models/home';
+import { IHome, IIndustryExpertiseContentList } from '../../../models/home';
 import { Edit } from '@material-ui/icons';
 import { Form, FormikProvider, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useAppDispatch } from '../../../store.hooks';
-import { updateIndustryExpertiseHead } from '../home.slice';
+import { getHomeContentSelector, updateHomeContentAsync, updateIndustryExpertiseHead } from '../home.slice';
 import { getAuthSelector } from '../../login/auth.slice';
 import { useSelector } from 'react-redux';
 
@@ -28,6 +28,7 @@ const IndustryExpertise: React.FC<IPropsIndustryExpertise> = (
   const headingPart1 = heading.shift();
   const headingPart2 = heading.join(' ');
   const [editMode, setEditMode] = React.useState<true | false>(false);
+  const { homeContent } = useSelector(getHomeContentSelector);
 
   const newSchema = Yup.object().shape({
     heading: Yup.string().required('required'),
@@ -41,10 +42,12 @@ const IndustryExpertise: React.FC<IPropsIndustryExpertise> = (
     validationSchema: newSchema,
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       try {
-        dispatch(updateIndustryExpertiseHead({
-          heading: values.heading,
-          description: values.description,
-        }))
+        const updatedHomeContent: IHome = JSON.parse(JSON.stringify(homeContent));
+        updatedHomeContent.industryExpertise.heading = values.heading;
+        updatedHomeContent.industryExpertise.mainText = values.description;
+
+        dispatch(updateHomeContentAsync(updatedHomeContent));
+
         setSubmitting(false);
         setEditMode((editMode) => !editMode);
       }

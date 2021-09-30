@@ -1,10 +1,9 @@
 import { AxiosResponse } from 'axios';
 import axios from 'axios';
-import { useHistory } from "react-router-dom"
 import { IHome } from '../models/home';
 import { ILogin, IUser } from '../models/user';
 
-axios.defaults.baseURL = 'http://localhost:1337/api';
+axios.defaults.baseURL = 'http://localhost:5000/api';
 
 axios.interceptors.request.use(
     (config) => {
@@ -55,6 +54,8 @@ const requests = {
 
 const home = {
     getContent: (): Promise<IHome> => requests.get('/home'),
+    updateContent: (updatedHomeContent: IHome):Promise<IHome> => 
+        requests.put(`/home/${updatedHomeContent._id}`, {...updatedHomeContent})
     // details: (id: string) => requests.get(`/activities/${id}`),
     // create: (activity: IProduct) => requests.post('/activities', activity),
     // update: (activity: IProduct) => requests.put(`/activities/${activity.id}`, activity),

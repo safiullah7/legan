@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { IBriefAboutUsContent, IService } from "../../models/home";
 import * as yup from 'yup';
 import { FieldArray, Form, Formik, } from "formik";
-import { updateBriefAboutUsContent } from "./home.slice";
+import { getHomeContentSelector, updateHomeContentAsync, updateBriefAboutUsContent } from "./home.slice";
 import { useAppDispatch } from "../../store.hooks";
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -16,10 +16,11 @@ import IconPicker from "../../controls/IconPicker";
 import { TransitionProps } from "@material-ui/core/transitions";
 import { useSelector } from "react-redux";
 import { getAuthSelector } from "../login/auth.slice";
+
+
 interface IProps {
   briefAboutUsContent: IBriefAboutUsContent
 }
-
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & { children?: React.ReactElement<any, any> },
@@ -42,6 +43,7 @@ const BriefAboutUsSection: React.FC<IProps> = ({ briefAboutUsContent }) => {
   const [editmode, setEditMode] = useState(false);
   const [openDialog, setOpenDialog] = React.useState<true | false>(false);
   const [deleteIndex, SetDeleteIndex] = React.useState<number>(-1);
+  const { homeContent } = useSelector(getHomeContentSelector);
 
   const handleCloseDialog = () => {
     SetDeleteIndex(-1);
@@ -124,12 +126,14 @@ const BriefAboutUsSection: React.FC<IProps> = ({ briefAboutUsContent }) => {
                 // to do
                 validationSchema={validationSchema}
                 onSubmit={async (values) => {
+                  const updatedHomeContent = Object.assign({}, homeContent);
+                  updatedHomeContent.briefAboutUsContent = values;
                   console.log(JSON.stringify(values, null, 2));
-                  dispatch(updateBriefAboutUsContent(values));
+                  dispatch(updateHomeContentAsync(updatedHomeContent));
                   setEditMode(false);
-                  setTimeout(() => {
-                    executeScroll();
-                  }, 0);
+                  // setTimeout(() => {
+                  //   executeScroll();
+                  // }, 0);
                 }}
               >
                 {({ values, setFieldValue, handleChange, touched, errors }) => (

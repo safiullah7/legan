@@ -50,7 +50,6 @@ export const createHomeContentSchema = object({
 
 export const updateHomeContentSchema = object({
     body: object({
-        _id: string().required("_id is required"),
         bannerContent: object({
             heading: string().required("Banner's heading is required"),
             mainText: string().required("Banner's mainText is required"),

@@ -30,9 +30,9 @@ const NavbarDesktop: React.FC<INavbarDesktop> = (
   const dispatch = useAppDispatch();
 
   const logout = () => {
-    //dispatch(logout);
     localStorage.removeItem("user");
     history.push('/login');
+    // dispatch(logout);
   }
   return (
     <>
