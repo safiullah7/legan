@@ -15,7 +15,7 @@ export async function createHomeContentHandler(req: Request, res: Response) {
 
 export async function updateHomeContentHandler(req: Request, res: Response) {
     const {id: _id} = req.params;
-    const newHomeContent = req.body;
-    const home = await updateHomeContent(_id, {...newHomeContent});
+    const newHomeContent = {...req.body};
+    const home = await updateHomeContent(_id, newHomeContent);
     return res.send(home);
 }

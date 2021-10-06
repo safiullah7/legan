@@ -1,4 +1,4 @@
-import { Container, Grid } from "@material-ui/core";
+import { Container, Grid, IconButton } from "@material-ui/core";
 import { MoreHoriz } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
 import React from "react";
@@ -7,15 +7,25 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import BodyHeader from '../../controls/BodyHeader';
 import { getTeamContentSelector } from "./team.slice";
+import { AddCircle } from "@material-ui/icons";
+import { getAuthSelector } from "../login/auth.slice";
+import { useHistory } from "react-router";
+
+
 const Team = () => {
+
   const { team } = useSelector(getTeamContentSelector);
+  const { isLoggedIn } = useSelector(getAuthSelector);
   const ourTeam = team;
   const [loading, setLoading] = React.useState<true | false>(true);
+  const history = useHistory();
+
   React.useEffect(() => {
     setTimeout(() => {
       setLoading(false)
     }, 1000);
   }, [])
+
   return (
     <>
       <DivOurTeam>
@@ -24,6 +34,11 @@ const Team = () => {
             heading="Our Team"
             headingColor="rgba(59, 86, 110, 1)"
           />
+          {isLoggedIn &&
+            <IconButton size="medium" color="primary" aria-label="Add New" onClick={() => history.push('/team/new')}>
+              <AddCircle />
+            </IconButton>
+          }
           <Grid className="team-body" container>
             {
               ourTeam.map(member => {

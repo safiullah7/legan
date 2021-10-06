@@ -10,7 +10,7 @@ const initialState: ITeam = {
         id: '2',
         imgURL: '/team_2.jpg',
         title: 'Legal Consultant',
-        Description: `<p>
+        description: `<p>
                                 Mubariz Aliyev is a consultant specializing in the field of information technology law. He has worked at law firms across different countries and has advised clients on a wide range of legal issues including data protection & GDPR, intellectual property, blockchain, international tech contracts, and software licensing. 
                             </p>
                             <p>
@@ -59,41 +59,41 @@ const initialState: ITeam = {
         id: '3',
         imgURL: '/team_1.jpg',
         title: 'Legal Consultant',
-        Description: `<p>
-                               Kadir Hazan is a legal consultant specializing in data protection law, corporate and tax law. He completed his Master of International and Comparative Law in French and English languages at the University of Lausanne, Switzerland, and worked as a legal consultant for a law firm in Turkey for a year. Subsequently, he worked in countries such as Mauritius, France, and Morocco as a human resources and legal affairs manager in an international tourism company for 3 years.
-                            </p>
+        description: `<p>
+                        Kadir Hazan is a legal consultant specializing in data protection law, corporate and tax law. He completed his Master of International and Comparative Law in French and English languages at the University of Lausanne, Switzerland, and worked as a legal consultant for a law firm in Turkey for a year. Subsequently, he worked in countries such as Mauritius, France, and Morocco as a human resources and legal affairs manager in an international tourism company for 3 years.
+                    </p>
+                    <p>
+                        He voluntarily writes blog posts and works as a translator in a personal data-oriented organization in Turkey called KOIOIS. He is especially passionate about IT law and currently pursuing a Ph.D. degree in tax, robotics, and AI Law.  
+                    </p>
+                    <h4>
+                        Education
+                    </h4>
+                    <ul>
+                        <li>
+                            <h5>
+                                University of Lausanne, Switzerland
+                            </h5>
                             <p>
-                                He voluntarily writes blog posts and works as a translator in a personal data-oriented organization in Turkey called KOIOIS. He is especially passionate about IT law and currently pursuing a Ph.D. degree in tax, robotics, and AI Law.  
+                                Master of International and Comparative Law
                             </p>
-                            <h4>
-                                Education
-                            </h4>
-                            <ul>
-                                <li>
-                                    <h5>
-                                        University of Lausanne, Switzerland
-                                    </h5>
-                                    <p>
-                                        Master of International and Comparative Law
-                                    </p>
-                                </li>
-                                <li>
-                                    <h5>
-                                       University of Orleans, France
-                                    </h5>
-                                    <p>
-                                        Bachelor of Laws (Exchange) 
-                                    </p>
-                                </li>
-                                <li>
-                                    <h5>
-                                       University of Erzincan, Turkey
-                                    </h5>
-                                    <p>
-                                     Bachelor of Laws (LL.B.)
-                                    </p>
-                                </li>
-                            </ul>`,
+                        </li>
+                        <li>
+                            <h5>
+                                University of Orleans, France
+                            </h5>
+                            <p>
+                                Bachelor of Laws (Exchange) 
+                            </p>
+                        </li>
+                        <li>
+                            <h5>
+                                University of Erzincan, Turkey
+                            </h5>
+                            <p>
+                                Bachelor of Laws (LL.B.)
+                            </p>
+                        </li>
+                    </ul>`,
     },
 ]
 };

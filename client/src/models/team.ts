@@ -7,7 +7,7 @@ export interface ITeamMember {
     id: string,
     imgURL: string,
     title: string,
-    Description: string,
+    description: string,
 }
 export interface ITeamId {
     memberId: string,

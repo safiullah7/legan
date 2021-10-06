@@ -134,16 +134,17 @@ const ExpertiseListItemForm: React.FC<IProps> = ({
                                     <h3 style={{ margin: '15px 0px', textAlign: 'center', }}>Select Icon</h3>
                                     <DivDialogContent>
                                         {
-                                            iconsArray.map((icon, index) => <div key={index} className={`logo-changer-div ${icon.imgUrl === values.icon && 'selected'}`}
-                                                onClick={() => {
-                                                    console.log("click");
-                                                    if (icon.imgUrl !== values.icon) {
-                                                        setFieldValue('icon', icon.imgUrl);
-                                                        handleCloseDialog();
-                                                    }
+                                            iconsArray.map((icon, index) =>
+                                                <div key={index} className={`logo-changer-div ${icon.imgUrl === values.icon && 'selected'}`}
+                                                    onClick={() => {
+                                                        console.log("click");
+                                                        if (icon.imgUrl !== values.icon) {
+                                                            setFieldValue('icon', icon.imgUrl);
+                                                            handleCloseDialog();
+                                                        }
 
-                                                }}
-                                            ><object aria-label={icon.imgUrl} className={`logo-changer-image`} data={icon.imgUrl} type="image/svg+xml" ></object></div>)
+                                                    }}
+                                                ><object aria-label={icon.imgUrl} className={`logo-changer-image`} data={icon.imgUrl} type="image/svg+xml" ></object></div>)
                                         }
                                     </DivDialogContent>
                                 </Dialog>
