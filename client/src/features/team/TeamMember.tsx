@@ -25,6 +25,7 @@ const TeamMember = () => {
         dispatch(setTeamMember({ memberId: id }));
     }, [id, dispatch]);
     const { selectedTeamMember } = useSelector(getTeamContentSelector);
+    console.log(selectedTeamMember);
     if (selectedTeamMember !== null && selectedTeamMember !== undefined)
         member = selectedTeamMember;
     return (

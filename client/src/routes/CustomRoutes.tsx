@@ -25,15 +25,17 @@ const CustomRoutes = () => {
                     </AuthLayout>
                 </Route>
                 <Route
-                    path={['', '/whitepaper', '/team', '/team/:id', '/blog', '/blog/:id', '/privacypolicy', '/faqs', '/contactus',]}
+                    path={['', '/whitepaper', '/team', '/team/:id', '/team/new', '/blog', '/blog/:id', '/privacypolicy', '/faqs', '/contactus',]}
                     exact>
                     <MainLayout>
                         {/* <PrivateRoute path={['', '/articles']} exact component={() => <Articles />} />
                         <PrivateRoute path={'/articles/:id'} exact component={() => <Article />} /> */}
                         <Route path={'/whitepaper'} exact component={() => <WhitePaper />} />
                         <Route path={'/team'} exact component={() => <Team />} />
-                        <Route path={'/team/new'} exact component={() => <AddTeamMember />} />
-                        <Route path={'/team/:memberId'} exact component={() => <TeamMember />} />
+                        <Switch>
+                            <Route path={'/team/new'} exact component={() => <AddTeamMember />} />
+                            <Route path={'/team/:id'} exact component={() => <TeamMember />} />
+                        </Switch>
                         <Route path={'/blog'} exact component={() => <Blog />} />
                         <Route path={'/blog/:id'} exact component={() => <BlogPost />} />
                         <Route path={'/privacypolicy'} exact component={() => <PrivacyPolicy />} />
