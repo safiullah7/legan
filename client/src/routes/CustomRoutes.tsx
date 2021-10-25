@@ -8,7 +8,7 @@ import Home from '../features/home/Home';
 import Login from '../features/login/Login';
 import NotFound from '../features/not-found/NotFound';
 import PrivacyPolicy from '../features/privacyPolicy/PrivacyPolicy';
-import AddTeamMember from '../features/team/AddTeamMember';
+import AddUpdateTeamMember from '../features/team/AddUpdateTeamMember';
 import Team from '../features/team/Team';
 import TeamMember from '../features/team/TeamMember';
 import WhitePaper from '../features/whitepaper/WhitePaper';
@@ -33,7 +33,8 @@ const CustomRoutes = () => {
                         <Route path={'/whitepaper'} exact component={() => <WhitePaper />} />
                         <Route path={'/team'} exact component={() => <Team />} />
                         <Switch>
-                            <Route path={'/team/new'} exact component={() => <AddTeamMember />} />
+                            <Route path={'/team/new'} exact component={() => <AddUpdateTeamMember />} />
+                            <Route path={'/team/edit'} exact component={() => <AddUpdateTeamMember />} />
                             <Route path={'/team/:id'} exact component={() => <TeamMember />} />
                         </Switch>
                         <Route path={'/blog'} exact component={() => <Blog />} />

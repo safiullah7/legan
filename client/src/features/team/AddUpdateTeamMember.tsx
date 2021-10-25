@@ -9,17 +9,27 @@ import styled from 'styled-components';
 import { Container, Grid } from '@material-ui/core';
 import BodyHeader from '../../controls/BodyHeader';
 import { AddCircle } from '@material-ui/icons';
+import { useAppDispatch } from '../../store.hooks';
+import { addTeamMemberAsync } from './team.slice';
+import { ITeamMember } from '../../models/team';
+import { stateFromHTML } from 'draft-js-import-html';
 
-const AddTeamMember = () => {
+interface IProps {
+    selectedTeamMember?: ITeamMember
+    editMode?: boolean
+}
 
-    const [editorState, setEditorState] = React.useState(EditorState.createEmpty());
-    const [uploadedImageSource, setUploadedImageSource] = useState('');
+const AddUpdateTeamMember: React.FC<IProps> = ({ selectedTeamMember, editMode }) => {
+
+    const [editorState, setEditorState] = React.useState(EditorState.createWithContent(stateFromHTML(selectedTeamMember?.description || '')));
+    const [uploadedImageSource, setUploadedImageSource] = useState(selectedTeamMember?.imageUrl || '');
+    const dispatch = useAppDispatch();
 
     const initialValues = {
         file: null,
-        name: '',
-        title: '',
-        description: ''
+        name: selectedTeamMember?.name || '',
+        title: selectedTeamMember?.title || '',
+        description: selectedTeamMember?.description || ''
     };
     const validationSchema = yup.object().shape({
         file: yup.mixed().required('required'),
@@ -34,16 +44,21 @@ const AddTeamMember = () => {
                 <Formik
                     initialValues={initialValues}
                     onSubmit={(values) => {
-                        console.log(values);
+                        if (editMode) {
+                            console.log(values);
+                            dispatch(addTeamMemberAsync(values));
+                        } else {
+                            console.log(values);
+                        }
                     }}
-                    //validationSchema={validationSchema}
+                    validationSchema={validationSchema}
                     render={({ values, touched, errors, handleChange, handleSubmit, setFieldValue }) => {
                         return (
                             <form onSubmit={handleSubmit}>
                                 <DivOurTeamMember>
                                     <Container className="container" maxWidth="xl">
                                         <BodyHeader
-                                            heading="Add new Team Member"
+                                            heading={!editMode ? "Add new Team Member" : "Edit Team Member"}
                                             headingColor="rgba(0, 102, 153, 1)"
                                             SubHeadingColor="rgba(59, 86, 110, 1)"
                                             path="/team"
@@ -57,8 +72,8 @@ const AddTeamMember = () => {
                                                         onChange={(event) => {
                                                             setFieldValue("file", event.currentTarget.files![0]);
                                                             setUploadedImageSource(URL.createObjectURL(event.currentTarget.files![0]));
-                                                        }} className="form-control" />
-
+                                                        }} className="form-control"
+                                                    />
                                                 </div>
                                                 <TextField
                                                     className="text-feild"
@@ -110,7 +125,6 @@ const AddTeamMember = () => {
                                         Save
                                     </Button>
                                 </DivOurTeamMember>
-                                {/* <button type="submit" className="btn btn-primary">submit</button> */}
                             </form>
                         );
                     }} />
@@ -268,4 +282,4 @@ border-top: 0.5px solid lightgrey;
 }
 `;
 
-export default AddTeamMember
+export default AddUpdateTeamMember

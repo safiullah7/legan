@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { addNewTeamMember, deleteTeamMember, getTeam, updateTeamMember } from "../service/team.service";
+import { upload } from "../utils/cloudinary.util";
 
 
 export async function getTeamHandler(req: Request, res: Response) {
@@ -9,11 +10,16 @@ export async function getTeamHandler(req: Request, res: Response) {
 
 export async function addTeamMemberHandler(req: Request, res: Response) {
     const body = req.body;
-    const files = req.files;
+    const file = req.files!.file as any;
 
-    console.log(files);
-    // const teamMember = await addNewTeamMember({...body});
-    // return res.send(teamMember);
+    let url = "";
+    if (file !== null) {
+        const result: any = await upload(file.data);
+        url = result!.secure_url;
+    }
+    const newTeamMember = { ...body, imageUrl: url}
+    const teamMember = await addNewTeamMember(newTeamMember);
+    return res.send(teamMember);
 }
 
 export async function updateTeamMemberHandler(req: Request, res: Response) {

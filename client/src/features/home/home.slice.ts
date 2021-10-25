@@ -9,7 +9,7 @@ export const getHomeContentAsync = createAsyncThunk('home/getHomeContent', async
     return homeContent;
 })
 
-export const updateHomeContentAsync = createAsyncThunk('home/updateHomeContentAsync', 
+export const updateHomeContentAsync = createAsyncThunk('home/updateHomeContentAsync',
     async (updatedHomeContent: IHome) => {
     const homeContent = agent.home.updateContent(updatedHomeContent);
     return homeContent;

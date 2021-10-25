@@ -2,6 +2,7 @@ import { AxiosResponse } from 'axios';
 import axios from 'axios';
 import { IHome } from '../models/home';
 import { ILogin, IUser } from '../models/user';
+import { AddTeamMember, ITeamMember } from '../models/team';
 
 axios.defaults.baseURL = 'http://localhost:1337/api';
 
@@ -43,9 +44,14 @@ const requests = {
     post: (url: string, body: {}) => axios.post(url, body).then(responseBody),
     put:  (url: string, body: {}) => axios.put(url, body).then(responseBody),
     del:  (url: string) => axios.delete(url).then(responseBody),
-    postForm: (url: string, file: Blob) => {
+    postForm: (url: string, formObject: any = null) => {
         let formData = new FormData();
-        formData.append('File', file); // key 'File' must match with api method param
+        // formData.append('file', file); // key 'File' must match with api method param
+        if (formObject !== null) {
+            for (const key of Object.keys(formObject)) {
+                formData.append(key, formObject[key]);
+            }
+        }
         return axios.post(url, formData, {
             headers: {'Content-type': 'multipart/form-data'}
         }).then(responseBody)
@@ -68,7 +74,13 @@ const user = {
     login: (login: ILogin): Promise<IUser> => requests.post('/login', { email: login.email, password: login.password })
 }
 
+const team = {
+    getTeam: (): Promise<ITeamMember[]> => requests.get('/team'),
+    addTeamMember: (obj: AddTeamMember): Promise<ITeamMember[]> => requests.postForm('/team', obj)
+}
+
 export default {
     home,
-    user
+    user,
+    team
 };

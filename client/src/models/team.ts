@@ -1,14 +1,23 @@
 export interface ITeam {
-    selectedTeamMember: ITeamMember | null,
     team: ITeamMember[],
 }
 export interface ITeamMember {
+    _id: string,
     name: string,
-    id: string,
-    imgURL: string,
+    imageUrl: string,
     title: string,
     description: string,
+    createdAt: Date,
+    updatedAt: Date,
+    __v: number
 }
 export interface ITeamId {
     memberId: string,
+}
+
+export interface AddTeamMember {
+    file: Blob | null,
+    name: string,
+    title: string,
+    description: string
 }

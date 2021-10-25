@@ -6,25 +6,24 @@ import { useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import BodyHeader from '../../controls/BodyHeader';
-import { getTeamContentSelector } from "./team.slice";
+import { getTeamAsync, getTeamContentSelector } from "./team.slice";
 import { AddCircle } from "@material-ui/icons";
 import { getAuthSelector } from "../login/auth.slice";
 import { useHistory } from "react-router";
+import { useAppDispatch } from "../../store.hooks";
 
 
 const Team = () => {
 
-  const { team } = useSelector(getTeamContentSelector);
+  const { team, loading } = useSelector(getTeamContentSelector);
   const { isLoggedIn } = useSelector(getAuthSelector);
   const ourTeam = team;
-  const [loading, setLoading] = React.useState<true | false>(true);
   const history = useHistory();
+  const dispatch = useAppDispatch();
 
   React.useEffect(() => {
-    setTimeout(() => {
-      setLoading(false)
-    }, 1000);
-  }, [])
+    dispatch(getTeamAsync());
+  }, [dispatch])
 
   return (
     <>
@@ -43,13 +42,13 @@ const Team = () => {
             {
               ourTeam.map(member => {
                 return (
-                  !loading ? <Grid className="team-member-grid" key={member.id} item md={4} sm={6} xs={12}>
-                    <Link to={`/team/${member.id}`}>
-                      <img src={member.imgURL} alt={member.name} />
+                  !loading ? <Grid className="team-member-grid" key={member._id} item md={4} sm={6} xs={12}>
+                    <Link to={`/team/${member._id}`}>
+                      <img src={member.imageUrl || '/dummy-user-image.png'} alt={member.name} />
                     </Link>
                     <h3>{member.name}</h3>
                     <p>{member.title}</p>
-                    <Link style={{ textDecoration: 'none' }} to={`/team/${member.id}`}>
+                    <Link style={{ textDecoration: 'none' }} to={`/team/${member._id}`}>
                       <MemberBtn>
                         <MoreHoriz fontSize="small" />
                         <span>Read more</span>

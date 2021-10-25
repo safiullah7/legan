@@ -1,100 +1,73 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { Container, Grid } from '@material-ui/core';
+import { Container, Grid, IconButton } from '@material-ui/core';
 import parse from 'html-react-parser';
 import BodyHeader from '../../controls/BodyHeader';
 import { useSelector } from 'react-redux';
-import { getTeamContentSelector, setTeamMember } from './team.slice';
+import { getTeamContentSelector, setSelectedTeamMemberAsync } from './team.slice';
 import { useAppDispatch } from '../../store.hooks';
 import { Skeleton } from '@material-ui/lab';
 import NotFound from '../not-found/NotFound';
+import { getAuthSelector } from '../login/auth.slice';
+import EditIcon from '@material-ui/icons/Edit';
+import { useHistory } from "react-router-dom"
+import TeamMemberLoading from './Skeletons/TeamMemberLoading';
+import AddUpdateTeamMember from './AddUpdateTeamMember';
+
 type IId = {
-    memberId: string,
+    id: string,
 }
-let member: any;
+
 const TeamMember = () => {
-    const [loading, setLoading] = React.useState<false | true>(true);
-    const { memberId } = useParams<IId>();
-    const id = memberId;
+
+    const { id } = useParams<IId>();
     const dispatch = useAppDispatch();
+    const { selectedTeamMember, loading } = useSelector(getTeamContentSelector);
+    const { isLoggedIn } = useSelector(getAuthSelector);
+    const history = useHistory();
+    const [editMode, setEditMode] = useState(false);
+
     React.useEffect(() => {
-        setTimeout(() => {
-            setLoading(false);
-        }, 1000)
-        dispatch(setTeamMember({ memberId: id }));
+        dispatch(setSelectedTeamMemberAsync(id));
     }, [id, dispatch]);
-    const { selectedTeamMember } = useSelector(getTeamContentSelector);
-    console.log(selectedTeamMember);
-    if (selectedTeamMember !== null && selectedTeamMember !== undefined)
-        member = selectedTeamMember;
+
     return (
         <>
             {
                 !loading ?
-                    (member !== null && member !== undefined) ?
-                        <DivOurTeamMember>
-                            <Container className="container" maxWidth="xl">
-                                <BodyHeader
-                                    heading="Our Team"
-                                    headingColor="rgba(0, 102, 153, 1)"
-                                    subHeading={member.name}
-                                    SubHeadingColor="rgba(59, 86, 110, 1)"
-                                    path="/team"
-                                />
-                                <Grid container className="member">
-                                    <Grid className="member-info" item md={4} sm={4} xs={12}>
-                                        <img src={member.imgURL} alt={member.name} />
-                                        <h3>{member.name}</h3>
-                                        <p>{member.title}</p>
+                    (selectedTeamMember !== null && selectedTeamMember !== undefined) ?
+                        (!editMode) ?
+                            <DivOurTeamMember>
+                                <Container className="container" maxWidth="xl">
+                                    <BodyHeader
+                                        heading="Our Team"
+                                        headingColor="rgba(0, 102, 153, 1)"
+                                        subHeading={selectedTeamMember.name}
+                                        SubHeadingColor="rgba(59, 86, 110, 1)"
+                                        path="/team"
+                                    />
+                                    {isLoggedIn && (
+                                        <IconButton aria-label="edit" color="primary" onClick={() => setEditMode(true)}>
+                                            <EditIcon fontSize="inherit" />
+                                        </IconButton>
+                                    )}
+                                    <Grid container className="member">
+                                        <Grid className="member-info" item md={4} sm={4} xs={12}>
+                                            <img src={selectedTeamMember.imageUrl} alt={selectedTeamMember.name} />
+                                            <h3>{selectedTeamMember.name}</h3>
+                                            <p>{selectedTeamMember.title}</p>
+                                        </Grid>
+                                        <Grid className="member-description" item md={8} sm={8} xs={12}>
+                                            {parse(selectedTeamMember.description)}
+                                        </Grid>
                                     </Grid>
-                                    <Grid className="member-description" item md={8} sm={8} xs={12}>
-                                        {parse(member.Description)}
-                                    </Grid>
-                                </Grid>
-                            </Container>
-                        </DivOurTeamMember> : <NotFound />
+                                </Container>
+                            </DivOurTeamMember> : <AddUpdateTeamMember selectedTeamMember={selectedTeamMember} editMode={true} />
+                        : <NotFound />
                     :
                     <DivOurTeamMember>
-                        <Container className="container" maxWidth="xl">
-                            <BodyHeader
-                                heading="Our Team"
-                                headingColor="rgba(0, 102, 153, 1)"
-                                subHeading={'loading'}
-                                SubHeadingColor="rgba(59, 86, 110, 1)"
-                                path="/team"
-                                loading={!loading}
-                            />
-                            <Grid container className="member">
-                                <Grid className="member-info" item md={4} sm={4} xs={12}>
-                                    {
-                                        <Skeleton variant="circle" width="50%" height="222px" style={{ margin: '0px auto' }} />
-                                    }
-                                    <h3>{<Skeleton variant="text" width="60%" height="30px" style={{ margin: '0px auto' }} />}</h3>
-                                    <p>{<Skeleton variant="text" width="60%" height="30px" style={{ margin: '0px auto' }} />}</p>
-                                </Grid>
-                                <Grid className="member-description" item md={8} sm={8} xs={12}>
-                                    {
-                                        <div className="">
-                                            <Skeleton variant="text" width="100%" height="18px" style={{ margin: '3px auto' }} />
-                                            <Skeleton variant="text" width="100%" height="18px" style={{ margin: '3px auto' }} />
-                                            <Skeleton variant="text" width="100%" height="18px" style={{ margin: '3px auto' }} />
-                                            <Skeleton variant="text" width="60%" height="15px" />
-                                            <br />
-                                            <Skeleton variant="text" width="100%" height="18px" style={{ margin: '3px auto' }} />
-                                            <Skeleton variant="text" width="100%" height="18px" style={{ margin: '3px auto' }} />
-                                            <Skeleton variant="text" width="60%" height="15px" />
-                                            <br />
-                                            <Skeleton variant="text" width="30%" height="30px" />
-                                            <br />
-                                            <Skeleton variant="text" width="100%" height="18px" style={{ margin: '3px auto' }} />
-                                            <Skeleton variant="text" width="100%" height="18px" style={{ margin: '3px auto' }} />
-                                            <Skeleton variant="text" width="60%" height="15px" />
-                                        </div>
-                                    }
-                                </Grid>
-                            </Grid>
-                        </Container>
+                        <TeamMemberLoading loading={loading} />
                     </DivOurTeamMember>
             }
         </>
