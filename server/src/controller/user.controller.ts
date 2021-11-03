@@ -13,19 +13,19 @@ export async function createUserHandler(req: Request, res: Response) {
     try {
         const user = await createUser(req.body);
         return res.send(omit(user.toJSON(), "password"));
-    } catch(error) {
+    } catch(error: any) {
         log.info(error);
         return res.status(409).send(error.message);
     }
 }
 
 export async function loginHandler(req: Request, res: Response) {
-    const user = await validatePassword(req.body);
+    const user: any = await validatePassword(req.body);
 
     if (!user)
         return res.status(401).send("Invalid username or password");
     
-    const session = await createSession(user._id, req.get("user-agent") || "");
+    const session: any = await createSession(user._id!, req.get("user-agent") || "");
 
     const accessToken = createAccessToken({user, session});
 
