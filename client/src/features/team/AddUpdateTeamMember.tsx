@@ -44,7 +44,7 @@ const AddUpdateTeamMember: React.FC<IProps> = ({ selectedTeamMember, editMode })
                 <Formik
                     initialValues={initialValues}
                     onSubmit={(values) => {
-                        if (editMode) {
+                        if (!editMode) {
                             console.log(values);
                             dispatch(addTeamMemberAsync(values));
                         } else {
