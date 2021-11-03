@@ -7,7 +7,8 @@ export const getTeamAsync = createAsyncThunk('team/getTeamAsync', async () => {
     const team = agent.team.getTeam();
     return team;
 })
-export const addTeamMemberAsync = createAsyncThunk('team/addTeamMemberAsync', async (newTeamMember: AddTeamMember) => {
+export const addTeamMemberAsync = createAsyncThunk('team/addTeamMemberAsync', 
+    async (newTeamMember: AddTeamMember) => {
     const updatedTeam = agent.team.addTeamMember(newTeamMember);
     return updatedTeam;
 })
