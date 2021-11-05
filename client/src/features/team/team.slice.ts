@@ -141,7 +141,7 @@ const teamSlice = createSlice({
     initialState,
     reducers: {
         setTeamMember: (state, action: PayloadAction<ITeamId>) => {
-            debugger;
+            // debugger;
             const checkMember = state.team.filter(member => member._id === action.payload.memberId)[0];
             if (checkMember !== undefined && checkMember !== null)
                 state.selectedTeamMember = checkMember;
@@ -156,7 +156,7 @@ const teamSlice = createSlice({
             loading: true
         }))
         builder.addCase(getTeamAsync.fulfilled, (state, action) => {
-            debugger;
+            // debugger;
             return {
                 ...state,
                 errorMessage: '',
@@ -172,12 +172,14 @@ const teamSlice = createSlice({
             ...state,
             loading: true
         }))
-        builder.addCase(addTeamMemberAsync.fulfilled, (state, action) => ({
-            ...state,
-            errorMessage: '',
-            loading: false,
-            team: action.payload
-        }))
+        builder.addCase(addTeamMemberAsync.fulfilled, (state, action) => {
+            return {
+                ...state,
+                errorMessage: '',
+                loading: false,
+                team: action.payload
+            }
+        })
         builder.addCase(addTeamMemberAsync.rejected, (state, action) => ({
             ...state,
             errorMessage: action.error.message

@@ -54,7 +54,9 @@ const requests = {
         }
         return axios.post(url, formData, {
             headers: {'Content-type': 'multipart/form-data'}
-        }).then(responseBody)
+        }).then(async () => {
+            return await team.getTeam()
+        })
     }
 };
 

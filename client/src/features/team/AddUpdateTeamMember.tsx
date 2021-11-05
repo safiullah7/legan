@@ -14,12 +14,15 @@ import { addTeamMemberAsync } from './team.slice';
 import { ITeamMember } from '../../models/team';
 import { stateFromHTML } from 'draft-js-import-html';
 
+import { useHistory } from "react-router-dom";
+
 interface IProps {
     selectedTeamMember?: ITeamMember
     editMode?: boolean
 }
 
 const AddUpdateTeamMember: React.FC<IProps> = ({ selectedTeamMember, editMode }) => {
+    const history = useHistory();
 
     const [editorState, setEditorState] = React.useState(EditorState.createWithContent(stateFromHTML(selectedTeamMember?.description || '')));
     const [uploadedImageSource, setUploadedImageSource] = useState(selectedTeamMember?.imageUrl || '');
@@ -46,8 +49,8 @@ const AddUpdateTeamMember: React.FC<IProps> = ({ selectedTeamMember, editMode })
                     onSubmit={(values) => {
                         console.log(values);
                         if (!editMode) {
-                            console.log(values);
                             dispatch(addTeamMemberAsync(values));
+                            history.push("/team")
                         } else {
                             console.log(values);
                         }
