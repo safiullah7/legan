@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import ScrollToTop from '../controls/ScrollToTop';
 import Blog from '../features/blog/Blog';
+import AddBlog from '../features/blog/AddBlog';
 import BlogPost from '../features/blog/BlogPost';
 import ContactUs from '../features/contact-us/ContactUs';
 import FAQs from '../features/FAQs/FAQs';
@@ -25,7 +26,7 @@ const CustomRoutes = () => {
                     </AuthLayout>
                 </Route>
                 <Route
-                    path={['', '/whitepaper', '/team', '/team/:id', '/team/new', '/blog', '/blog/:id', '/privacypolicy', '/faqs', '/contactus',]}
+                    path={['', '/whitepaper', '/team', '/team/:id', '/team/new', '/blog', '/blog/new', '/blog/:id', '/privacypolicy', '/faqs', '/contactus',]}
                     exact>
                     <MainLayout>
                         {/* <PrivateRoute path={['', '/articles']} exact component={() => <Articles />} />
@@ -38,6 +39,7 @@ const CustomRoutes = () => {
                             <Route path={'/team/:id'} exact component={() => <TeamMember />} />
                         </Switch>
                         <Route path={'/blog'} exact component={() => <Blog />} />
+                        <Route path={'/blog/new'} exact component={() => <AddBlog />} />
                         <Route path={'/blog/:id'} exact component={() => <BlogPost />} />
                         <Route path={'/privacypolicy'} exact component={() => <PrivacyPolicy />} />
                         <Route path={'/faqs'} exact component={() => <FAQs />} />

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { IHome } from '../models/home';
 import { ILogin, IUser } from '../models/user';
 import { AddTeamMember, ITeamMember } from '../models/team';
+import { IBlog, IAddBlog } from '../models/blog';
 
 axios.defaults.baseURL = 'http://localhost:1337/api';
 
@@ -57,6 +58,21 @@ const requests = {
         }).then(async () => {
             return await team.getTeam()
         })
+    },
+    postBlogForm: (url: string, formObject: any = null) => {
+        let formData = new FormData();
+        // formData.append('file', file); // key 'File' must match with api method param
+        if (formObject !== null) {
+            for (const key of Object.keys(formObject)) {
+                formData.append(key, formObject[key]);
+            }
+        }
+        return axios.post(url, formData, {
+            headers: {'Content-type': 'multipart/form-data'}
+        }).then(async (responseBody) => {
+            console.log(responseBody);
+            return await blog.getBlogs()
+        })
     }
 };
 
@@ -81,8 +97,17 @@ const team = {
     addTeamMember: (obj: AddTeamMember): Promise<ITeamMember[]> => requests.postForm('/team', obj)
 }
 
+const blog = {
+    getBlogs: (): Promise<IBlog[]> => requests.get('/blog'),
+    getBlog: (_id: string): Promise<IBlog> => requests.get(`/blog/${_id}`),
+    saveBlog: (blog: IAddBlog): Promise<IBlog[]> => requests.postBlogForm('/blog', blog),
+    updateBlog: (blog: IBlog): Promise<IBlog> => requests.put(`/blog/${blog._id}`, blog),
+    deleteBlog: (_id: string): Promise<IBlog> => requests.del(`/blog/${_id}`)
+}
+
 export default {
     home,
     user,
-    team
+    team,
+    blog
 };

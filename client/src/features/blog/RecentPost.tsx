@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { IBlog, ICategory, blog, } from '../../models/blog';
 interface IPropsRecentBlog {
-    recentBlog: IBlog[],
+    allBlogs: IBlog[],
     categories: ICategory[],
     page: number,
     noOfPages: number
@@ -14,21 +14,25 @@ interface IPropsRecentBlog {
     setTotalBlogs: React.Dispatch<React.SetStateAction<IBlog[]>>,
 }
 const RecentPost: React.FC<IPropsRecentBlog> = (
-    { recentBlog, categories, page, setPage, noOfPages, setTotalBlogs }
+    { allBlogs, categories, page, setPage, noOfPages, setTotalBlogs }
 ) => {
     const [selectedTab, setSelectedTab] = React.useState<number>(0);
+    const [blogs, setFilteredBlogs] = React.useState(allBlogs)
     const scrollRef = React.useRef(null);
-    const handleTabClick = (id: number, value: string) => {
-        if (selectedTab !== id) {
-            setSelectedTab(id);
+    const handleTabClick = (_id: number, value: string) => {
+        console.log("ID: ", _id);
+        console.log("VALUE: ", value);
+        if (selectedTab !== _id) {
+            setSelectedTab(_id);
             setBlogs(value);
         }
     }
     const setBlogs = (value: string) => {
+        console.log(value);
         if (value === '')
-            setTotalBlogs(blog.recentBlogs);
+            setFilteredBlogs(allBlogs);
         else
-            setTotalBlogs(blog.recentBlogs.filter(item => item.type === value));
+            setFilteredBlogs(allBlogs.filter(item => item.type === value));
         setPage(1);
     }
     const handlePageChange = (pageNo: number) => {
@@ -55,7 +59,7 @@ const RecentPost: React.FC<IPropsRecentBlog> = (
                     >
                         {
                             categories.map((item) => {
-                                return <Tab className={selectedTab === item.id ? 'tab selected-tab' : 'tab'} key={item.id} value={item.id} onClick={() => handleTabClick(item.id, item.value)} label={item.name} />
+                                return <Tab className={selectedTab === item._id ? 'tab selected-tab' : 'tab'} key={item._id} value={item._id} onClick={() => handleTabClick(item._id, item.value)} label={item.name} />
                             })
                         }
                     </Tabs>
@@ -63,11 +67,11 @@ const RecentPost: React.FC<IPropsRecentBlog> = (
                 <Grid container>
                     <Grid className="blogs-container" container md={9} sm={7} xs={12}>
                         {
-                            recentBlog.length > 0 ?
-                                recentBlog.map(blog => {
+                            blogs.length > 0 ?
+                                blogs.map(blog => {
                                     return (
-                                        <Grid className="blog-container" key={blog.id} item md={4} sm={12} xs={12}>
-                                            <Grid item md={12} sm={12} xs={12} className="blog-image" style={{ backgroundImage: `url(${blog.image})` }} >
+                                        <Grid className="blog-container" key={blog._id} item md={4} sm={12} xs={12}>
+                                            <Grid item md={12} sm={12} xs={12} className="blog-image" style={{ backgroundImage: `url(${blog.imageUrl})` }} >
                                             </Grid>
                                             <Grid className="blog-content-container" item md={12} sm={12} xs={12}>
                                                 <p className="blog-type">
@@ -82,12 +86,12 @@ const RecentPost: React.FC<IPropsRecentBlog> = (
                                                     </span>
                                                 </p>
                                                 <h4>
-                                                    {blog.heading}
+                                                    {blog.title}
                                                 </h4>
                                                 <p className="blog-content">
                                                     {blog.content}
                                                 </p>
-                                                <Link style={{ textDecoration: 'none' }} to={`/blog/${blog.id}`}>
+                                                <Link style={{ textDecoration: 'none' }} to={`/blog/${blog._id}`}>
                                                     <Button className="blog-btn">
                                                         READ MORE
                                                     </Button>
@@ -105,9 +109,9 @@ const RecentPost: React.FC<IPropsRecentBlog> = (
                             <h2>CATEGORIES</h2>
                             {
                                 categories.map(item => {
-                                    return <p className={selectedTab === item.id ? 'active-tab' : ''} onClick={() => handleTabClick(item.id, item.value)} key={item.id}>
+                                    return <p className={selectedTab === item._id ? 'active-tab' : ''} onClick={() => handleTabClick(item._id, item.value)} key={item._id}>
                                         {
-                                            selectedTab === item.id && <FiberManualRecord className="active-icon" />
+                                            selectedTab === item._id && <FiberManualRecord className="active-icon" />
                                         }
                                         {item.name}
                                     </p>

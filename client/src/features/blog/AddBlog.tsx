@@ -1,4 +1,4 @@
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField, Select, MenuItem, InputLabel, FormControl } from '@material-ui/core';
 import { Editor } from 'react-draft-wysiwyg';
 import { Formik } from 'formik';
 import React, { useState } from 'react'
@@ -10,35 +10,45 @@ import { Container, Grid } from '@material-ui/core';
 import BodyHeader from '../../controls/BodyHeader';
 import { AddCircle } from '@material-ui/icons';
 import { useAppDispatch } from '../../store.hooks';
-import { addTeamMemberAsync } from './team.slice';
-import { ITeamMember } from '../../models/team';
+import { addBlogAsync } from './blog.slice';
+import { IBlog } from '../../models/blog';
 import { stateFromHTML } from 'draft-js-import-html';
-
+import { getDate } from "../../models/common";
+import { categories } from "../../models/blog"
 import { useHistory } from "react-router-dom";
 
 interface IProps {
-    selectedTeamMember?: ITeamMember
+    selectedBlog?: IBlog
     editMode?: boolean
 }
 
-const AddUpdateTeamMember: React.FC<IProps> = ({ selectedTeamMember, editMode }) => {
+const AddUpdateBlog: React.FC<IProps> = ({ selectedBlog, editMode }) => {
     const history = useHistory();
 
-    const [editorState, setEditorState] = React.useState(EditorState.createWithContent(stateFromHTML(selectedTeamMember?.description || '')));
-    const [uploadedImageSource, setUploadedImageSource] = useState(selectedTeamMember?.imageUrl || '');
+    const [editorState, setEditorState] = React.useState(EditorState.createWithContent(stateFromHTML(selectedBlog?.description || '')));
+    const [uploadedImageSource, setUploadedImageSource] = useState(selectedBlog?.imageUrl || '');
     const dispatch = useAppDispatch();
 
     const initialValues = {
+        // id: selectedBlog?.id || '',
+        // imageUrl: selectedBlog?.imageUrl || '',
         file: null,
-        name: selectedTeamMember?.name || '',
-        title: selectedTeamMember?.title || '',
-        description: selectedTeamMember?.description || ''
+        writer: selectedBlog?.writer || '',
+        title: selectedBlog?.title || '',
+        description: selectedBlog?.description || '',
+        content: selectedBlog?.content || '',
+        type: selectedBlog?.type || '',
+        date: selectedBlog?.date || getDate(),
+        views: selectedBlog?.views || 0,
+        likes: selectedBlog?.likes || 0
     };
     const validationSchema = yup.object().shape({
         file: yup.mixed().required('required'),
-        name: yup.string().required('required'),
+        writer: yup.string().required('required'),
         title: yup.string().required('required').max(40, 'Max characters of subheading is  40'),
-        description: yup.string().required('required')
+        description: yup.string().required('required'),
+        content: yup.string().required('required'),
+        type: yup.string().required('required')
     })
 
     return (
@@ -49,8 +59,8 @@ const AddUpdateTeamMember: React.FC<IProps> = ({ selectedTeamMember, editMode })
                     onSubmit={(values) => {
                         console.log(values);
                         if (!editMode) {
-                            dispatch(addTeamMemberAsync(values));
-                            history.push("/team")
+                            dispatch(addBlogAsync(values));
+                            history.push("/blog")
                         } else {
                             console.log(values);
                         }
@@ -62,21 +72,21 @@ const AddUpdateTeamMember: React.FC<IProps> = ({ selectedTeamMember, editMode })
                                 <DivOurTeamMember>
                                     <Container className="container" maxWidth="xl">
                                         <BodyHeader
-                                            heading={!editMode ? "Add new Team Member" : "Edit Team Member"}
+                                            heading={!editMode ? "Add new Blog" : "Edit Blog"}
                                             headingColor="rgba(0, 102, 153, 1)"
                                             SubHeadingColor="rgba(59, 86, 110, 1)"
                                             path="/team"
                                         />
                                         <Grid container className="member">
                                             <Grid className="member-info" item md={4} sm={4} xs={12}>
-                                                <img src={uploadedImageSource || '/dummy-user-image.png'} alt='new member' />
+                                                <img src={uploadedImageSource || '/dummy-user-image.png'} alt='new blog' />
                                                 <div className="form-group">
                                                     <input id="file" name="file" type="file"
                                                         accept=".png,.PNG,.jpg,.JPG,.jpeg,JPEG"
                                                         onChange={(event) => {
                                                             console.log(event);
                                                             setFieldValue("file", event.target.files![0]);
-                                                            setUploadedImageSource(URL.createObjectURL(event.currentTarget.files![0]));
+                                                            setUploadedImageSource(URL.createObjectURL(event.target.files![0]));
                                                         }} className="form-control"
                                                     />
                                                 </div>
@@ -84,12 +94,12 @@ const AddUpdateTeamMember: React.FC<IProps> = ({ selectedTeamMember, editMode })
                                                     className="text-feild"
                                                     variant='outlined'
                                                     fullWidth
-                                                    id="name"
-                                                    name="name"
-                                                    label="Name"
-                                                    value={values.name}
+                                                    id="writer"
+                                                    name="writer"
+                                                    label="Writer"
+                                                    value={values.writer}
                                                     onChange={handleChange}
-                                                    error={touched.name && Boolean(errors.name)}
+                                                    error={touched.writer && Boolean(errors.writer)}
                                                 />
                                                 <br />
                                                 <br />
@@ -104,6 +114,40 @@ const AddUpdateTeamMember: React.FC<IProps> = ({ selectedTeamMember, editMode })
                                                     onChange={handleChange}
                                                     error={touched.title && Boolean(errors.title)}
                                                 />
+                                                <br />
+                                                <br />
+                                                <TextField
+                                                    className="text-feild"
+                                                    variant='outlined'
+                                                    fullWidth
+                                                    id="content"
+                                                    name="content"
+                                                    label="Content"
+                                                    value={values.content}
+                                                    onChange={handleChange}
+                                                    error={touched.content && Boolean(errors.content)}
+                                                />
+                                                <br />
+                                                <br />
+                                                <Select
+                                                style={{
+                                                    width: '100%',
+                                                    margin: 15,
+                                                    textAlign: 'left'
+                                                }}
+                                                    variant="outlined"
+                                                    id="type"
+                                                    labelId="demo-simple-select-helper-label"
+                                                    name="type"
+                                                    value={values.type}
+                                                    label="Category"
+                                                    onChange={handleChange}
+                                                    error={touched.type && Boolean(errors.type)}
+                                                    >
+                                                    {categories.map((category) => {
+                                                        return <MenuItem value={category.value}>{category.name}</MenuItem>
+                                                    })}
+                                                </Select>
                                                 <br />
                                                 <br />
                                             </Grid>
@@ -261,7 +305,7 @@ border-top: 0.5px solid lightgrey;
     margin: 5px;
     padding: 10px;
     border-top: 0.5px solid lightgrey;
-    height: 275px;
+    height: 480px;
 }
 .sub-heading-error{
     height: 12px;
@@ -287,4 +331,4 @@ border-top: 0.5px solid lightgrey;
 }
 `;
 
-export default AddUpdateTeamMember
+export default AddUpdateBlog

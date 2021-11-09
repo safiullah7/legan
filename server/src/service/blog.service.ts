@@ -6,8 +6,13 @@ export async function getBlog() {
     return Blog.find().lean();
 }
 
+export async function getBlogById(_id: string) {
+    return Blog.findById(_id);
+}
+
 export async function addNewBlog(input: DocumentDefinition<IBlog>) {
-    return Blog.create(input);
+    Blog.create(input);
+    return Blog.find().lean()
 }
 
 export async function updateBlog(_id: string, input: DocumentDefinition<IBlog>) {

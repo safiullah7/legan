@@ -4,38 +4,44 @@ import React from 'react'
 import { useParams } from 'react-router-dom';
 import parse from 'html-react-parser';
 import styled from 'styled-components';
-import { getBlogPost, IBlog, IStyled } from '../../models/blog';
+import { IStyled } from '../../models/blog';
 import NotFound from '../not-found/NotFound';
 import PageScrollProgress from '../../controls/PageScrollProgress';
 import { Skeleton } from '@material-ui/lab';
+import { getBlogByIdAsync, getBlogContentSelector } from "./blog.slice";
+import { useAppDispatch } from "../../store.hooks";
+import { useSelector } from "react-redux";
+
 interface IBlogId {
     id: string,
 }
 const BlogPost = () => {
-    const blogId: IBlogId = useParams();
-    const blogPost: IBlog = getBlogPost(+blogId.id);
+    const { selectedBlog, loading } = useSelector(getBlogContentSelector);
+    const blogId: {id: string} = useParams();
+    console.log(blogId);
+    // const selectedBlog: IBlog = React.useState(selectedBlog)
     const [likedPost, setLikedPost] = React.useState<true | false>(false);
-    const [loading, setLoading] = React.useState<true | false>(true);
+    const dispatch = useAppDispatch();
+
     React.useEffect(() => {
-        setTimeout(() => {
-            setLoading(false);
-        }, 1000)
-    })
-    const handleLikes = () => {
+        dispatch(getBlogByIdAsync(blogId.id));
+      }, [dispatch]);
+    
+      const handleLikes = () => {
         setLikedPost((likedPost) => !likedPost);
     }
     return (
         <>
             {!loading ?
-                blogPost !== undefined && blogPost !== null ?
+                selectedBlog !== undefined && selectedBlog !== null ?
                     <DivBlogPost>
                         <Container className="container" maxWidth="xl">
                             <PageScrollProgress />
-                            <DivBlogPostContainer image={blogPost.image}>
+                            <DivBlogPostContainer imageUrl={selectedBlog.imageUrl}>
                                 <div className="view">
                                     <VisibilityOutlined className="view-icon" />
                                     <p>
-                                        {blogPost.views}
+                                        {selectedBlog.views}
                                     </p>
                                 </div>
                                 <div className="like">
@@ -44,31 +50,31 @@ const BlogPost = () => {
                                             <FavoriteBorderOutlined onClick={() => handleLikes()} color="primary" className="like-icon" />
                                     }
                                     <p>
-                                        {blogPost.likes}
+                                        {selectedBlog.likes}
                                     </p>
                                 </div>
                                 <Grid container>
                                     <Grid item md={9} sm={11} xs={12} className="blog-post-grid">
                                         <span className="blog-type">
-                                            {blogPost.type}
+                                            {selectedBlog.type}
                                         </span>
                                         <br />
                                         <div className="blog-name-date">
                                             <span className="date">
                                                 <img src="/calendar-icon.png" alt="calendasr" />
-                                                {blogPost.date}
+                                                {selectedBlog.date}
                                             </span>
                                             <span className="name">
                                                 <img src="/user-icon.png" alt="user" />
-                                                {blogPost.writer}
+                                                {selectedBlog.writer}
                                             </span>
                                         </div>
                                         <h3 className="blog-heading">
-                                            {blogPost.heading}
+                                            {selectedBlog.title}
                                         </h3>
-                                        <img className="blog-image" src={`/${blogPost.image}`} alt="post" />
+                                        <img className="blog-image" src={`${selectedBlog.imageUrl}`} alt="post" />
                                         <div className="blog-content">
-                                            {parse(blogPost.description)}
+                                            {parse(selectedBlog.description)}
                                         </div>
                                     </Grid>
                                 </Grid>

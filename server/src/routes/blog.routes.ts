@@ -1,8 +1,10 @@
 import { Express } from 'express'
-import { addBlogHandler, deleteBlogHandler, getBlogHandler, updateBlogHandler } from '../controller/blog.controller';
+import { addBlogHandler, getBlogByIdHandler, deleteBlogHandler, getBlogHandler, updateBlogHandler } from '../controller/blog.controller';
 
 export default function (app: Express) {
     app.get('/api/blog', getBlogHandler);
+
+    app.get('/api/blog/:id', getBlogByIdHandler);
 
     app.post('/api/blog', addBlogHandler); // add requiresUser
 

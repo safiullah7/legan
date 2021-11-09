@@ -1,28 +1,39 @@
-import { Button, Container, Grid } from "@material-ui/core";
+import { Button, Container, Grid, IconButton } from "@material-ui/core";
 import React from "react";
 import styled from "styled-components";
 import RecentPost from "./RecentPost";
 import { blog, categories, IStyled } from '../../models/blog';
 import { Link } from "react-router-dom";
 import BlogLoader from "./BlogLoader";
+import { useSelector } from "react-redux";
+import { getAuthSelector } from "../login/auth.slice";
+import { AddCircle } from "@material-ui/icons";
+import { useHistory } from "react-router";
+import { getBlogAsync, getBlogContentSelector } from "./blog.slice";
+import { useAppDispatch } from "../../store.hooks";
+
 const noOfPost = 4;
+
 const Blog = () => {
-  const [loading, setLoading] = React.useState<true | false>(true);
-  const [totalBlogs, setTotalBlogs] = React.useState(blog.recentBlogs);
+  const { blog, loading } = useSelector(getBlogContentSelector);
+  console.log(blog);
+  const [totalBlogs, setTotalBlogs] = React.useState(blog);
+  console.log(totalBlogs);
   const noOfPages = Math.ceil(totalBlogs.length / noOfPost);
   const [page, setPage] = React.useState<number>(1);
-  const defautBlogPost = totalBlogs.filter(item => (item.id > 0 * noOfPost && item.id <= noOfPost));
+  const defautBlogPost = totalBlogs
+  console.log(defautBlogPost);
   const [blogPost, setBlogPost] = React.useState(defautBlogPost);
+  const { isLoggedIn } = useSelector(getAuthSelector);
+
+  const history = useHistory();
+  const dispatch = useAppDispatch();
 
   React.useEffect(() => {
-    const selectedBlogs = totalBlogs.filter((item, index) => ((index >= (page - 1) * noOfPost && index < page * noOfPost) && index < totalBlogs.length));
-    setBlogPost(selectedBlogs);
-  }, [page, totalBlogs]);
-  React.useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000)
-  }, [])
+    dispatch(getBlogAsync());
+    setTotalBlogs(blog)
+  }, [dispatch]);
+  
   return (
     <>
       {
@@ -35,40 +46,47 @@ const Blog = () => {
                     BLOG
                   </h1>
                 </div>
-                <DivMainBlog image={blog.heighlight.image}>
-                  <Grid container>
-                    <Grid item md={6} sm={12} xs={12} className="main-blog-image"></Grid>
-                    <Grid item md={6} sm={12} xs={12} className="main-blog-content">
-                      <p className="blog-privacy">
-                        {blog.heighlight.type}
-                      </p>
-                      <br />
-                      <p className="blog-name-date">
-                        <span className="date">
-                          {blog.heighlight.date}&nbsp;
-                        </span>
-                        <span className="name">
-                          / {blog.heighlight.writer}
-                        </span>
-                      </p>
-                      <h1 className="blog-heading">
-                        {blog.heighlight.heading}
-                      </h1>
-                      <p className="blog-content">
-                        {blog.heighlight.content}
-                      </p>
-                      <Link style={{ textDecoration: 'none' }} to={`/blog/${blog.heighlight.id}`}>
-                        <Button
-                          className="blog-btn"
-                        >
-                          READ MORE
-                        </Button>
-                      </Link>
+                {isLoggedIn &&
+                  <IconButton size="medium" color="primary" aria-label="Add New" onClick={() => history.push('/blog/new')}>
+                    <AddCircle />
+                  </IconButton>
+                }
+                {blog[0] && 
+                  <DivMainBlog imageUrl={blog[0].imageUrl}>
+                    <Grid container>
+                      <Grid item md={6} sm={12} xs={12} className="main-blog-image"></Grid>
+                      <Grid item md={6} sm={12} xs={12} className="main-blog-content">
+                        <p className="blog-privacy">
+                          {blog[0].type}
+                        </p>
+                        <br />
+                        <p className="blog-name-date">
+                          <span className="date">
+                            {blog[0].date}&nbsp;
+                          </span>
+                          <span className="name">
+                            / {blog[0].writer}
+                          </span>
+                        </p>
+                        <h1 className="blog-heading">
+                          {blog[0].title}
+                        </h1>
+                        <p className="blog-content">
+                          {blog[0].content}
+                        </p>
+                        <Link style={{ textDecoration: 'none' }} to={`/blog/${blog[0]._id}`}>
+                          <Button
+                            className="blog-btn"
+                          >
+                            READ MORE
+                          </Button>
+                        </Link>
+                      </Grid>
                     </Grid>
-                  </Grid>
-                </DivMainBlog>
+                  </DivMainBlog>
+                }
                 <RecentPost
-                  recentBlog={blogPost}
+                  allBlogs={blog}
                   categories={categories}
                   page={page}
                   setPage={setPage}
@@ -154,7 +172,7 @@ border-radius: 4px;
   box-shadow: 0px 0px 8px 2px rgba(111, 139, 164, 0.35);
 }
 .main-blog-image{
-  background-image:url(${(props => props.image)});
+  background-image:url(${(props => props.imageUrl)});
   background-repeat: no-repeat;
   background-size: cover;
   min-height: 375px;

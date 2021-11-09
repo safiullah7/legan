@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { addNewBlog, deleteBlog, getBlog, updateBlog } from "../service/blog.service";
+import { addNewBlog, deleteBlog, getBlog, getBlogById, updateBlog } from "../service/blog.service";
 import { upload } from "../utils/cloudinary.util";
 
 
@@ -8,7 +8,14 @@ export async function getBlogHandler(req: Request, res: Response) {
     return res.send(blog);
 }
 
+export async function getBlogByIdHandler(req: Request, res: Response) {
+    const {id: _id} = req.params;
+    const blog = await getBlogById(_id);
+    return res.send(blog);
+}
+
 export async function addBlogHandler(req: Request, res: Response) {
+    console.log(req.files);
     const body = req.body;
     const file = req.files?.file as any;
 
