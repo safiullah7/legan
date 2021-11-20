@@ -1,22 +1,61 @@
-import { Container } from '@material-ui/core'
+import { Container, IconButton } from '@material-ui/core'
+import { AddCircle } from "@material-ui/icons";
 import React from 'react'
 import styled from 'styled-components'
 import FAQsList from './FAQsList'
-import { faqsQAs } from '../../models/faqs';
+import { useSelector } from "react-redux";
+import { getAuthSelector } from "../login/auth.slice";
+import { useHistory } from "react-router";
+import { useAppDispatch } from "../../store.hooks";
+import { getFAQAsync, getFAQContentSelector } from "./FAQs.slice";
+import AddUpdateFAQ from './AddFAQ'
+import { IPropsFAQsListItem } from '../../models/faqs';
 
 const FAQs = () => {
+    const { FAQs, loading } = useSelector(getFAQContentSelector);
+
+    const [totalFAQs, setTotalFAQs] = React.useState(FAQs);
+    const [editMode, setEditMode] = React.useState<true | false>(false);
+    const [selectedFAQ, setSelectedFAQ] = React.useState<IPropsFAQsListItem>();
+
+
+    const { isLoggedIn } = useSelector(getAuthSelector);
+    const history = useHistory();
+    const dispatch = useAppDispatch();
+
+    React.useEffect(() => {
+        dispatch(getFAQAsync());
+        setTotalFAQs(FAQs)
+    }, []);
+
+    React.useEffect(() => {
+        console.log('editMode :>> ', editMode);
+        console.log('selectedFAQ :>> ', selectedFAQ);
+    }, [editMode, selectedFAQ]);
+
     return (
         <>
-            <DivFAQsContainer>
+            {editMode && selectedFAQ ? 
+                <AddUpdateFAQ editMode={editMode} selectedFAQ={selectedFAQ} setEditMode={setEditMode} />
+                :
+                <DivFAQsContainer>
                 <Container maxWidth="xl" className="container" >
                     <DivFAQsContent>
                         <h2>Frequently Asked Questions</h2>
                     </DivFAQsContent>
+                    {isLoggedIn &&
+                        <IconButton size="medium" color="primary" aria-label="Add New" onClick={() => history.push('/faqs/new')}>
+                            <AddCircle />
+                        </IconButton>
+                    }
                     <FAQsList
-                        FaqsList={faqsQAs}
+                        setEditMode={setEditMode}
+                        setSelectedFAQ={setSelectedFAQ}
+                        FaqsList={FAQs}
                     />
                 </Container>
             </DivFAQsContainer>
+            }
         </>
     )
 }

@@ -5,6 +5,7 @@ import AddBlog from '../features/blog/AddBlog';
 import BlogPost from '../features/blog/BlogPost';
 import ContactUs from '../features/contact-us/ContactUs';
 import FAQs from '../features/FAQs/FAQs';
+import AddUpdateFAQ from '../features/FAQs/AddFAQ';
 import Home from '../features/home/Home';
 import Login from '../features/login/Login';
 import NotFound from '../features/not-found/NotFound';
@@ -26,7 +27,7 @@ const CustomRoutes = () => {
                     </AuthLayout>
                 </Route>
                 <Route
-                    path={['', '/whitepaper', '/team', '/team/:id', '/team/new', '/blog', '/blog/new', '/blog/:id', '/privacypolicy', '/faqs', '/contactus',]}
+                    path={['', '/whitepaper', '/team', '/team/:id', '/team/new', '/blog', '/blog/new', '/blog/:id', '/privacypolicy', '/faqs', '/faqs/new', '/contactus',]}
                     exact>
                     <MainLayout>
                         {/* <PrivateRoute path={['', '/articles']} exact component={() => <Articles />} />
@@ -43,6 +44,7 @@ const CustomRoutes = () => {
                         <Route path={'/blog/:id'} exact component={() => <BlogPost />} />
                         <Route path={'/privacypolicy'} exact component={() => <PrivacyPolicy />} />
                         <Route path={'/faqs'} exact component={() => <FAQs />} />
+                        <Route path={'/faqs/new'} exact component={() => <AddUpdateFAQ />} />
                         <Route path={'/contactus'} exact component={() => <ContactUs />} />
                         <Route path={'/'} exact component={() => <Home />} />
                     </MainLayout>

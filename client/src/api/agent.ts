@@ -4,6 +4,7 @@ import { IHome } from '../models/home';
 import { ILogin, IUser } from '../models/user';
 import { AddTeamMember, ITeamMember } from '../models/team';
 import { IBlog, IAddBlog } from '../models/blog';
+import { IPropsFAQsListItem } from "../models/faqs";
 
 axios.defaults.baseURL = 'http://localhost:1337/api';
 
@@ -105,9 +106,18 @@ const blog = {
     deleteBlog: (_id: string): Promise<IBlog> => requests.del(`/blog/${_id}`)
 }
 
+const faq = {
+    getFAQs: (): Promise<IPropsFAQsListItem[]> => requests.get('/faq'),
+    getFAQ: (_id: string): Promise<IPropsFAQsListItem> => requests.get(`/faq/${_id}`),
+    saveFAQ: (faq: IPropsFAQsListItem): Promise<IPropsFAQsListItem[]> => requests.post('/faq', faq),
+    updateFAQ: (faq: IPropsFAQsListItem): Promise<IPropsFAQsListItem[]> => requests.put(`/faq/${faq._id}`, faq),
+    deleteFAQ: (_id: string): Promise<IPropsFAQsListItem> => requests.del(`/faq/${_id}`)
+}
+
 export default {
     home,
     user,
     team,
-    blog
+    blog,
+    faq
 };

@@ -4,17 +4,20 @@ import { Remove, Add } from '@material-ui/icons';
 import { IconButton } from '@material-ui/core';
 import useElementSize from '../../hooks/useElemetSize';
 import { IPropsFAQsListItem } from '../../models/faqs';
+import parse from 'html-react-parser';
+import EditIcon from '@material-ui/icons/Edit';
+import { useSelector } from 'react-redux';
+import { getAuthSelector } from '../login/auth.slice';
 
-
-const FAQsListItem: React.FC<IPropsFAQsListItem> = (
-    { question, answer }
-) => {
+const FAQsListItem: React.FC<IPropsFAQsListItem> = ({ _id, question, answer }) => {
     const [showAnswer, setShowAnswer] = React.useState<true | false>(false);
     const handleClick = () => {
         setShowAnswer((showAnswer) => !showAnswer);
     }
     const refShow = React.useRef(null);
     const { height } = useElementSize(refShow);
+    const { isLoggedIn } = useSelector(getAuthSelector);
+
     return (
         <>
             <DivFAQsListItem height={height}>
@@ -26,9 +29,10 @@ const FAQsListItem: React.FC<IPropsFAQsListItem> = (
                         {
                             showAnswer ? <Remove /> : <Add />
                         }
-                    </IconButton></h3>
+                    </IconButton>
+                </h3>
                 <div className={showAnswer ? 'show-answer' : 'hide-answer'}>
-                    <p ref={refShow}>{answer}</p>
+                    <p ref={refShow}>{parse(answer)}</p>
                 </div>
             </DivFAQsListItem>
         </>

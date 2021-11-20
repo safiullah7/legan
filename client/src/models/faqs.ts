@@ -33,7 +33,7 @@ laoreet suspendisse interdum`
     },
 ];
 export interface IPropsFAQsListItem {
-    id: number
+    _id?: string
     question: string,
-    answer: string,
+    answer: string
 }
