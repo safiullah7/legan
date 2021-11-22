@@ -1,7 +1,7 @@
 import { GroupOutlined, HomeOutlined, LibraryBooksOutlined, ReceiptOutlined, SendOutlined } from '@material-ui/icons';
 import React from 'react'
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { getAuthSelector } from '../login/auth.slice';
 
@@ -10,14 +10,21 @@ interface INavbarMobile {
   whitePaperActive: string,
   teamActive: string,
   blogActive: string,
-  letsTalkActive: string
+  letsTalkActive: string,
+  logoutActive: string
 }
 
 const NavbarMobile: React.FC<INavbarMobile> = (
-  { homeActive, whitePaperActive, teamActive, blogActive, letsTalkActive }
+  { homeActive, whitePaperActive, teamActive, blogActive, logoutActive, letsTalkActive }
 ) => {
 
   const { isLoggedIn } = useSelector(getAuthSelector);
+  const history = useHistory();
+
+  const logout = () => {
+    localStorage.removeItem("user");
+    history.push('/login');
+  }
 
   return (
     <>
@@ -53,11 +60,10 @@ const NavbarMobile: React.FC<INavbarMobile> = (
               <span>Blog</span>
             </li>
           </Link>
-          { isLoggedIn && 
-            <Link to='/blog' style={{ textDecoration: 'none' }}>
-              <li className={blogActive}>
-                <LibraryBooksOutlined fontSize="large" />
-                <span>Blog</span>
+          {isLoggedIn &&
+            <Link to='/login' onClick={logout} style={{ textDecoration: 'none' }}>
+              <li>LOGOUT
+                <hr className={logoutActive} />
               </li>
             </Link>
           }

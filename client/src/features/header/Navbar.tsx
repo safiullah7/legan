@@ -13,6 +13,7 @@ const Navbar = () => {
   const whitePaperActive = path === 'whitepaper' ? 'active-border' : '';
   const teamActive = path === 'team' ? 'active-border' : '';
   const blogActive = path === 'blog' ? 'active-border' : '';
+  const logoutActive = path === 'logout' ? 'active-border' : '';
   const letsTalkActive = path === 'contactus' ? 'active-border' : '';
   if (whitePaperActive === '' && teamActive === '' && blogActive === '' && letsTalkActive === '')
     homeActive = 'active-border';
@@ -33,6 +34,7 @@ const Navbar = () => {
         teamActive={teamActive}
         blogActive={blogActive}
         letsTalkActive={letsTalkActive}
+        logoutActive={logoutActive}
       />
       <NavbarMobile
         homeActive={homeActive}
@@ -40,6 +42,7 @@ const Navbar = () => {
         teamActive={teamActive}
         blogActive={blogActive}
         letsTalkActive={letsTalkActive}
+        logoutActive={logoutActive}
       />
     </>
   );

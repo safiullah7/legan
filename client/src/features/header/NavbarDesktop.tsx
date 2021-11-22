@@ -19,10 +19,11 @@ interface INavbarDesktop {
   teamActive: string,
   blogActive: string,
   letsTalkActive: string
+  logoutActive: string
 }
 
 const NavbarDesktop: React.FC<INavbarDesktop> = (
-  { showNavbarBorder, homeActive, whitePaperActive, teamActive, blogActive, letsTalkActive }
+  { showNavbarBorder, homeActive, whitePaperActive, teamActive, blogActive, logoutActive, letsTalkActive }
 ) => {
 
   const history = useHistory();
@@ -68,7 +69,7 @@ const NavbarDesktop: React.FC<INavbarDesktop> = (
                 {isLoggedIn &&
                   <Link to='/login' onClick={logout} style={{ textDecoration: 'none' }}>
                     <li>LOGOUT
-                      <hr className={blogActive} />
+                      <hr className={logoutActive} />
                     </li>
                   </Link>
                 }

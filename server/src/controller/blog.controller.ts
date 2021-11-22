@@ -33,8 +33,18 @@ export async function updateBlogHandler(req: Request, res: Response) {
     const {id: _id} = req.params;
     const updatedBlog = {...req.body};
 
-    const update = updateBlog(_id, updatedBlog);
-    return res.send(update);        
+    const file = req.files?.file as any;
+
+    if (file && file !== null) {
+        let url = "";
+        const result: any = await upload(file.data);
+        url = result!.secure_url;
+        updatedBlog.imageUrl = url
+    }
+
+    const update = await updateBlog(_id, updatedBlog);
+    const respone = await getBlog()
+    return res.send(respone);        
 }
 
 export async function deleteBlogHandler(req: Request, res: Response) {

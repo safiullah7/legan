@@ -7,9 +7,16 @@ export const getTeamAsync = createAsyncThunk('team/getTeamAsync', async () => {
     const team = agent.team.getTeam();
     return team;
 })
+
 export const addTeamMemberAsync = createAsyncThunk('team/addTeamMemberAsync', 
     async (newTeamMember: AddTeamMember) => {
     const updatedTeam = agent.team.addTeamMember(newTeamMember);
+    return updatedTeam;
+})
+
+export const updateTeamMemberAsync = createAsyncThunk('team/updateTeamMemberAsync', 
+    async (teamMember: AddTeamMember) => {
+    const updatedTeam = agent.team.updateTeamMember(teamMember);
     return updatedTeam;
 })
 
@@ -181,6 +188,22 @@ const teamSlice = createSlice({
             }
         })
         builder.addCase(addTeamMemberAsync.rejected, (state, action) => ({
+            ...state,
+            errorMessage: action.error.message
+        }))
+        builder.addCase(updateTeamMemberAsync.pending, (state, action) => ({
+            ...state,
+            loading: true
+        }))
+        builder.addCase(updateTeamMemberAsync.fulfilled, (state, action) => {
+            return {
+                ...state,
+                errorMessage: '',
+                loading: false,
+                team: action.payload
+            }
+        })
+        builder.addCase(updateTeamMemberAsync.rejected, (state, action) => ({
             ...state,
             errorMessage: action.error.message
         }))

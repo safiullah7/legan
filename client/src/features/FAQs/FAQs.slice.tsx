@@ -20,8 +20,7 @@ export const addFAQAsync = createAsyncThunk('faq/addFAQAsync',  async (newFAQ: I
 })
 
 export const updateFAQAsync = createAsyncThunk('faq/updateFAQAsync', async (updatedFAQ: IPropsFAQsListItem) => {
-    agent.faq.updateFAQ(updatedFAQ);
-    const FAQs = agent.faq.getFAQs();
+    const FAQs = agent.faq.updateFAQ(updatedFAQ);
     return FAQs;
 })
 

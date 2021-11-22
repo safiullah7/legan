@@ -10,11 +10,11 @@ import { Container, Grid } from '@material-ui/core';
 import BodyHeader from '../../controls/BodyHeader';
 import { AddCircle } from '@material-ui/icons';
 import { useAppDispatch } from '../../store.hooks';
-import { addBlogAsync } from './blog.slice';
+import { addBlogAsync, updateBlogAsync } from './blog.slice';
 import { IBlog } from '../../models/blog';
 import { stateFromHTML } from 'draft-js-import-html';
 import { getDate } from "../../models/common";
-import { categories } from "../../models/blog"
+import { categories, IStyled } from "../../models/blog"
 import { useHistory } from "react-router-dom";
 
 interface IProps {
@@ -27,11 +27,12 @@ const AddUpdateBlog: React.FC<IProps> = ({ selectedBlog, editMode }) => {
 
     const [editorState, setEditorState] = React.useState(EditorState.createWithContent(stateFromHTML(selectedBlog?.description || '')));
     const [uploadedImageSource, setUploadedImageSource] = useState(selectedBlog?.imageUrl || '');
+    const [isImageSelected, setIsImageSelected] = useState(false)
     const dispatch = useAppDispatch();
 
+    console.log(selectedBlog);
+
     const initialValues = {
-        // id: selectedBlog?.id || '',
-        // imageUrl: selectedBlog?.imageUrl || '',
         file: null,
         writer: selectedBlog?.writer || '',
         title: selectedBlog?.title || '',
@@ -42,8 +43,30 @@ const AddUpdateBlog: React.FC<IProps> = ({ selectedBlog, editMode }) => {
         views: selectedBlog?.views || 0,
         likes: selectedBlog?.likes || 0
     };
+
+    const updateInitialValues = {
+        _id: selectedBlog?._id || '',
+        file: null,
+        writer: selectedBlog?.writer || '',
+        title: selectedBlog?.title || '',
+        description: selectedBlog?.description || '',
+        content: selectedBlog?.content || '',
+        type: selectedBlog?.type || '',
+        date: selectedBlog?.date || getDate(),
+        views: selectedBlog?.views || 0,
+        likes: selectedBlog?.likes || 0
+    };
+
     const validationSchema = yup.object().shape({
         file: yup.mixed().required('required'),
+        writer: yup.string().required('required'),
+        title: yup.string().required('required').max(40, 'Max characters of subheading is  40'),
+        description: yup.string().required('required'),
+        content: yup.string().required('required'),
+        type: yup.string().required('required')
+    })
+
+    const updateValidationSchema = yup.object().shape({
         writer: yup.string().required('required'),
         title: yup.string().required('required').max(40, 'Max characters of subheading is  40'),
         description: yup.string().required('required'),
@@ -55,7 +78,7 @@ const AddUpdateBlog: React.FC<IProps> = ({ selectedBlog, editMode }) => {
         <div>
             <DivEditForm>
                 <Formik
-                    initialValues={initialValues}
+                    initialValues={editMode ? updateInitialValues : initialValues}
                     onSubmit={(values) => {
                         console.log(values);
                         if (!editMode) {
@@ -63,9 +86,11 @@ const AddUpdateBlog: React.FC<IProps> = ({ selectedBlog, editMode }) => {
                             history.push("/blog")
                         } else {
                             console.log(values);
+                            dispatch(updateBlogAsync(values));
+                            history.push("/blog");
                         }
                     }}
-                    validationSchema={validationSchema}
+                    validationSchema={editMode ? updateValidationSchema : validationSchema}
                     render={({ values, touched, errors, handleChange, handleSubmit, setFieldValue }) => {
                         return (
                             <form onSubmit={handleSubmit}>
@@ -78,18 +103,17 @@ const AddUpdateBlog: React.FC<IProps> = ({ selectedBlog, editMode }) => {
                                             path="/team"
                                         />
                                         <Grid container className="member">
-                                            <Grid className="member-info" item md={4} sm={4} xs={12}>
-                                                <img src={uploadedImageSource || '/dummy-user-image.png'} alt='new blog' />
-                                                <div className="form-group">
-                                                    <input id="file" name="file" type="file"
-                                                        accept=".png,.PNG,.jpg,.JPG,.jpeg,JPEG"
-                                                        onChange={(event) => {
-                                                            console.log(event);
-                                                            setFieldValue("file", event.target.files![0]);
-                                                            setUploadedImageSource(URL.createObjectURL(event.target.files![0]));
-                                                        }} className="form-control"
-                                                    />
-                                                </div>
+                                            <Grid item xl={6} md={12} sm={12} xs={12}>
+                                                {isImageSelected ?
+                                                    <BlogImage imageUrl={uploadedImageSource}>
+                                                        <div className="main-blog-image">
+                                                        </div>
+                                                    </BlogImage>
+                                                    :
+                                                    <img src={uploadedImageSource || '/image-placeholder.jpg'} className="blog-img" alt='new blog' />
+                                                }
+                                            </Grid>
+                                            <Grid className="member-info" item xl={5} md={4} sm={4} xs={12}>
                                                 <TextField
                                                     className="text-feild"
                                                     variant='outlined'
@@ -150,8 +174,19 @@ const AddUpdateBlog: React.FC<IProps> = ({ selectedBlog, editMode }) => {
                                                 </Select>
                                                 <br />
                                                 <br />
+                                                <div className="form-group" style={{textAlign: 'left', marginLeft: 15}}>
+                                                    <input id="file" name="file" type="file"
+                                                        accept=".png,.PNG,.jpg,.JPG,.jpeg,JPEG"
+                                                        onChange={(event) => {
+                                                            console.log(event);
+                                                            setFieldValue("file", event.target.files![0]);
+                                                            setUploadedImageSource(URL.createObjectURL(event.target.files![0]));
+                                                            setIsImageSelected(true)
+                                                        }} className="form-control"
+                                                    />
+                                                </div>
                                             </Grid>
-                                            <Grid className="member-description" item md={8} sm={8} xs={12}>
+                                            <Grid className="member-description" item xl={12} md={12} sm={12} xs={12}>
                                                 <h4>Description</h4>
                                                 <div className="editor">
                                                     {editorState &&
@@ -182,6 +217,18 @@ const AddUpdateBlog: React.FC<IProps> = ({ selectedBlog, editMode }) => {
     )
 }
 
+const BlogImage = styled.div<IStyled>`
+.main-blog-image{
+    background-image:url(${(props => props.imageUrl)});
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    margin: 15px 15px 0px 30px;
+    min-height: 550px;
+    width: 900px;
+  }
+`;
+
 const DivOurTeamMember = styled.div`
 margin-top: 30px;
 input::-webkit-file-upload-button {
@@ -195,6 +242,12 @@ input::-webkit-file-upload-button {
     @media (max-width: 600px){
         margin-top: -15px;
     }
+}
+
+.blog-img {
+    width: 900px;
+    margin: 15px 15px 0px 30px;
+    min-height: 550px;
 }
 
 .member{
@@ -224,7 +277,7 @@ input::-webkit-file-upload-button {
 }
     .member-description{
         text-align: left;
-        padding:15px 90px;
+        padding: 15px;
         p{
             font-style: normal;
             font-weight: normal;

@@ -1,4 +1,4 @@
-import { Container, Grid } from '@material-ui/core';
+import { Container, Grid, IconButton } from '@material-ui/core';
 import { FavoriteBorderOutlined, FavoriteOutlined, VisibilityOutlined } from '@material-ui/icons';
 import React from 'react'
 import { useParams } from 'react-router-dom';
@@ -11,6 +11,9 @@ import { Skeleton } from '@material-ui/lab';
 import { getBlogByIdAsync, getBlogContentSelector } from "./blog.slice";
 import { useAppDispatch } from "../../store.hooks";
 import { useSelector } from "react-redux";
+import EditIcon from '@material-ui/icons/Edit';
+import AddBlog from './AddBlog'
+import { getAuthSelector } from '../login/auth.slice';
 
 interface IBlogId {
     id: string,
@@ -21,7 +24,10 @@ const BlogPost = () => {
     console.log(blogId);
     // const selectedBlog: IBlog = React.useState(selectedBlog)
     const [likedPost, setLikedPost] = React.useState<true | false>(false);
+    const [editMode, setEditMode] = React.useState<true | false>(false);
     const dispatch = useAppDispatch();
+    const { isLoggedIn } = useSelector(getAuthSelector);
+
 
     React.useEffect(() => {
         dispatch(getBlogByIdAsync(blogId.id));
@@ -32,9 +38,29 @@ const BlogPost = () => {
     }
     return (
         <>
-            {!loading ?
-                selectedBlog !== undefined && selectedBlog !== null ?
-                    <DivBlogPost>
+            {loading && 
+                <DivBlogPost>
+                    <Container className="container" maxWidth="xl">
+                        <DivSkeleton>
+                            <br />
+                            <Skeleton variant="text" width="100px" height="18px" /> <br />
+                            <Skeleton variant="text" width="120px" height="21px" style={{ display: 'inline-block' }} /> <Skeleton variant="text" width="120px" height="21px" style={{ display: 'inline-block', margin: '0px 30px' }} /><br /><br />
+                            <Skeleton variant="text" height="60px" />
+                            <Skeleton variant="rect" width="100%" height="450px" /><br />
+                            <Skeleton variant="text" />
+                            <Skeleton variant="text" />
+                            <Skeleton variant="text" />
+                            <Skeleton variant="text" />
+                            <Skeleton variant="text" width="60%" />
+                        </DivSkeleton>
+                    </Container>
+                </DivBlogPost>
+            }
+            {!loading && selectedBlog !== undefined && selectedBlog !== null ?
+                <DivBlogPost>
+                    {editMode ? 
+                        <AddBlog selectedBlog={selectedBlog} editMode={editMode} ></AddBlog>
+                        :
                         <Container className="container" maxWidth="xl">
                             <PageScrollProgress />
                             <DivBlogPostContainer imageUrl={selectedBlog.imageUrl}>
@@ -68,11 +94,17 @@ const BlogPost = () => {
                                                 <img src="/user-icon.png" alt="user" />
                                                 {selectedBlog.writer}
                                             </span>
+                                        {isLoggedIn && (
+                                            <IconButton aria-label="edit" color="primary" onClick={() => setEditMode(true)}>
+                                                <EditIcon fontSize="inherit" />
+                                            </IconButton>
+                                        )}
                                         </div>
                                         <h3 className="blog-heading">
                                             {selectedBlog.title}
                                         </h3>
-                                        <img className="blog-image" src={`${selectedBlog.imageUrl}`} alt="post" />
+                                        <BlogImage imageUrl={selectedBlog.imageUrl}><div className="main-blog-image"></div></BlogImage>
+                                        {/* <img className="blog-image" src={`${selectedBlog.imageUrl}`} alt="post" /> */}
                                         <div className="blog-content">
                                             {parse(selectedBlog.description)}
                                         </div>
@@ -80,29 +112,26 @@ const BlogPost = () => {
                                 </Grid>
                             </DivBlogPostContainer>
                         </Container>
-                    </DivBlogPost>
-                    :
-                    <NotFound /> :
-                <DivBlogPost>
-                    <Container className="container" maxWidth="xl">
-                        <DivSkeleton>
-                            <br />
-                            <Skeleton variant="text" width="100px" height="18px" /> <br />
-                            <Skeleton variant="text" width="120px" height="21px" style={{ display: 'inline-block' }} /> <Skeleton variant="text" width="120px" height="21px" style={{ display: 'inline-block', margin: '0px 30px' }} /><br /><br />
-                            <Skeleton variant="text" height="60px" />
-                            <Skeleton variant="rect" width="100%" height="450px" /><br />
-                            <Skeleton variant="text" />
-                            <Skeleton variant="text" />
-                            <Skeleton variant="text" />
-                            <Skeleton variant="text" />
-                            <Skeleton variant="text" width="60%" />
-                        </DivSkeleton>
-                    </Container>
+                    }
                 </DivBlogPost>
+                :
+                <NotFound />
             }
         </>
     );
 };
+
+const BlogImage = styled.div<IStyled>`
+.main-blog-image{
+    background-image:url(${(props => props.imageUrl)});
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    margin: 15px 15px 30px 30px;
+    min-height: 550px;
+    width: 900px;
+  }
+`;
 
 const DivBlogPost = styled.div`
 margin-top: 80px;
@@ -191,6 +220,16 @@ margin-left: 45px;
                 height: 18px;
                 padding-right: 10px;
             }
+        }
+
+        .edit-icon {
+            margin-left: 45px;
+            font-size: 18px;
+            display: inline-flex;
+            align-content: center;
+            font-weight: 500;
+            position: relative;
+            top: -2px;
         }
         .date{
             font-size: 15px;

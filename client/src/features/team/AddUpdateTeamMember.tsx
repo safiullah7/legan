@@ -10,7 +10,7 @@ import { Container, Grid } from '@material-ui/core';
 import BodyHeader from '../../controls/BodyHeader';
 import { AddCircle } from '@material-ui/icons';
 import { useAppDispatch } from '../../store.hooks';
-import { addTeamMemberAsync } from './team.slice';
+import { addTeamMemberAsync, updateTeamMemberAsync } from './team.slice';
 import { ITeamMember } from '../../models/team';
 import { stateFromHTML } from 'draft-js-import-html';
 
@@ -34,6 +34,15 @@ const AddUpdateTeamMember: React.FC<IProps> = ({ selectedTeamMember, editMode })
         title: selectedTeamMember?.title || '',
         description: selectedTeamMember?.description || ''
     };
+
+    const initialValuesUpdate = {
+        _id: selectedTeamMember?._id,
+        file: null,
+        name: selectedTeamMember?.name || '',
+        title: selectedTeamMember?.title || '',
+        description: selectedTeamMember?.description || ''
+    };
+
     const validationSchema = yup.object().shape({
         file: yup.mixed().required('required'),
         name: yup.string().required('required'),
@@ -41,21 +50,30 @@ const AddUpdateTeamMember: React.FC<IProps> = ({ selectedTeamMember, editMode })
         description: yup.string().required('required')
     })
 
+    const updateValidationSchema = yup.object().shape({
+        name: yup.string().required('required'),
+        title: yup.string().required('required').max(40, 'Max characters of subheading is  40'),
+        description: yup.string().required('required')
+    })
+
+    console.log(selectedTeamMember);
+
     return (
         <div>
             <DivEditForm>
                 <Formik
-                    initialValues={initialValues}
+                    initialValues={editMode ? initialValuesUpdate : initialValues}
                     onSubmit={(values) => {
                         console.log(values);
                         if (!editMode) {
                             dispatch(addTeamMemberAsync(values));
                             history.push("/team")
                         } else {
-                            console.log(values);
+                            dispatch(updateTeamMemberAsync(values))
+                            history.push("/team")
                         }
                     }}
-                    validationSchema={validationSchema}
+                    validationSchema={editMode ? updateValidationSchema : validationSchema}
                     render={({ values, touched, errors, handleChange, handleSubmit, setFieldValue }) => {
                         return (
                             <form onSubmit={handleSubmit}>
@@ -76,7 +94,7 @@ const AddUpdateTeamMember: React.FC<IProps> = ({ selectedTeamMember, editMode })
                                                         onChange={(event) => {
                                                             console.log(event);
                                                             setFieldValue("file", event.target.files![0]);
-                                                            setUploadedImageSource(URL.createObjectURL(event.currentTarget.files![0]));
+                                                            setUploadedImageSource(URL.createObjectURL(event.target.files![0]));
                                                         }} className="form-control"
                                                     />
                                                 </div>

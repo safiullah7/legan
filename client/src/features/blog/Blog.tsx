@@ -16,13 +16,10 @@ const noOfPost = 4;
 
 const Blog = () => {
   const { blog, loading } = useSelector(getBlogContentSelector);
-  console.log(blog);
   const [totalBlogs, setTotalBlogs] = React.useState(blog);
-  console.log(totalBlogs);
   const noOfPages = Math.ceil(totalBlogs.length / noOfPost);
   const [page, setPage] = React.useState<number>(1);
   const defautBlogPost = totalBlogs
-  console.log(defautBlogPost);
   const [blogPost, setBlogPost] = React.useState(defautBlogPost);
   const { isLoggedIn } = useSelector(getAuthSelector);
 
@@ -47,7 +44,7 @@ const Blog = () => {
                   </h1>
                 </div>
                 {isLoggedIn &&
-                  <IconButton size="medium" color="primary" aria-label="Add New" onClick={() => history.push('/blog/new')}>
+                  <IconButton size="medium" color="primary" aria-label="Add New" onClick={() => history.push('/blog/add/new')}>
                     <AddCircle />
                   </IconButton>
                 }

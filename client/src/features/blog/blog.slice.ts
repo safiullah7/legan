@@ -20,6 +20,13 @@ export const addBlogAsync = createAsyncThunk('blog/addBlogAsync',
     return updatedTeam;
 })
 
+export const updateBlogAsync = createAsyncThunk('team/updateBlogAsync', 
+    async (blog: IAddBlog) => {
+    console.log(blog);
+    const updatedTeam = agent.blog.updateBlog(blog);
+    return updatedTeam;
+})
+
 export const setSelectedBlogAsync = createAsyncThunk('blog/setSelectedBlogAsync', 
     async (_id: string, {dispatch, getState}) => {
     const { blogSlice } = getState() as RootState;
@@ -53,8 +60,10 @@ const blogSlice = createSlice({
         setBlog: (state, action: PayloadAction<IBlog>) => {
             // debugger;
             const checkBlog = state.blog.filter(blog => blog._id === action.payload._id)[0];
-            if (checkBlog !== undefined && checkBlog !== null)
+            if (checkBlog !== undefined && checkBlog !== null) {
                 state.selectedBlog = checkBlog;
+                state.loading = false
+            }
             else {
                 
             }
@@ -107,13 +116,30 @@ const blogSlice = createSlice({
                 blog: action.payload
             }
         })
+        builder.addCase(updateBlogAsync.rejected, (state, action) => ({
+            ...state,
+            errorMessage: action.error.message
+        }))
+        builder.addCase(updateBlogAsync.pending, (state, action) => ({
+            ...state,
+            loading: true
+        }))
+        builder.addCase(updateBlogAsync.fulfilled, (state, action) => {
+            console.log(action.payload);
+            return {
+                ...state,
+                errorMessage: '',
+                loading: false,
+                blog: action.payload
+            }
+        })
         builder.addCase(addBlogAsync.rejected, (state, action) => ({
             ...state,
             errorMessage: action.error.message
         }))
         builder.addCase(setSelectedBlogAsync.pending, (state, action) => ({
             ...state,
-            loading: true
+            loading: false
         }))
         builder.addCase(setSelectedBlogAsync.fulfilled, (state, action: any) => {
             return {

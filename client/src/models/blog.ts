@@ -14,6 +14,8 @@ export interface IBlog {
 }
 
 export interface IAddBlog {
+    _id?: string,
+    file?: Blob | string | null,
     type: string,
     date: string,
     writer: string,

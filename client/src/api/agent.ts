@@ -60,6 +60,20 @@ const requests = {
             return await team.getTeam()
         })
     },
+    putForm: (url: string, formObject: any = null) => {
+        let formData = new FormData();
+        // formData.append('file', file); // key 'File' must match with api method param
+        if (formObject !== null) {
+            for (const key of Object.keys(formObject)) {
+                formData.append(key, formObject[key]);
+            }
+        }
+        return axios.put(url, formData, {
+            headers: {'Content-type': 'multipart/form-data'}
+        }).then(async () => {
+            return await team.getTeam()
+        })
+    },
     postBlogForm: (url: string, formObject: any = null) => {
         let formData = new FormData();
         // formData.append('file', file); // key 'File' must match with api method param
@@ -74,6 +88,18 @@ const requests = {
             console.log(responseBody);
             return await blog.getBlogs()
         })
+    },
+    putBlogForm: (url: string, formObject: any = null) => {
+        let formData = new FormData();
+        // formData.append('file', file); // key 'File' must match with api method param
+        if (formObject !== null) {
+            for (const key of Object.keys(formObject)) {
+                formData.append(key, formObject[key]);
+            }
+        }
+        return axios.put(url, formData, {
+            headers: {'Content-type': 'multipart/form-data'}
+        }).then(responseBody)
     }
 };
 
@@ -95,14 +121,26 @@ const user = {
 
 const team = {
     getTeam: (): Promise<ITeamMember[]> => requests.get('/team'),
-    addTeamMember: (obj: AddTeamMember): Promise<ITeamMember[]> => requests.postForm('/team', obj)
+    addTeamMember: (obj: AddTeamMember): Promise<ITeamMember[]> => { 
+        console.log(obj);
+        return requests.postForm('/team', obj)
+    },
+    updateTeamMember: (obj: AddTeamMember): Promise<ITeamMember[]> => {
+        const id = obj._id
+        delete obj._id
+        return requests.putForm(`/team/${id}`, obj)
+    } 
 }
 
 const blog = {
     getBlogs: (): Promise<IBlog[]> => requests.get('/blog'),
     getBlog: (_id: string): Promise<IBlog> => requests.get(`/blog/${_id}`),
     saveBlog: (blog: IAddBlog): Promise<IBlog[]> => requests.postBlogForm('/blog', blog),
-    updateBlog: (blog: IBlog): Promise<IBlog> => requests.put(`/blog/${blog._id}`, blog),
+    updateBlog: (blog: IAddBlog): Promise<IBlog[]> => { 
+        const id = blog._id
+        delete blog._id
+        return requests.putBlogForm(`/blog/${id}`, blog)
+    },
     deleteBlog: (_id: string): Promise<IBlog> => requests.del(`/blog/${_id}`)
 }
 
@@ -110,7 +148,10 @@ const faq = {
     getFAQs: (): Promise<IPropsFAQsListItem[]> => requests.get('/faq'),
     getFAQ: (_id: string): Promise<IPropsFAQsListItem> => requests.get(`/faq/${_id}`),
     saveFAQ: (faq: IPropsFAQsListItem): Promise<IPropsFAQsListItem[]> => requests.post('/faq', faq),
-    updateFAQ: (faq: IPropsFAQsListItem): Promise<IPropsFAQsListItem[]> => requests.put(`/faq/${faq._id}`, faq),
+    updateFAQ: (faq: IPropsFAQsListItem): Promise<IPropsFAQsListItem[]> => {
+        requests.put(`/faq/${faq._id}`, faq)
+        return requests.get('/faq')
+    },
     deleteFAQ: (_id: string): Promise<IPropsFAQsListItem> => requests.del(`/faq/${_id}`)
 }
 

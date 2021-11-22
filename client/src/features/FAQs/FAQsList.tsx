@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styled from "styled-components";
 import { IPropsFAQsListItem } from "../../models/faqs";
 import FAQsListItem from "./FAQsListItem";
@@ -18,20 +18,32 @@ interface IPropsFAQsList {
 
 const FAQsList: React.FC<IPropsFAQsList> = ({ FaqsList, setEditMode, setSelectedFAQ }) => {
     const [showAnswer, setShowAnswer] = React.useState<true | false>(false);
+    const [toggledAnswers, setToggledAnswers] = React.useState<boolean[]>([]);
     const refShow = React.useRef(null);
     const { height } = useElementSize(refShow);
     const { isLoggedIn } = useSelector(getAuthSelector);
+    
 
     const handleClick = () => {
         setShowAnswer((showAnswer) => !showAnswer);
     }
 
+    useEffect(() => {
+        setToggledAnswers(new Array(FaqsList.length).fill(false))
+    }, [])
+
+    const toggledAnswer = (index: any) => {
+        let answers = toggledAnswers
+        answers[index] = !answers[index]
+        setToggledAnswers(answers)
+    }
+
     return (
         <>
             <DivFAQsList>
-                {FaqsList.map((QAs) => {
+                {FaqsList.map((QAs, index) => {
                     return (
-                        <>
+                        <div key={index}>
                             <DivFAQsListItem height={height}>
                                 <h3 className={showAnswer ? "show-question" : ""}>
                                     <span className="question">{QAs.question}</span>
@@ -40,15 +52,15 @@ const FAQsList: React.FC<IPropsFAQsList> = ({ FaqsList, setEditMode, setSelected
                                             <EditIcon fontSize="inherit" />
                                         </IconButton>
                                     )}
-                                    <IconButton onClick={handleClick} className="icon">
-                                        {showAnswer ? <Remove /> : <Add />}
+                                    <IconButton onClick={() => { handleClick(); toggledAnswer(index); }} className="icon">
+                                        {toggledAnswers[index] ? <Remove /> : <Add />}
                                     </IconButton>
                                 </h3>
-                                <div className={showAnswer ? "show-answer" : "hide-answer"}>
+                                <div className={toggledAnswers[index] ? "show-answer" : "hide-answer"}>
                                     <p ref={refShow}>{parse(QAs.answer)}</p>
                                 </div>
                             </DivFAQsListItem>
-                        </>
+                        </div>
                     );
                 })}
             </DivFAQsList>
@@ -90,8 +102,7 @@ h3{
 .show-answer{
     overflow: hidden;
     transition: all 0.5s ease-in-out;
-    height: ${(props) => (props.height + 15)}px;
- }
+}
 p{
     transition: all 0.5s ease-in-out;
     font-weight: 300;

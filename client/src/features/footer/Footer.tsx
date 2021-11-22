@@ -3,6 +3,7 @@ import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -25,7 +26,7 @@ const Footer = () => {
                     ABOUT
                   </h3>
                   <p><span>Whitepaper</span></p>
-                  <p><span>FAQs</span></p>
+                  <Link to="/faqs"><p><span>FAQs</span></p></Link>
                   <p><span>Career</span></p>
                   <p><span>Contact Us</span></p>
                 </div>

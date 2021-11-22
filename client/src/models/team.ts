@@ -16,7 +16,8 @@ export interface ITeamId {
 }
 
 export interface AddTeamMember {
-    file: Blob | null,
+    _id?: string,
+    file: Blob | string | null,
     name: string,
     title: string,
     description: string
