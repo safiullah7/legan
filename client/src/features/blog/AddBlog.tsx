@@ -68,7 +68,7 @@ const AddUpdateBlog: React.FC<IProps> = ({ selectedBlog, editMode }) => {
 
     const updateValidationSchema = yup.object().shape({
         writer: yup.string().required('required'),
-        title: yup.string().required('required').max(40, 'Max characters of subheading is  40'),
+        title: yup.string().required('required').max(60, 'Max characters of subheading is  40'),
         description: yup.string().required('required'),
         content: yup.string().required('required'),
         type: yup.string().required('required')
@@ -154,11 +154,11 @@ const AddUpdateBlog: React.FC<IProps> = ({ selectedBlog, editMode }) => {
                                                 <br />
                                                 <br />
                                                 <Select
-                                                style={{
-                                                    width: '100%',
-                                                    margin: 15,
-                                                    textAlign: 'left'
-                                                }}
+                                                    style={{
+                                                        width: '100%',
+                                                        margin: 15,
+                                                        textAlign: 'left'
+                                                    }}
                                                     variant="outlined"
                                                     id="type"
                                                     labelId="demo-simple-select-helper-label"
@@ -167,14 +167,14 @@ const AddUpdateBlog: React.FC<IProps> = ({ selectedBlog, editMode }) => {
                                                     label="Category"
                                                     onChange={handleChange}
                                                     error={touched.type && Boolean(errors.type)}
-                                                    >
+                                                >
                                                     {categories.map((category) => {
                                                         return <MenuItem value={category.value}>{category.name}</MenuItem>
                                                     })}
                                                 </Select>
                                                 <br />
                                                 <br />
-                                                <div className="form-group" style={{textAlign: 'left', marginLeft: 15}}>
+                                                <div className="form-group" style={{ textAlign: 'left', marginLeft: 15 }}>
                                                     <input id="file" name="file" type="file"
                                                         accept=".png,.PNG,.jpg,.JPG,.jpeg,JPEG"
                                                         onChange={(event) => {
