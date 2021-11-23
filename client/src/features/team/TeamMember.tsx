@@ -1,23 +1,32 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { Container, Grid, IconButton } from '@material-ui/core';
+import { Button, Container, Dialog, Grid, IconButton, Slide } from '@material-ui/core';
 import parse from 'html-react-parser';
 import BodyHeader from '../../controls/BodyHeader';
 import { useSelector } from 'react-redux';
-import { getTeamContentSelector, setSelectedTeamMemberAsync } from './team.slice';
+import { deleteTeamMemberAsync, getTeamContentSelector, setSelectedTeamMemberAsync } from './team.slice';
 import { useAppDispatch } from '../../store.hooks';
 import { Skeleton } from '@material-ui/lab';
 import NotFound from '../not-found/NotFound';
 import { getAuthSelector } from '../login/auth.slice';
 import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { useHistory } from "react-router-dom"
 import TeamMemberLoading from './Skeletons/TeamMemberLoading';
 import AddUpdateTeamMember from './AddUpdateTeamMember';
+import { TransitionProps } from '@material-ui/core/transitions';
 
 type IId = {
     id: string,
 }
+
+const Transition = React.forwardRef(function Transition(
+        props: TransitionProps & { children?: React.ReactElement<any, any> },
+        ref: React.Ref<unknown>,
+    ) {
+    return <Slide direction="down" ref={ref} {...props} />;
+});
 
 const TeamMember = () => {
 
@@ -27,10 +36,16 @@ const TeamMember = () => {
     const { isLoggedIn } = useSelector(getAuthSelector);
     const history = useHistory();
     const [editMode, setEditMode] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
 
     React.useEffect(() => {
         dispatch(setSelectedTeamMemberAsync(id));
     }, [id, dispatch]);
+
+    const deleteMember = async  () => {
+        dispatch(deleteTeamMemberAsync(id));
+        history.push('/team')
+    }
 
     return (
         <>
@@ -48,9 +63,14 @@ const TeamMember = () => {
                                         path="/team"
                                     />
                                     {isLoggedIn && (
-                                        <IconButton aria-label="edit" color="primary" onClick={() => setEditMode(true)}>
-                                            <EditIcon fontSize="inherit" />
-                                        </IconButton>
+                                        <>
+                                            <IconButton aria-label="edit" color="primary" onClick={() => setEditMode(true)}>
+                                                <EditIcon fontSize="inherit" />
+                                            </IconButton>
+                                            <IconButton aria-label="edit" color="primary" onClick={() => setOpenDialog(true)}>
+                                                <DeleteIcon fontSize="inherit" />
+                                            </IconButton>
+                                        </>
                                     )}
                                     <Grid container className="member">
                                         <Grid className="member-info" item md={4} sm={4} xs={12}>
@@ -62,6 +82,22 @@ const TeamMember = () => {
                                             {parse(selectedTeamMember.description)}
                                         </Grid>
                                     </Grid>
+                                    <Dialog
+                                        className="dialog-box"
+                                        open={openDialog}
+                                        keepMounted
+                                        TransitionComponent={Transition}
+                                        transitionDuration={500}
+                                        onClose={() => setOpenDialog(false)}
+                                        fullWidth
+                                        scroll="body"
+                                    >
+                                        <div style={{textAlign: "center", padding: 30}}>
+                                            <h3>Do you want to delete this Team Member?</h3>
+                                            <Button style={{margin: 5}} color="secondary" size="large" variant="contained" onClick={() => {deleteMember(); setOpenDialog(false)}}>Yes</Button>
+                                            <Button style={{margin: 5}} color="primary" size="large" variant="contained" onClick={() => setOpenDialog(false)}>No</Button>
+                                        </div>
+                                    </Dialog>
                                 </Container>
                             </DivOurTeamMember> : <AddUpdateTeamMember selectedTeamMember={selectedTeamMember} editMode={true} />
                         : <NotFound />
@@ -79,8 +115,16 @@ margin-top: 80px;
 .container{
     background-color: rgba(249, 252, 254, 1);
     padding: 75px 0px;
+
     @media (max-width: 600px){
         margin-top: -15px;
+    }
+}
+
+.dialog-box {
+    .prompt-body {
+        text-align: center;
+        padding: 30px;
     }
 }
 

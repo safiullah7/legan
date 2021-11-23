@@ -1,3 +1,4 @@
+import { addBlogSchema } from './../schema/blog.schema';
 import { Request, Response } from "express";
 import { addNewBlog, deleteBlog, getBlog, getBlogById, updateBlog } from "../service/blog.service";
 import { upload } from "../utils/cloudinary.util";
@@ -49,7 +50,8 @@ export async function updateBlogHandler(req: Request, res: Response) {
 
 export async function deleteBlogHandler(req: Request, res: Response) {
     const {id: _id} = req.params;
-    const deleteMember = await deleteBlog(_id);
-
-    return res.send(deleteMember);
+    await deleteBlog(_id);
+    const blogs = await getBlog();
+    
+    return res.send(blogs);
 }

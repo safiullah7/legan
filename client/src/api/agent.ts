@@ -129,7 +129,8 @@ const team = {
         const id = obj._id
         delete obj._id
         return requests.putForm(`/team/${id}`, obj)
-    } 
+    },
+    deleteTeamMember: (_id: string): Promise<ITeamMember[]> => requests.del(`/team/${_id}`)
 }
 
 const blog = {
@@ -141,7 +142,7 @@ const blog = {
         delete blog._id
         return requests.putBlogForm(`/blog/${id}`, blog)
     },
-    deleteBlog: (_id: string): Promise<IBlog> => requests.del(`/blog/${_id}`)
+    deleteBlog: (_id: string): Promise<IBlog[]> => requests.del(`/blog/${_id}`)
 }
 
 const faq = {

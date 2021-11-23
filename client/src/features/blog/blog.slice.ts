@@ -40,6 +40,12 @@ export const setSelectedBlogAsync = createAsyncThunk('blog/setSelectedBlogAsync'
     }
 })
 
+export const deleteBlogAsync = createAsyncThunk('blog/deleteBlogAsync', 
+    async (_id: string) => {
+    const updatedBlog = agent.blog.deleteBlog(_id);
+    return updatedBlog;
+})
+
 interface IBlogState {
     selectedBlog: IBlog | null,
     errorMessage?: string
@@ -116,7 +122,7 @@ const blogSlice = createSlice({
                 blog: action.payload
             }
         })
-        builder.addCase(updateBlogAsync.rejected, (state, action) => ({
+        builder.addCase(addBlogAsync.rejected, (state, action) => ({
             ...state,
             errorMessage: action.error.message
         }))
@@ -133,7 +139,24 @@ const blogSlice = createSlice({
                 blog: action.payload
             }
         })
-        builder.addCase(addBlogAsync.rejected, (state, action) => ({
+        builder.addCase(updateBlogAsync.rejected, (state, action) => ({
+            ...state,
+            errorMessage: action.error.message
+        }))
+        builder.addCase(deleteBlogAsync.pending, (state, action) => ({
+            ...state,
+            loading: true
+        }))
+        builder.addCase(deleteBlogAsync.fulfilled, (state, action) => {
+            console.log(action.payload);
+            return {
+                ...state,
+                errorMessage: '',
+                loading: false,
+                blog: action.payload
+            }
+        })
+        builder.addCase(deleteBlogAsync.rejected, (state, action) => ({
             ...state,
             errorMessage: action.error.message
         }))
