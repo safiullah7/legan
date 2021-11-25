@@ -42,7 +42,8 @@ export async function updateTeamMemberHandler(req: Request, res: Response) {
 
 export async function deleteTeamMemberHandler(req: Request, res: Response) {
     const {id: _id} = req.params;
-    const deleteMember = await deleteTeamMember(_id);
-
-    return res.send(deleteMember);
+    await deleteTeamMember(_id);
+    const team = await getTeam();
+    
+    return res.send(team);
 }

@@ -33,6 +33,12 @@ export const setSelectedTeamMemberAsync = createAsyncThunk('team/setSelectedTeam
     }
 })
 
+export const deleteTeamMemberAsync = createAsyncThunk('team/deleteTeamMemberAsync', 
+    async (_id: string) => {
+    const updatedTeam = agent.team.deleteTeamMember(_id);
+    return updatedTeam;
+})
+
 interface ITeamState {
     selectedTeamMember: ITeamMember | null,
     team: ITeamMember[],
@@ -204,6 +210,22 @@ const teamSlice = createSlice({
             }
         })
         builder.addCase(updateTeamMemberAsync.rejected, (state, action) => ({
+            ...state,
+            errorMessage: action.error.message
+        }))
+        builder.addCase(deleteTeamMemberAsync.pending, (state, action) => ({
+            ...state,
+            loading: true
+        }))
+        builder.addCase(deleteTeamMemberAsync.fulfilled, (state, action) => {
+            return {
+                ...state,
+                errorMessage: '',
+                loading: false,
+                team: action.payload
+            }
+        })
+        builder.addCase(deleteTeamMemberAsync.rejected, (state, action) => ({
             ...state,
             errorMessage: action.error.message
         }))
