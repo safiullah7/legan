@@ -1,7 +1,8 @@
-import { Button, TextField, Select, MenuItem, InputLabel, FormControl } from '@material-ui/core';
+import { Button, CircularProgress, TextField, Select, MenuItem, InputLabel, FormControl } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 import { Editor } from 'react-draft-wysiwyg';
 import { Formik } from 'formik';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import * as yup from 'yup';
 import { EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
@@ -10,12 +11,13 @@ import { Container, Grid } from '@material-ui/core';
 import BodyHeader from '../../controls/BodyHeader';
 import { AddCircle } from '@material-ui/icons';
 import { useAppDispatch } from '../../store.hooks';
-import { addBlogAsync, updateBlogAsync } from './blog.slice';
+import { addBlogAsync, getBlogContentSelector, updateBlogAsync } from './blog.slice';
 import { IBlog } from '../../models/blog';
 import { stateFromHTML } from 'draft-js-import-html';
 import { getDate } from "../../models/common";
 import { categories, IStyled } from "../../models/blog"
 import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 interface IProps {
     selectedBlog?: IBlog
@@ -25,12 +27,17 @@ interface IProps {
 const AddUpdateBlog: React.FC<IProps> = ({ selectedBlog, editMode }) => {
     const history = useHistory();
 
+    const { loadingOnUpdate } = useSelector(getBlogContentSelector);
+
+    useEffect(() => {
+        console.log('LOADING...');
+    }, [loadingOnUpdate])
+
+
     const [editorState, setEditorState] = React.useState(EditorState.createWithContent(stateFromHTML(selectedBlog?.description || '')));
     const [uploadedImageSource, setUploadedImageSource] = useState(selectedBlog?.imageUrl || '');
     const [isImageSelected, setIsImageSelected] = useState(false)
     const dispatch = useAppDispatch();
-
-    console.log(selectedBlog);
 
     const initialValues = {
         file: null,
@@ -41,7 +48,8 @@ const AddUpdateBlog: React.FC<IProps> = ({ selectedBlog, editMode }) => {
         type: selectedBlog?.type || '',
         date: selectedBlog?.date || getDate(),
         views: selectedBlog?.views || 0,
-        likes: selectedBlog?.likes || 0
+        likes: selectedBlog?.likes || 0,
+        imagePublicId: selectedBlog?.imagePublicId || null
     };
 
     const updateInitialValues = {
@@ -54,7 +62,8 @@ const AddUpdateBlog: React.FC<IProps> = ({ selectedBlog, editMode }) => {
         type: selectedBlog?.type || '',
         date: selectedBlog?.date || getDate(),
         views: selectedBlog?.views || 0,
-        likes: selectedBlog?.likes || 0
+        likes: selectedBlog?.likes || 0,
+        imagePublicId: selectedBlog?.imagePublicId || null
     };
 
     const validationSchema = yup.object().shape({
@@ -80,14 +89,16 @@ const AddUpdateBlog: React.FC<IProps> = ({ selectedBlog, editMode }) => {
                 <Formik
                     initialValues={editMode ? updateInitialValues : initialValues}
                     onSubmit={(values) => {
-                        console.log(values);
                         if (!editMode) {
                             dispatch(addBlogAsync(values));
-                            history.push("/blog")
+                            setTimeout(() => {
+                                if (!loadingOnUpdate) history.push("/blog");
+                            }, 1000);
                         } else {
-                            console.log(values);
                             dispatch(updateBlogAsync(values));
-                            history.push("/blog");
+                            setTimeout(() => {
+                                if (!loadingOnUpdate) history.push("/blog");
+                            }, 1000);
                         }
                     }}
                     validationSchema={editMode ? updateValidationSchema : validationSchema}
@@ -178,7 +189,6 @@ const AddUpdateBlog: React.FC<IProps> = ({ selectedBlog, editMode }) => {
                                                     <input id="file" name="file" type="file"
                                                         accept=".png,.PNG,.jpg,.JPG,.jpeg,JPEG"
                                                         onChange={(event) => {
-                                                            console.log(event);
                                                             setFieldValue("file", event.target.files![0]);
                                                             setUploadedImageSource(URL.createObjectURL(event.target.files![0]));
                                                             setIsImageSelected(true)
@@ -205,8 +215,13 @@ const AddUpdateBlog: React.FC<IProps> = ({ selectedBlog, editMode }) => {
                                         </Grid>
                                     </Container>
                                     <Button style={{ width: '500px' }} color="primary" variant="contained" size="small" type='submit'>
-                                        <AddCircle className="icon" />
-                                        Save
+                                        {loadingOnUpdate && <CircularProgress style={{color: "#fff"}} size={22} />}
+                                        {!loadingOnUpdate && 
+                                            <>
+                                                <AddCircle className="icon" />
+                                                Save
+                                            </>
+                                        }
                                     </Button>
                                 </DivOurTeamMember>
                             </form>

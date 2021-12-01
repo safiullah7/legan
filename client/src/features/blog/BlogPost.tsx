@@ -31,8 +31,6 @@ const Transition = React.forwardRef(function Transition(
 const BlogPost = () => {
   const { selectedBlog, loading } = useSelector(getBlogContentSelector);
   const blogId: { id: string } = useParams();
-  console.log(blogId);
-  // const selectedBlog: IBlog = React.useState(selectedBlog)
   const [likedPost, setLikedPost] = React.useState<true | false>(false);
   const [editMode, setEditMode] = React.useState<true | false>(false);
   const dispatch = useAppDispatch();
@@ -56,7 +54,8 @@ const BlogPost = () => {
 
   return (
     <>
-      {loading && (
+      {
+      loading && (
         <DivBlogPost>
           <Container className="container" maxWidth="xl">
             <DivSkeleton>
@@ -82,8 +81,11 @@ const BlogPost = () => {
             </DivSkeleton>
           </Container>
         </DivBlogPost>
-      )}
-      {!loading && selectedBlog !== undefined && selectedBlog !== null ? (
+      )
+      }
+      {
+      !loading && 
+      selectedBlog !== undefined && selectedBlog !== null ? (
         <DivBlogPost>
           {editMode ? (
             <AddBlog selectedBlog={selectedBlog} editMode={editMode}></AddBlog>
@@ -122,7 +124,7 @@ const BlogPost = () => {
                             <EditIcon fontSize="inherit" />
                           </IconButton>
                           <IconButton aria-label="edit" color="primary" onClick={() => setOpenDialog(true)}>
-                            <DeleteIcon fontSize="inherit" />
+                            <DeleteIcon color="error" fontSize="inherit" />
                           </IconButton>
                         </>
                       )}

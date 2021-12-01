@@ -1,4 +1,4 @@
-import { Button, TextField } from '@material-ui/core';
+import { Button, CircularProgress, TextField } from '@material-ui/core';
 import { Editor } from 'react-draft-wysiwyg';
 import { Formik } from 'formik';
 import React, { useState } from 'react'
@@ -10,11 +10,12 @@ import { Container, Grid } from '@material-ui/core';
 import BodyHeader from '../../controls/BodyHeader';
 import { AddCircle } from '@material-ui/icons';
 import { useAppDispatch } from '../../store.hooks';
-import { addTeamMemberAsync, updateTeamMemberAsync } from './team.slice';
+import { addTeamMemberAsync, getTeamContentSelector, updateTeamMemberAsync } from './team.slice';
 import { ITeamMember } from '../../models/team';
 import { stateFromHTML } from 'draft-js-import-html';
 
 import { useHistory } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
 interface IProps {
     selectedTeamMember?: ITeamMember
@@ -23,6 +24,7 @@ interface IProps {
 
 const AddUpdateTeamMember: React.FC<IProps> = ({ selectedTeamMember, editMode }) => {
     const history = useHistory();
+    const { loadingOnUpdate } = useSelector(getTeamContentSelector);
 
     const [editorState, setEditorState] = React.useState(EditorState.createWithContent(stateFromHTML(selectedTeamMember?.description || '')));
     const [uploadedImageSource, setUploadedImageSource] = useState(selectedTeamMember?.imageUrl || '');
@@ -64,13 +66,16 @@ const AddUpdateTeamMember: React.FC<IProps> = ({ selectedTeamMember, editMode })
                 <Formik
                     initialValues={editMode ? initialValuesUpdate : initialValues}
                     onSubmit={(values) => {
-                        console.log(values);
                         if (!editMode) {
                             dispatch(addTeamMemberAsync(values));
-                            history.push("/team")
+                            setTimeout(() => {
+                                if (!loadingOnUpdate) history.push("/team");
+                            }, 1000);
                         } else {
                             dispatch(updateTeamMemberAsync(values))
-                            history.push("/team")
+                            setTimeout(() => {
+                                if (!loadingOnUpdate) history.push("/team");
+                            }, 1000);
                         }
                     }}
                     validationSchema={editMode ? updateValidationSchema : validationSchema}
@@ -144,8 +149,13 @@ const AddUpdateTeamMember: React.FC<IProps> = ({ selectedTeamMember, editMode })
                                         </Grid>
                                     </Container>
                                     <Button style={{ width: '500px' }} color="primary" variant="contained" size="small" type='submit'>
-                                        <AddCircle className="icon" />
-                                        Save
+                                        {loadingOnUpdate && <CircularProgress style={{color: "#fff"}} size={22} />}
+                                        {!loadingOnUpdate && 
+                                            <>
+                                                <AddCircle className="icon" />
+                                                Save
+                                            </>
+                                        }
                                     </Button>
                                 </DivOurTeamMember>
                             </form>

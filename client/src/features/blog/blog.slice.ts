@@ -9,7 +9,6 @@ export const getBlogAsync = createAsyncThunk('blog/getBlogAsync', async () => {
 })
 
 export const getBlogByIdAsync = createAsyncThunk('blog/getBlogByIdAsync', async (_id: string) => {
-    console.log(_id);
     const blog = agent.blog.getBlog(_id);
     return blog;
 })
@@ -20,9 +19,8 @@ export const addBlogAsync = createAsyncThunk('blog/addBlogAsync',
     return updatedTeam;
 })
 
-export const updateBlogAsync = createAsyncThunk('team/updateBlogAsync', 
+export const updateBlogAsync = createAsyncThunk('blog/updateBlogAsync', 
     async (blog: IAddBlog) => {
-    console.log(blog);
     const updatedTeam = agent.blog.updateBlog(blog);
     return updatedTeam;
 })
@@ -50,12 +48,14 @@ interface IBlogState {
     selectedBlog: IBlog | null,
     errorMessage?: string
     loading: boolean,
+    loadingOnUpdate: boolean,
     blog: IBlog[]
 }
 
 const initialState: IBlogState = {
     selectedBlog: null,
     loading: false,
+    loadingOnUpdate: false,
     blog: []
 };
 
@@ -112,13 +112,13 @@ const blogSlice = createSlice({
         }))
         builder.addCase(addBlogAsync.pending, (state, action) => ({
             ...state,
-            loading: true
+            loadingOnUpdate: true
         }))
         builder.addCase(addBlogAsync.fulfilled, (state, action) => {
             return {
                 ...state,
                 errorMessage: '',
-                loading: false,
+                loadingOnUpdate: false,
                 blog: action.payload
             }
         })
@@ -128,14 +128,14 @@ const blogSlice = createSlice({
         }))
         builder.addCase(updateBlogAsync.pending, (state, action) => ({
             ...state,
-            loading: true
+            loadingOnUpdate: true
         }))
         builder.addCase(updateBlogAsync.fulfilled, (state, action) => {
-            console.log(action.payload);
             return {
                 ...state,
                 errorMessage: '',
                 loading: false,
+                loadingOnUpdate: false,
                 blog: action.payload
             }
         })
@@ -148,7 +148,6 @@ const blogSlice = createSlice({
             loading: true
         }))
         builder.addCase(deleteBlogAsync.fulfilled, (state, action) => {
-            console.log(action.payload);
             return {
                 ...state,
                 errorMessage: '',

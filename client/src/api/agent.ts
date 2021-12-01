@@ -56,9 +56,7 @@ const requests = {
         }
         return axios.post(url, formData, {
             headers: {'Content-type': 'multipart/form-data'}
-        }).then(async () => {
-            return await team.getTeam()
-        })
+        }).then(responseBody)
     },
     putForm: (url: string, formObject: any = null) => {
         let formData = new FormData();
@@ -70,9 +68,7 @@ const requests = {
         }
         return axios.put(url, formData, {
             headers: {'Content-type': 'multipart/form-data'}
-        }).then(async () => {
-            return await team.getTeam()
-        })
+        }).then(responseBody)
     },
     postBlogForm: (url: string, formObject: any = null) => {
         let formData = new FormData();
@@ -84,12 +80,9 @@ const requests = {
         }
         return axios.post(url, formData, {
             headers: {'Content-type': 'multipart/form-data'}
-        }).then(async (responseBody) => {
-            console.log(responseBody);
-            return await blog.getBlogs()
-        })
+        }).then(responseBody)
     },
-    putBlogForm: (url: string, formObject: any = null) => {
+    putBlogForm: async (url: string, formObject: any = null) => {
         let formData = new FormData();
         // formData.append('file', file); // key 'File' must match with api method param
         if (formObject !== null) {
@@ -97,6 +90,9 @@ const requests = {
                 formData.append(key, formObject[key]);
             }
         }
+
+        // console.log("UPDATE BLOG: ", formData);
+        // return axios.get(url).then(responseBody)
         return axios.put(url, formData, {
             headers: {'Content-type': 'multipart/form-data'}
         }).then(responseBody)
@@ -122,7 +118,6 @@ const user = {
 const team = {
     getTeam: (): Promise<ITeamMember[]> => requests.get('/team'),
     addTeamMember: (obj: AddTeamMember): Promise<ITeamMember[]> => { 
-        console.log(obj);
         return requests.postForm('/team', obj)
     },
     updateTeamMember: (obj: AddTeamMember): Promise<ITeamMember[]> => {
