@@ -1,7 +1,7 @@
 import { addBlogSchema } from './../schema/blog.schema';
 import { Request, Response } from "express";
 import { addNewBlog, deleteBlog, getBlog, getBlogById, updateBlog } from "../service/blog.service";
-import { upload } from "../utils/cloudinary.util";
+import { upload, deleteImage } from "../utils/cloudinary.util";
 
 
 export async function getBlogHandler(req: Request, res: Response) {
@@ -33,7 +33,6 @@ export async function addBlogHandler(req: Request, res: Response) {
 export async function updateBlogHandler(req: Request, res: Response) {
     const {id: _id} = req.params;
     const updatedBlog = {...req.body};
-
     const file = req.files?.file as any;
 
     if (file && file !== null) {
@@ -41,9 +40,12 @@ export async function updateBlogHandler(req: Request, res: Response) {
         const result: any = await upload(file.data);
         url = result!.secure_url;
         updatedBlog.imageUrl = url
+        if (updatedBlog.imagePublicId) await deleteImage(updatedBlog.imagePublicId);
+        updatedBlog.imagePublicId = result!.public_id
+
     }
 
-    const update = await updateBlog(_id, updatedBlog);
+    await updateBlog(_id, updatedBlog);
     const respone = await getBlog()
     return res.send(respone);        
 }

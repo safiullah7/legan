@@ -28,11 +28,6 @@ const FAQs = () => {
         setTotalFAQs(FAQs)
     }, []);
 
-    React.useEffect(() => {
-        console.log('editMode :>> ', editMode);
-        console.log('selectedFAQ :>> ', selectedFAQ);
-    }, [editMode, selectedFAQ]);
-
     return (
         <>
             {editMode && selectedFAQ ? 

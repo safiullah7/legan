@@ -68,7 +68,7 @@ const TeamMember = () => {
                                                 <EditIcon fontSize="inherit" />
                                             </IconButton>
                                             <IconButton aria-label="edit" color="primary" onClick={() => setOpenDialog(true)}>
-                                                <DeleteIcon fontSize="inherit" />
+                                                <DeleteIcon color="error" fontSize="inherit" />
                                             </IconButton>
                                         </>
                                     )}

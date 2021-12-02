@@ -4,7 +4,7 @@ import { Pagination } from '@material-ui/lab';
 import React from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { IBlog, ICategory, blog, } from '../../models/blog';
+import { IBlog, ICategory } from '../../models/blog';
 interface IPropsRecentBlog {
     allBlogs: IBlog[],
     categories: ICategory[],
@@ -40,6 +40,10 @@ const RecentPost: React.FC<IPropsRecentBlog> = (
         if (page !== pageNo)
             setPage(pageNo);
     }
+
+    React.useEffect(() => {
+        setFilteredBlogs(allBlogs)
+    }, [allBlogs])
     return (
         <>
             <DivRecentBlogs>

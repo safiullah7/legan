@@ -1,8 +1,8 @@
 import { Button, Container, Grid, IconButton } from "@material-ui/core";
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import RecentPost from "./RecentPost";
-import { blog, categories, IStyled } from '../../models/blog';
+import { categories, IBlog, IStyled } from '../../models/blog';
 import { Link } from "react-router-dom";
 import BlogLoader from "./BlogLoader";
 import { useSelector } from "react-redux";
@@ -17,10 +17,9 @@ const noOfPost = 4;
 const Blog = () => {
   const { blog, loading } = useSelector(getBlogContentSelector);
   const [totalBlogs, setTotalBlogs] = React.useState(blog);
-  const noOfPages = Math.ceil(totalBlogs.length / noOfPost);
+  const [blogsOnCurrentPage, setBlogsOnCurrentPage] = React.useState<IBlog[]>([])
+  const [noOfPages, setNoOfPages] = React.useState(1);
   const [page, setPage] = React.useState<number>(1);
-  const defautBlogPost = totalBlogs
-  const [blogPost, setBlogPost] = React.useState(defautBlogPost);
   const { isLoggedIn } = useSelector(getAuthSelector);
 
   const history = useHistory();
@@ -28,8 +27,17 @@ const Blog = () => {
 
   React.useEffect(() => {
     dispatch(getBlogAsync());
-    setTotalBlogs(blog)
   }, [dispatch]);
+  
+  React.useEffect(() => {
+    setTotalBlogs(blog)
+    setNoOfPages(Math.ceil(blog.length / noOfPost))
+    setBlogsOnCurrentPage(blog.slice((page - 1) * noOfPost, page * noOfPost))
+  }, [blog])
+
+  React.useEffect(() => {
+    setBlogsOnCurrentPage(totalBlogs.slice((page - 1) * noOfPost, page * noOfPost))
+  }, [page])
   
   return (
     <>
@@ -83,7 +91,7 @@ const Blog = () => {
                   </DivMainBlog>
                 }
                 <RecentPost
-                  allBlogs={blog}
+                  allBlogs={blogsOnCurrentPage}
                   categories={categories}
                   page={page}
                   setPage={setPage}

@@ -26,6 +26,22 @@ let streamUpload = (buffer: any) => {
     });
 };
 
+export const deleteImage = async (id: string) => {
+  return new Promise((resolve, reject) => {
+    cloudinaryv2.uploader.destroy(id, 
+      (error:any, result:any) => {
+        if (result) {
+          console.log("resolved", result);
+          resolve(result);
+        } else {
+          console.log("rejected", result);
+          reject(error);
+        }
+      }
+    );
+  });
+}
+
 export async function upload(buffer:any) {
     return streamUpload(buffer);
 }
