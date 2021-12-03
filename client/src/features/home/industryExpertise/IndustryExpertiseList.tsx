@@ -1,14 +1,15 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Slide } from '@material-ui/core';
 import React from 'react';
 import styled from 'styled-components';
-import { IIndustryExpertiseContentList } from '../../../models/home';
+import { IHome, IIndustryExpertiseContentList } from '../../../models/home';
 import { AddCircle, Delete, Edit } from '@material-ui/icons';
 import parser from 'html-react-parser';
 import { useAppDispatch } from '../../../store.hooks';
-import { addIndustryExpertiseTab, deleteIndustryExpertiseTab } from '../home.slice';
+import { addIndustryExpertiseTab, deleteIndustryExpertiseTab, getHomeContentSelector, updateHomeContentAsync } from '../home.slice';
 import { TransitionProps } from '@material-ui/core/transitions';
 import IndustryExpertiseEditContent from './IndustryExpertiseEditContent';
 import { v4 as uuidv4 } from 'uuid';
+import { useSelector } from 'react-redux';
 
 interface IPropsIdustryExpertiseContentList {
     isLoggedIn: boolean,
@@ -30,6 +31,8 @@ const IndustryExpertiseList: React.FC<IPropsIdustryExpertiseContentList> = (
     const [openDialog, setOpenDialog] = React.useState<true | false>(false);
     const defaultValue = contentList.filter((item) => (active === item._id))[0];
     const [activeTabsContent, setActiveTabsContent] = React.useState<string>(defaultValue !== undefined ? defaultValue.content : '');
+    const { homeContent } = useSelector(getHomeContentSelector);
+
     const handleActiveClick = (id: string) => {
         if (id !== active) {
             setActive(id);
@@ -57,12 +60,13 @@ const IndustryExpertiseList: React.FC<IPropsIdustryExpertiseContentList> = (
     const handleDeleteTab = () => {
         if (contentList.length > 1) {
             handleCloseDialog();
+            const updatedHomeContent: IHome = JSON.parse(JSON.stringify(homeContent));
+
             let index = contentList.findIndex(item => item._id === active);
+            updatedHomeContent.industryExpertise!.industryExpertiseContentList!.splice(index, 1);
             index === 0 ? index++ : index--;
             setActive(contentList[index]._id);
-            dispatch(
-                deleteIndustryExpertiseTab({ id: active })
-            );
+            dispatch(updateHomeContentAsync(updatedHomeContent));
         }
     }
     const handleCloseDialog = () => {

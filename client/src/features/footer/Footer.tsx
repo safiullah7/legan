@@ -26,9 +26,9 @@ const Footer = () => {
                     ABOUT
                   </h3>
                   <p><span>Whitepaper</span></p>
-                  <Link to="/faqs"><p><span>FAQs</span></p></Link>
+                  <Link style={{ textDecoration: 'none' }} to="/faqs"><p><span>FAQs</span></p></Link>
                   <p><span>Career</span></p>
-                  <p><span>Contact Us</span></p>
+                  <Link style={{ textDecoration: 'none' }} to="/contactus"><p><span>Contact Us</span></p></Link>
                 </div>
               </DivFooterAbout>
             </Grid>
@@ -38,7 +38,7 @@ const Footer = () => {
                   <h3>
                     DOCUMENTS
                   </h3>
-                  <p><span>Privacy Policy</span></p>
+                  <Link style={{ textDecoration: 'none' }} to="/privacypolicy"><p><span>Privacy Policy</span></p></Link>
                   <p><span>Cookie Policy</span></p>
                   <p><span>Terms of Service</span></p>
                   <p><span>Website Terms of Use</span></p>

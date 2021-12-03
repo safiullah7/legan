@@ -4,11 +4,12 @@ import styled from 'styled-components';
 import parse from 'html-react-parser';
 import EditIcon from '@material-ui/icons/Edit';
 import ExpertiseListItemForm from './ExpertiseListItemForm';
-import { IExpertiseContentListItem } from '../../../models/home';
+import { IExpertiseContentListItem, IHome } from '../../../models/home';
 import { Delete } from '@material-ui/icons';
 import { useAppDispatch } from '../../../store.hooks';
-import { deleteLegalExpertiseContent } from '../home.slice';
+import { deleteLegalExpertiseContent, getHomeContentSelector, updateHomeContentAsync } from '../home.slice';
 import { TransitionProps } from '@material-ui/core/transitions';
+import { useSelector } from 'react-redux';
 
 interface IExpertiseContent {
     item: IExpertiseContentListItem,
@@ -32,6 +33,9 @@ const ExpertiseListItem: React.FC<IExpertiseContent> = (
     const [editMode, setEditMode] = useState(false);
     const [openDialog, setOpenDialog] = React.useState<true | false>(false);
     const scrollRef = React.useRef(null);
+    const dispatch = useAppDispatch();
+    const { homeContent } = useSelector(getHomeContentSelector);
+
     const handleCloseDialog = () => {
         setOpenDialog(false);
     }
@@ -41,10 +45,16 @@ const ExpertiseListItem: React.FC<IExpertiseContent> = (
             setExpanded(item.panel);
         }, 10)
     }
-    const dispatch = useAppDispatch();
+
     const handleDeleteTab = (id: string) => {
-        dispatch(deleteLegalExpertiseContent({ id }));
+        const updatedHomeContent: IHome = JSON.parse(JSON.stringify(homeContent));
+        let index = updatedHomeContent.expertiseContent!.expertiseContentList!.findIndex(item => item._id === id);
+
+        updatedHomeContent.expertiseContent!.expertiseContentList!.splice(index, 1);
+        // dispatch(deleteLegalExpertiseContent({ id }));
+        dispatch(updateHomeContentAsync(updatedHomeContent));
     }
+
     const handleDialogOpen = () => {
         setTimeout(() => {
             setExpanded(item.panel);

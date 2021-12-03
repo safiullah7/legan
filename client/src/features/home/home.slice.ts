@@ -10,10 +10,18 @@ export const getHomeContentAsync = createAsyncThunk('home/getHomeContent', async
 })
 
 export const updateHomeContentAsync = createAsyncThunk('home/updateHomeContentAsync',
-    async (updatedHomeContent: IHome) => {
-    const homeContent = agent.home.updateContent(updatedHomeContent);
-    return homeContent;
-})
+    async (updatedHomeContent: IHome, { rejectWithValue }) => {
+        try {
+            debugger;
+            const homeContent = agent.home.updateContent(updatedHomeContent);
+            console.log(homeContent);
+            return homeContent;
+        } catch (err: any) {
+            // Use `err.response.data` as `action.payload` for a `rejected` action,
+            // by explicitly returning it using the `rejectWithValue()` utility
+            return rejectWithValue(err.response.data)
+        }
+    })
 
 interface IHomeState {
     splash: ISplash,
@@ -64,7 +72,7 @@ const homeSlice = createSlice({
             state.splash.loadSplash = false;
         },
         updateHomeBannerContent: (state, action: PayloadAction<IBannerContent>) => {
-           state.homeContent.bannerContent = action.payload;
+            state.homeContent.bannerContent = action.payload;
         },
         updateBriefAboutUsContent: (state, action: PayloadAction<IBriefAboutUsContent>) => {
             state.homeContent.briefAboutUsContent = action.payload;
@@ -72,8 +80,8 @@ const homeSlice = createSlice({
         updateLegalExpertiseHead: (state, action: PayloadAction<IExpertiseHead>) => {
             state.homeContent.expertiseContent.heading = `${action.payload.heading}`;
             state.homeContent.expertiseContent.mainText = action.payload.description;
-         },
-        updateLegalExpertiseContent:(state, action: PayloadAction<IExpertiseContentListItem>) => {
+        },
+        updateLegalExpertiseContent: (state, action: PayloadAction<IExpertiseContentListItem>) => {
             const index = state.homeContent.expertiseContent.expertiseContentList!.findIndex(item => item._id === action.payload._id);
             state.homeContent.expertiseContent.expertiseContentList![index] = action.payload;
         },
@@ -95,7 +103,7 @@ const homeSlice = createSlice({
         },
         deleteIndustryExpertiseTab: (state, action: PayloadAction<Iid>) => {
             state.homeContent.industryExpertise.industryExpertiseContentList = state.homeContent.industryExpertise.industryExpertiseContentList!
-                .filter(item=> item._id !== action.payload.id)
+                .filter(item => item._id !== action.payload.id)
         },
         updateIndustryExpertiseTab: (state, action: PayloadAction<IIndustryExpertiseContentList>) => {
             const index = state.homeContent.industryExpertise.industryExpertiseContentList!
@@ -131,7 +139,8 @@ const homeSlice = createSlice({
         }))
         builder.addCase(updateHomeContentAsync.rejected, (state, action) => ({
             ...state,
-            errorMessage: action.error.message
+            errorMessage: action.error.message,
+            loadingContent: false,
         }))
     }
 });

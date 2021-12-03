@@ -58,7 +58,6 @@ const IndustryExpertiseEditContent: React.FC<IIndustryExpertiseEditContentProps>
                         };
 
                         EditModeOff();
-                        console.log(values);
                         dispatch(updateHomeContentAsync(updatedHomeContent));
                     }
                     }
