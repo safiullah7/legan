@@ -14,9 +14,13 @@ export const getBlogByIdAsync = createAsyncThunk('blog/getBlogByIdAsync', async 
 })
 
 export const addBlogAsync = createAsyncThunk('blog/addBlogAsync',
-    async (newBlog: IAddBlog) => {
+    async (newBlog: IAddBlog, { rejectWithValue }) => {
         const updatedTeam = agent.blog.saveBlog(newBlog);
-        return updatedTeam;
+        if (updatedTeam) {
+            return updatedTeam;
+        } else {
+            return rejectWithValue('Something went wrong');
+        }
     })
 
 export const updateBlogAsync = createAsyncThunk('blog/updateBlogAsync',

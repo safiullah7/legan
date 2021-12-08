@@ -7,6 +7,7 @@ import { IBlog, IAddBlog } from '../models/blog';
 import { IPropsFAQsListItem } from "../models/faqs";
 
 axios.defaults.baseURL = 'https://legan-server.herokuapp.com/api';
+// axios.defaults.baseURL = 'http://localhost:1338/api';
 
 axios.interceptors.request.use(
     (config) => {
@@ -18,26 +19,6 @@ axios.interceptors.request.use(
         return Promise.reject(error);
     }
 );
-
-// axios.interceptors.response.use(undefined, error => { 
-//     const history = useHistory();
-//     //first param is when successful req, second when promise rejected
-//     debugger;
-//     if (error.message === 'Network Error' && !error.response) {
-//         // toast.error('Network Error - make sure the API is running!');
-//     }
-//     const {status, data, config} = error.response;
-//     if (status === 404) {
-//         history.push('/notfound');
-//     }
-//     if (status === 400 && config.method === 'get' && data.errors.hasOwnProperty('id')) {
-//         history.push('/notfound');
-//     }
-//     if (status === 500) {
-//         // toast.error('Server error - check the terminal for more info!');
-//     }
-//     throw error.response;
-// });
 
 const responseBody = (response: AxiosResponse) => response.data
 

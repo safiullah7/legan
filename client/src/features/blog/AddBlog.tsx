@@ -180,7 +180,7 @@ const AddUpdateBlog: React.FC<IProps> = ({ selectedBlog, editMode }) => {
                                                     error={touched.type && Boolean(errors.type)}
                                                 >
                                                     {categories.map((category) => {
-                                                        return <MenuItem value={category.value}>{category.name}</MenuItem>
+                                                        return <MenuItem key={category._id} value={category.value}>{category.name}</MenuItem>
                                                     })}
                                                 </Select>
                                                 <br />

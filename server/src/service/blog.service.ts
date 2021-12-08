@@ -11,7 +11,7 @@ export async function getBlogById(_id: string) {
 }
 
 export async function addNewBlog(input: DocumentDefinition<IBlog>) {
-    Blog.create(input);
+    await Blog.create(input);
     return Blog.find().lean()
 }
 
