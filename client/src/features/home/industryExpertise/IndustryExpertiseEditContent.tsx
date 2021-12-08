@@ -8,7 +8,7 @@ import { EditorState, convertToRaw, } from 'draft-js';
 import { stateFromHTML } from 'draft-js-import-html'
 import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
-import { getHomeContentSelector, updateHomeContentAsync, updateIndustryExpertiseTab } from '../home.slice';
+import { getHomeContentSelector, updateHomeContentAsync } from '../home.slice';
 import { useSelector } from 'react-redux';
 import { IHome } from '../../../models/home';
 

@@ -1,4 +1,4 @@
-import { Container, IconButton } from '@material-ui/core'
+import { Box, Container, IconButton } from '@material-ui/core'
 import { AddCircle } from "@material-ui/icons";
 import React from 'react'
 import styled from 'styled-components'
@@ -10,11 +10,11 @@ import { useAppDispatch } from "../../store.hooks";
 import { getFAQAsync, getFAQContentSelector } from "./FAQs.slice";
 import AddUpdateFAQ from './AddFAQ'
 import { IPropsFAQsListItem } from '../../models/faqs';
+import { Skeleton } from '@material-ui/lab';
 
 const FAQs = () => {
     const { FAQs, loading } = useSelector(getFAQContentSelector);
 
-    const [totalFAQs, setTotalFAQs] = React.useState(FAQs);
     const [editMode, setEditMode] = React.useState<true | false>(false);
     const [selectedFAQ, setSelectedFAQ] = React.useState<IPropsFAQsListItem>();
 
@@ -25,32 +25,44 @@ const FAQs = () => {
 
     React.useEffect(() => {
         dispatch(getFAQAsync());
-        setTotalFAQs(FAQs)
-    }, []);
+    }, [dispatch]);
 
     return (
         <>
-            {editMode && selectedFAQ ? 
-                <AddUpdateFAQ editMode={editMode} selectedFAQ={selectedFAQ} setEditMode={setEditMode} />
-                :
-                <DivFAQsContainer>
-                <Container maxWidth="xl" className="container" >
-                    <DivFAQsContent>
-                        <h2>Frequently Asked Questions</h2>
-                    </DivFAQsContent>
-                    {isLoggedIn &&
-                        <IconButton size="medium" color="primary" aria-label="Add New" onClick={() => history.push('/faqs/new')}>
-                            <AddCircle />
-                        </IconButton>
-                    }
-                    <FAQsList
-                        setEditMode={setEditMode}
-                        setSelectedFAQ={setSelectedFAQ}
-                        FaqsList={FAQs}
-                    />
-                </Container>
-            </DivFAQsContainer>
-            }
+            <div>
+                {editMode && selectedFAQ ?
+                    <AddUpdateFAQ editMode={editMode} selectedFAQ={selectedFAQ} setEditMode={setEditMode} />
+                    :
+                    <DivFAQsContainer>
+                        <Container maxWidth="xl" className="container" >
+                            <DivFAQsContent>
+                                <h2>Frequently Asked Questions</h2>
+                            </DivFAQsContent>
+                            {isLoggedIn &&
+                                <IconButton size="medium" color="primary" aria-label="Add New" onClick={() => history.push('/faqs/new')}>
+                                    <AddCircle />
+                                </IconButton>
+                            }
+                            {loading ?
+                                <Box>
+                                    <Skeleton />
+                                    <Skeleton />
+                                    <Skeleton />
+                                    <Skeleton animation="wave" />
+                                    <Skeleton animation={false} />
+                                </Box>
+                                :
+                                <FAQsList
+                                    setEditMode={setEditMode}
+                                    setSelectedFAQ={setSelectedFAQ}
+                                    FaqsList={FAQs}
+                                />
+                            }
+
+                        </Container>
+                    </DivFAQsContainer>
+                }
+            </div>
         </>
     )
 }

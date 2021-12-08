@@ -6,7 +6,9 @@ import routes from './routes/routes';
 import deserializeUser from './middlewares/deserializeUser';
 import cors from 'cors';
 import fileupload from 'express-fileupload';
+import * as dotenv from "dotenv";
 
+require('dotenv').config();
 
 const port = config.get("port") as number;
 const host = config.get("host") as string;

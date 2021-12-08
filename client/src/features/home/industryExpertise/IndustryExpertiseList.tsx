@@ -5,7 +5,7 @@ import { IHome, IIndustryExpertiseContentList } from '../../../models/home';
 import { AddCircle, Delete, Edit } from '@material-ui/icons';
 import parser from 'html-react-parser';
 import { useAppDispatch } from '../../../store.hooks';
-import { addIndustryExpertiseTab, deleteIndustryExpertiseTab, getHomeContentSelector, updateHomeContentAsync } from '../home.slice';
+import { addIndustryExpertiseTab, getHomeContentSelector, updateHomeContentAsync } from '../home.slice';
 import { TransitionProps } from '@material-ui/core/transitions';
 import IndustryExpertiseEditContent from './IndustryExpertiseEditContent';
 import { v4 as uuidv4 } from 'uuid';

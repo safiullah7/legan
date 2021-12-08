@@ -7,7 +7,7 @@ import { Edit } from '@material-ui/icons';
 import { Form, FormikProvider, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useAppDispatch } from '../../../store.hooks';
-import { getHomeContentSelector, updateHomeContentAsync, updateIndustryExpertiseHead } from '../home.slice';
+import { getHomeContentSelector, updateHomeContentAsync } from '../home.slice';
 import { getAuthSelector } from '../../login/auth.slice';
 import { useSelector } from 'react-redux';
 

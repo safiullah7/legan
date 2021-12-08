@@ -1,7 +1,7 @@
 import { Button, TextField } from '@material-ui/core';
 import { Editor } from 'react-draft-wysiwyg';
 import { Formik } from 'formik';
-import React, { useState } from 'react'
+import React from 'react'
 import * as yup from 'yup';
 import { EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
@@ -13,7 +13,6 @@ import { useAppDispatch } from '../../store.hooks';
 import { addFAQAsync, updateFAQAsync } from './FAQs.slice';
 import { IPropsFAQsListItem } from '../../models/faqs';
 import { stateFromHTML } from 'draft-js-import-html';
-import { faqsQAs } from "../../models/faqs"
 import { useHistory } from "react-router-dom";
 
 interface IProps {

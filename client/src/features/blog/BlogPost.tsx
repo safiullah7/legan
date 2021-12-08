@@ -17,10 +17,6 @@ import AddBlog from "./AddBlog";
 import { getAuthSelector } from "../login/auth.slice";
 import { TransitionProps } from "@material-ui/core/transitions";
 
-interface IBlogId {
-  id: string;
-}
-
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & { children?: React.ReactElement<any, any> },
   ref: React.Ref<unknown>
@@ -41,7 +37,7 @@ const BlogPost = () => {
 
   React.useEffect(() => {
     dispatch(getBlogByIdAsync(blogId.id));
-  }, [dispatch]);
+  }, [dispatch, blogId.id]);
 
   const handleLikes = () => {
     setLikedPost((likedPost) => !likedPost);
@@ -55,130 +51,130 @@ const BlogPost = () => {
   return (
     <>
       {
-      loading && (
-        <DivBlogPost>
-          <Container className="container" maxWidth="xl">
-            <DivSkeleton>
-              <br />
-              <Skeleton variant="text" width="100px" height="18px" /> <br />
-              <Skeleton variant="text" width="120px" height="21px" style={{ display: "inline-block" }} />{" "}
-              <Skeleton
-                variant="text"
-                width="120px"
-                height="21px"
-                style={{ display: "inline-block", margin: "0px 30px" }}
-              />
-              <br />
-              <br />
-              <Skeleton variant="text" height="60px" />
-              <Skeleton variant="rect" width="100%" height="450px" />
-              <br />
-              <Skeleton variant="text" />
-              <Skeleton variant="text" />
-              <Skeleton variant="text" />
-              <Skeleton variant="text" />
-              <Skeleton variant="text" width="60%" />
-            </DivSkeleton>
-          </Container>
-        </DivBlogPost>
-      )
+        loading && (
+          <DivBlogPost>
+            <Container className="container" maxWidth="xl">
+              <DivSkeleton>
+                <br />
+                <Skeleton variant="text" width="100px" height="18px" /> <br />
+                <Skeleton variant="text" width="120px" height="21px" style={{ display: "inline-block" }} />{" "}
+                <Skeleton
+                  variant="text"
+                  width="120px"
+                  height="21px"
+                  style={{ display: "inline-block", margin: "0px 30px" }}
+                />
+                <br />
+                <br />
+                <Skeleton variant="text" height="60px" />
+                <Skeleton variant="rect" width="100%" height="450px" />
+                <br />
+                <Skeleton variant="text" />
+                <Skeleton variant="text" />
+                <Skeleton variant="text" />
+                <Skeleton variant="text" />
+                <Skeleton variant="text" width="60%" />
+              </DivSkeleton>
+            </Container>
+          </DivBlogPost>
+        )
       }
       {
-      !loading && 
-      selectedBlog !== undefined && selectedBlog !== null ? (
-        <DivBlogPost>
-          {editMode ? (
-            <AddBlog selectedBlog={selectedBlog} editMode={editMode}></AddBlog>
-          ) : (
-            <Container className="container" maxWidth="xl">
-              <PageScrollProgress />
-              <DivBlogPostContainer imageUrl={selectedBlog.imageUrl}>
-                <div className="view">
-                  <VisibilityOutlined className="view-icon" />
-                  <p>{selectedBlog.views}</p>
-                </div>
-                <div className="like">
-                  {likedPost ? (
-                    <FavoriteOutlined color="primary" onClick={() => handleLikes()} className="like-icon" />
-                  ) : (
-                    <FavoriteBorderOutlined onClick={() => handleLikes()} color="primary" className="like-icon" />
-                  )}
-                  <p>{selectedBlog.likes}</p>
-                </div>
-                <Grid container>
-                  <Grid item md={9} sm={11} xs={12} className="blog-post-grid">
-                    <span className="blog-type">{selectedBlog.type}</span>
-                    <br />
-                    <div className="blog-name-date">
-                      <span className="date">
-                        <img src="/calendar-icon.png" alt="calendasr" />
-                        {selectedBlog.date}
-                      </span>
-                      <span className="name">
-                        <img src="/user-icon.png" alt="user" />
-                        {selectedBlog.writer}
-                      </span>
-                      {isLoggedIn && (
-                        <>
-                          <IconButton aria-label="edit" color="primary" onClick={() => setEditMode(true)}>
-                            <EditIcon fontSize="inherit" />
-                          </IconButton>
-                          <IconButton aria-label="edit" color="primary" onClick={() => setOpenDialog(true)}>
-                            <DeleteIcon color="error" fontSize="inherit" />
-                          </IconButton>
-                        </>
-                      )}
-                    </div>
-                    <h3 className="blog-heading">{selectedBlog.title}</h3>
-                    <BlogImage imageUrl={selectedBlog.imageUrl}>
-                      <div className="main-blog-image"></div>
-                    </BlogImage>
-                    {/* <img className="blog-image" src={`${selectedBlog.imageUrl}`} alt="post" /> */}
-                    <div className="blog-content">{parse(selectedBlog.description)}</div>
+        !loading &&
+          selectedBlog !== undefined && selectedBlog !== null ? (
+          <DivBlogPost>
+            {editMode ? (
+              <AddBlog selectedBlog={selectedBlog} editMode={editMode}></AddBlog>
+            ) : (
+              <Container className="container" maxWidth="xl">
+                <PageScrollProgress />
+                <DivBlogPostContainer imageUrl={selectedBlog.imageUrl}>
+                  <div className="view">
+                    <VisibilityOutlined className="view-icon" />
+                    <p>{selectedBlog.views}</p>
+                  </div>
+                  <div className="like">
+                    {likedPost ? (
+                      <FavoriteOutlined color="primary" onClick={() => handleLikes()} className="like-icon" />
+                    ) : (
+                      <FavoriteBorderOutlined onClick={() => handleLikes()} color="primary" className="like-icon" />
+                    )}
+                    <p>{selectedBlog.likes}</p>
+                  </div>
+                  <Grid container>
+                    <Grid item md={9} sm={11} xs={12} className="blog-post-grid">
+                      <span className="blog-type">{selectedBlog.type}</span>
+                      <br />
+                      <div className="blog-name-date">
+                        <span className="date">
+                          <img src="/calendar-icon.png" alt="calendasr" />
+                          {selectedBlog.date}
+                        </span>
+                        <span className="name">
+                          <img src="/user-icon.png" alt="user" />
+                          {selectedBlog.writer}
+                        </span>
+                        {isLoggedIn && (
+                          <>
+                            <IconButton aria-label="edit" color="primary" onClick={() => setEditMode(true)}>
+                              <EditIcon fontSize="inherit" />
+                            </IconButton>
+                            <IconButton aria-label="edit" color="primary" onClick={() => setOpenDialog(true)}>
+                              <DeleteIcon color="error" fontSize="inherit" />
+                            </IconButton>
+                          </>
+                        )}
+                      </div>
+                      <h3 className="blog-heading">{selectedBlog.title}</h3>
+                      <BlogImage imageUrl={selectedBlog.imageUrl}>
+                        <div className="main-blog-image"></div>
+                      </BlogImage>
+                      {/* <img className="blog-image" src={`${selectedBlog.imageUrl}`} alt="post" /> */}
+                      <div className="blog-content">{parse(selectedBlog.description)}</div>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </DivBlogPostContainer>
-              <Dialog
-                className="dialog-box"
-                open={openDialog}
-                keepMounted
-                TransitionComponent={Transition}
-                transitionDuration={500}
-                onClose={() => setOpenDialog(false)}
-                fullWidth
-                scroll="body"
-              >
-                <div style={{ textAlign: "center", padding: 30 }}>
-                  <h3>Do you want to delete this Blog?</h3>
-                  <Button
-                    style={{ margin: 5 }}
-                    color="secondary"
-                    size="large"
-                    variant="contained"
-                    onClick={() => {
-                      deleteBlog();
-                      setOpenDialog(false);
-                    }}
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    style={{ margin: 5 }}
-                    color="primary"
-                    size="large"
-                    variant="contained"
-                    onClick={() => setOpenDialog(false)}
-                  >
-                    No
-                  </Button>
-                </div>
-              </Dialog>
-            </Container>
-          )}
-        </DivBlogPost>
-      ) : (
-        <NotFound />
-      )}
+                </DivBlogPostContainer>
+                <Dialog
+                  className="dialog-box"
+                  open={openDialog}
+                  keepMounted
+                  TransitionComponent={Transition}
+                  transitionDuration={500}
+                  onClose={() => setOpenDialog(false)}
+                  fullWidth
+                  scroll="body"
+                >
+                  <div style={{ textAlign: "center", padding: 30 }}>
+                    <h3>Do you want to delete this Blog?</h3>
+                    <Button
+                      style={{ margin: 5 }}
+                      color="secondary"
+                      size="large"
+                      variant="contained"
+                      onClick={() => {
+                        deleteBlog();
+                        setOpenDialog(false);
+                      }}
+                    >
+                      Yes
+                    </Button>
+                    <Button
+                      style={{ margin: 5 }}
+                      color="primary"
+                      size="large"
+                      variant="contained"
+                      onClick={() => setOpenDialog(false)}
+                    >
+                      No
+                    </Button>
+                  </div>
+                </Dialog>
+              </Container>
+            )}
+          </DivBlogPost>
+        ) : (
+          <NotFound />
+        )}
     </>
   );
 };

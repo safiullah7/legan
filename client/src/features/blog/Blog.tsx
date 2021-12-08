@@ -1,5 +1,5 @@
 import { Button, Container, Grid, IconButton } from "@material-ui/core";
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import RecentPost from "./RecentPost";
 import { categories, IBlog, IStyled } from '../../models/blog';
@@ -28,17 +28,17 @@ const Blog = () => {
   React.useEffect(() => {
     dispatch(getBlogAsync());
   }, [dispatch]);
-  
+
   React.useEffect(() => {
     setTotalBlogs(blog)
     setNoOfPages(Math.ceil(blog.length / noOfPost))
     setBlogsOnCurrentPage(blog.slice((page - 1) * noOfPost, page * noOfPost))
-  }, [blog])
+  }, [blog, page])
 
   React.useEffect(() => {
     setBlogsOnCurrentPage(totalBlogs.slice((page - 1) * noOfPost, page * noOfPost))
-  }, [page])
-  
+  }, [page, totalBlogs])
+
   return (
     <>
       {
@@ -56,7 +56,7 @@ const Blog = () => {
                     <AddCircle />
                   </IconButton>
                 }
-                {blog[0] && 
+                {blog[0] &&
                   <DivMainBlog imageUrl={blog[0].imageUrl}>
                     <Grid container>
                       <Grid item md={6} sm={12} xs={12} className="main-blog-image"></Grid>

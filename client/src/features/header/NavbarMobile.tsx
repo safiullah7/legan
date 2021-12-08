@@ -1,9 +1,10 @@
 import { GroupOutlined, HomeOutlined, LibraryBooksOutlined, ReceiptOutlined, SendOutlined } from '@material-ui/icons';
 import React from 'react'
 import { useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { getAuthSelector } from '../login/auth.slice';
+import { useAppDispatch } from '../../store.hooks';
+import { getAuthSelector, logoutUser } from '../login/auth.slice';
 
 interface INavbarMobile {
   homeActive: string,
@@ -19,11 +20,10 @@ const NavbarMobile: React.FC<INavbarMobile> = (
 ) => {
 
   const { isLoggedIn } = useSelector(getAuthSelector);
-  const history = useHistory();
+  const dispatch = useAppDispatch();
 
   const logout = () => {
-    localStorage.removeItem("user");
-    history.push('/login');
+    dispatch(logoutUser({}));
   }
 
   return (

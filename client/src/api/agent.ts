@@ -6,7 +6,7 @@ import { AddTeamMember, ITeamMember } from '../models/team';
 import { IBlog, IAddBlog } from '../models/blog';
 import { IPropsFAQsListItem } from "../models/faqs";
 
-axios.defaults.baseURL = 'http://localhost:1337/api';
+axios.defaults.baseURL = 'https://legan-server.herokuapp.com/api';
 
 axios.interceptors.request.use(
     (config) => {
@@ -42,10 +42,10 @@ axios.interceptors.request.use(
 const responseBody = (response: AxiosResponse) => response.data
 
 const requests = {
-    get:  (url: string) => axios.get(url).then(responseBody),
+    get: (url: string) => axios.get(url).then(responseBody),
     post: (url: string, body: {}) => axios.post(url, body).then(responseBody),
-    put:  (url: string, body: {}) => axios.put(url, body).then(responseBody),
-    del:  (url: string) => axios.delete(url).then(responseBody),
+    put: (url: string, body: {}) => axios.put(url, body).then(responseBody),
+    del: (url: string) => axios.delete(url).then(responseBody),
     postForm: (url: string, formObject: any = null) => {
         let formData = new FormData();
         // formData.append('file', file); // key 'File' must match with api method param
@@ -55,7 +55,7 @@ const requests = {
             }
         }
         return axios.post(url, formData, {
-            headers: {'Content-type': 'multipart/form-data'}
+            headers: { 'Content-type': 'multipart/form-data' }
         }).then(responseBody)
     },
     putForm: (url: string, formObject: any = null) => {
@@ -67,7 +67,7 @@ const requests = {
             }
         }
         return axios.put(url, formData, {
-            headers: {'Content-type': 'multipart/form-data'}
+            headers: { 'Content-type': 'multipart/form-data' }
         }).then(responseBody)
     },
     postBlogForm: (url: string, formObject: any = null) => {
@@ -79,7 +79,7 @@ const requests = {
             }
         }
         return axios.post(url, formData, {
-            headers: {'Content-type': 'multipart/form-data'}
+            headers: { 'Content-type': 'multipart/form-data' }
         }).then(responseBody)
     },
     putBlogForm: async (url: string, formObject: any = null) => {
@@ -94,15 +94,15 @@ const requests = {
         // console.log("UPDATE BLOG: ", formData);
         // return axios.get(url).then(responseBody)
         return axios.put(url, formData, {
-            headers: {'Content-type': 'multipart/form-data'}
+            headers: { 'Content-type': 'multipart/form-data' }
         }).then(responseBody)
     }
 };
 
 const home = {
     getContent: (): Promise<IHome> => requests.get('/home'),
-    updateContent: (updatedHomeContent: IHome):Promise<IHome> => 
-        requests.put(`/home/${updatedHomeContent._id}`, {...updatedHomeContent})
+    updateContent: (updatedHomeContent: IHome): Promise<IHome> =>
+        requests.put(`/home/${updatedHomeContent._id}`, { ...updatedHomeContent })
     // details: (id: string) => requests.get(`/activities/${id}`),
     // create: (activity: IProduct) => requests.post('/activities', activity),
     // update: (activity: IProduct) => requests.put(`/activities/${activity.id}`, activity),
@@ -117,7 +117,7 @@ const user = {
 
 const team = {
     getTeam: (): Promise<ITeamMember[]> => requests.get('/team'),
-    addTeamMember: (obj: AddTeamMember): Promise<ITeamMember[]> => { 
+    addTeamMember: (obj: AddTeamMember): Promise<ITeamMember[]> => {
         return requests.postForm('/team', obj)
     },
     updateTeamMember: (obj: AddTeamMember): Promise<ITeamMember[]> => {
@@ -132,7 +132,7 @@ const blog = {
     getBlogs: (): Promise<IBlog[]> => requests.get('/blog'),
     getBlog: (_id: string): Promise<IBlog> => requests.get(`/blog/${_id}`),
     saveBlog: (blog: IAddBlog): Promise<IBlog[]> => requests.postBlogForm('/blog', blog),
-    updateBlog: (blog: IAddBlog): Promise<IBlog[]> => { 
+    updateBlog: (blog: IAddBlog): Promise<IBlog[]> => {
         const id = blog._id
         delete blog._id
         return requests.putBlogForm(`/blog/${id}`, blog)

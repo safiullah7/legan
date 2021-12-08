@@ -1,4 +1,4 @@
-import { Button, Container, Grid, TextField } from '@material-ui/core';
+import { Button, CircularProgress, Container, Grid, TextField } from '@material-ui/core';
 import { useSelector } from "react-redux";
 import styled from 'styled-components';
 import * as Yup from 'yup';
@@ -8,14 +8,16 @@ import { loginAsync } from './auth.slice';
 import { useHistory } from 'react-router';
 import { getAuthSelector } from "./auth.slice";
 import { useEffect } from 'react';
+import { Alert } from '@material-ui/lab';
 
 const Login = () => {
 
     const dispatch = useAppDispatch();
     const history = useHistory();
-    const { isLoggedIn } = useSelector(getAuthSelector);
+    const { isLoggedIn, loading, errorMessage } = useSelector(getAuthSelector);
 
     useEffect(() => {
+        debugger;
         if (isLoggedIn && localStorage.getItem("user") !== null) {
             history.push("/");
         }
@@ -36,10 +38,9 @@ const Login = () => {
             try {
                 dispatch(loginAsync(values));
                 console.log(values);
-                resetForm();
+                // resetForm();
                 setSubmitting(false);
-                history.push("/");
-            } catch (error) {
+            } catch (error: any) {
                 console.log(error);
                 setSubmitting(false);
                 setErrors(error);
@@ -52,7 +53,7 @@ const Login = () => {
             <DivLogin>
                 <Container className="container" maxWidth="xl">
                     <Grid container>
-                        <Grid className="colored-grid" item md={6}>
+                        <Grid className="colored-grid" item md={3}>
                         </Grid>
                         <Grid item md={6} sm={12} xs={12}>
                             <DivLoginForm>
@@ -96,11 +97,23 @@ const Login = () => {
                                         >
                                             Log In
                                         </Button>
+                                        <br />
+                                        <br />
+                                        {loading &&
+                                            <CircularProgress color="inherit" />
+                                        }
                                     </Form>
                                 </FormikProvider>
 
 
                             </DivLoginForm>
+                            <br />
+
+                            {errorMessage &&
+                                <Alert variant="filled" severity="error">
+                                    {errorMessage}
+                                </Alert>
+                            }
                         </Grid>
                     </Grid>
                 </Container>

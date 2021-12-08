@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import ScrollToTop from '../controls/ScrollToTop';
 import Footer from '../features/footer/Footer';
 import Navbar from '../features/header/Navbar';
-import { getAuthSelector, updateUserObject } from '../features/login/auth.slice';
+import { updateUserObject } from '../features/login/auth.slice';
 import { IUser } from '../models/user';
 import { useAppDispatch } from '../store.hooks';
 import jwt_decode from 'jwt-decode';

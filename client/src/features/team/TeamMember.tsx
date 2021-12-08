@@ -7,7 +7,6 @@ import BodyHeader from '../../controls/BodyHeader';
 import { useSelector } from 'react-redux';
 import { deleteTeamMemberAsync, getTeamContentSelector, setSelectedTeamMemberAsync } from './team.slice';
 import { useAppDispatch } from '../../store.hooks';
-import { Skeleton } from '@material-ui/lab';
 import NotFound from '../not-found/NotFound';
 import { getAuthSelector } from '../login/auth.slice';
 import EditIcon from '@material-ui/icons/Edit';
@@ -22,9 +21,9 @@ type IId = {
 }
 
 const Transition = React.forwardRef(function Transition(
-        props: TransitionProps & { children?: React.ReactElement<any, any> },
-        ref: React.Ref<unknown>,
-    ) {
+    props: TransitionProps & { children?: React.ReactElement<any, any> },
+    ref: React.Ref<unknown>,
+) {
     return <Slide direction="down" ref={ref} {...props} />;
 });
 
@@ -42,7 +41,7 @@ const TeamMember = () => {
         dispatch(setSelectedTeamMemberAsync(id));
     }, [id, dispatch]);
 
-    const deleteMember = async  () => {
+    const deleteMember = async () => {
         dispatch(deleteTeamMemberAsync(id));
         history.push('/team')
     }
@@ -92,10 +91,10 @@ const TeamMember = () => {
                                         fullWidth
                                         scroll="body"
                                     >
-                                        <div style={{textAlign: "center", padding: 30}}>
+                                        <div style={{ textAlign: "center", padding: 30 }}>
                                             <h3>Do you want to delete this Team Member?</h3>
-                                            <Button style={{margin: 5}} color="secondary" size="large" variant="contained" onClick={() => {deleteMember(); setOpenDialog(false)}}>Yes</Button>
-                                            <Button style={{margin: 5}} color="primary" size="large" variant="contained" onClick={() => setOpenDialog(false)}>No</Button>
+                                            <Button style={{ margin: 5 }} color="secondary" size="large" variant="contained" onClick={() => { deleteMember(); setOpenDialog(false) }}>Yes</Button>
+                                            <Button style={{ margin: 5 }} color="primary" size="large" variant="contained" onClick={() => setOpenDialog(false)}>No</Button>
                                         </div>
                                     </Dialog>
                                 </Container>

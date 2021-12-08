@@ -1,5 +1,4 @@
-import { Button, CircularProgress, TextField, Select, MenuItem, InputLabel, FormControl } from '@material-ui/core';
-import { Skeleton } from '@material-ui/lab';
+import { Button, CircularProgress, TextField, Select, MenuItem } from '@material-ui/core';
 import { Editor } from 'react-draft-wysiwyg';
 import { Formik } from 'formik';
 import React, { useState, useEffect } from 'react'
@@ -170,6 +169,7 @@ const AddUpdateBlog: React.FC<IProps> = ({ selectedBlog, editMode }) => {
                                                         margin: 15,
                                                         textAlign: 'left'
                                                     }}
+                                                    placeholder="Choose category"
                                                     variant="outlined"
                                                     id="type"
                                                     labelId="demo-simple-select-helper-label"
@@ -215,8 +215,8 @@ const AddUpdateBlog: React.FC<IProps> = ({ selectedBlog, editMode }) => {
                                         </Grid>
                                     </Container>
                                     <Button style={{ width: '500px' }} color="primary" variant="contained" size="small" type='submit'>
-                                        {loadingOnUpdate && <CircularProgress style={{color: "#fff"}} size={22} />}
-                                        {!loadingOnUpdate && 
+                                        {loadingOnUpdate && <CircularProgress style={{ color: "#fff" }} size={22} />}
+                                        {!loadingOnUpdate &&
                                             <>
                                                 <AddCircle className="icon" />
                                                 Save

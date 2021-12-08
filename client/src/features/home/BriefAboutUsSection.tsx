@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { IBriefAboutUsContent, IService } from "../../models/home";
 import * as yup from 'yup';
 import { FieldArray, Form, Formik, } from "formik";
-import { getHomeContentSelector, updateHomeContentAsync, updateBriefAboutUsContent } from "./home.slice";
+import { getHomeContentSelector, updateHomeContentAsync } from "./home.slice";
 import { useAppDispatch } from "../../store.hooks";
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -39,7 +39,6 @@ const BriefAboutUsSection: React.FC<IProps> = ({ briefAboutUsContent }) => {
   const headingPart1 = fullHeading.shift();
   const headingPart2 = fullHeading.join(' ');
   const refScroll = React.useRef(null);
-  const executeScroll = () => (refScroll as any).current.scrollIntoView({ behavior: 'smooth' });
   const [editmode, setEditMode] = useState(false);
   const [openDialog, setOpenDialog] = React.useState<true | false>(false);
   const [deleteIndex, SetDeleteIndex] = React.useState<number>(-1);

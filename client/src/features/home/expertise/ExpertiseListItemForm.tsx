@@ -7,7 +7,7 @@ import draftToHtml from 'draftjs-to-html';
 import { stateFromHTML } from 'draft-js-import-html'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { useAppDispatch } from '../../../store.hooks';
-import { getHomeContentSelector, updateHomeContentAsync, updateLegalExpertiseContent } from '../home.slice';
+import { getHomeContentSelector, updateHomeContentAsync } from '../home.slice';
 import { IExpertiseContentListItem, IHome } from '../../../models/home';
 import * as Yup from 'yup';
 import styled from 'styled-components';
@@ -33,11 +33,6 @@ const ExpertiseListItemForm: React.FC<IProps> = ({
     updateEditMode,
     scrollRef
 }) => {
-    // const [editorState, setEditorState] = React.useState(
-    //     EditorState.createWithContent(
-    //         ContentState.createFromBlockArray(htmlContent.contentBlocks, htmlContent.entityMap)
-    //     )
-    // );
     const { homeContent } = useSelector(getHomeContentSelector);
     const dispatch = useAppDispatch();
     const [editorState, setEditorState] = React.useState(EditorState.createWithContent(stateFromHTML(item.content)));

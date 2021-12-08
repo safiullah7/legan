@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useHistory } from "react-router-dom"
 import { useSelector } from 'react-redux';
-import { getAuthSelector, logout } from '../login/auth.slice';
+import { getAuthSelector, logoutUser } from '../login/auth.slice';
 import { useAppDispatch } from '../../store.hooks';
 
 interface INavbarComponentProps {
@@ -31,9 +31,7 @@ const NavbarDesktop: React.FC<INavbarDesktop> = (
   const dispatch = useAppDispatch();
 
   const logout = () => {
-    localStorage.removeItem("user");
-    history.push('/login');
-    // dispatch(logout);
+    dispatch(logoutUser({}));
   }
   return (
     <>
@@ -232,8 +230,5 @@ const Gap = styled.div`
     margin: 100px;
   }
 `;
-
-
-
 
 export default NavbarDesktop;

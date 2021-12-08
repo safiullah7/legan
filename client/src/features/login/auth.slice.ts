@@ -3,9 +3,13 @@ import agent from '../../api/agent';
 import { ILogin, IUser } from '../../models/user';
 import { RootState } from '../../store';
 
-export const loginAsync = createAsyncThunk('auth/login', async (loginObject: ILogin) => {
+export const loginAsync = createAsyncThunk('auth/login', async (loginObject: ILogin, { rejectWithValue }) => {
     const user = await agent.user.login(loginObject);
-    return user;
+    if (user) {
+        return user;
+    } else {
+        return rejectWithValue('No user found');
+    }
 })
 
 interface IAuthState {
@@ -26,7 +30,8 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        logout: (state, action) => {
+        logoutUser: (state, action) => {
+            debugger;
             localStorage.removeItem("user");
             state.isLoggedIn = false;
             state.user = null;
@@ -55,13 +60,14 @@ const authSlice = createSlice({
             ...state,
             loading: false,
             errorMessage: action.error.message,
-            user: null
+            user: null,
+            isLoggedIn: false
         }))
     }
 });
 
 export const {
-    logout,
+    logoutUser,
     updateUserObject
 } = authSlice.actions;
 

@@ -11,16 +11,6 @@ import { getAuthSelector } from '../../login/auth.slice';
 import { useSelector } from 'react-redux';
 import { IExpertiseContentListItem } from '../../../models/home';
 
-
-interface IExpertiseContent {
-    _id: string,
-    heading: string,
-    subHeading: string,
-    panel: string,
-    icon: string,
-    content: string,
-}
-
 interface IProps {
     heading: string,
     mainText: string,

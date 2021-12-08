@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import agent from '../../api/agent';
-import { AddTeamMember, ITeam, ITeamId, ITeamMember } from '../../models/team';
+import { AddTeamMember, ITeamId, ITeamMember } from '../../models/team';
 import { RootState } from '../../store';
 
 export const getTeamAsync = createAsyncThunk('team/getTeamAsync', async () => {
@@ -8,36 +8,36 @@ export const getTeamAsync = createAsyncThunk('team/getTeamAsync', async () => {
     return team;
 })
 
-export const addTeamMemberAsync = createAsyncThunk('team/addTeamMemberAsync', 
+export const addTeamMemberAsync = createAsyncThunk('team/addTeamMemberAsync',
     async (newTeamMember: AddTeamMember) => {
-    const updatedTeam = agent.team.addTeamMember(newTeamMember);
-    return updatedTeam;
-})
+        const updatedTeam = agent.team.addTeamMember(newTeamMember);
+        return updatedTeam;
+    })
 
-export const updateTeamMemberAsync = createAsyncThunk('team/updateTeamMemberAsync', 
+export const updateTeamMemberAsync = createAsyncThunk('team/updateTeamMemberAsync',
     async (teamMember: AddTeamMember) => {
-    const updatedTeam = agent.team.updateTeamMember(teamMember);
-    return updatedTeam;
-})
+        const updatedTeam = agent.team.updateTeamMember(teamMember);
+        return updatedTeam;
+    })
 
-export const setSelectedTeamMemberAsync = createAsyncThunk('team/setSelectedTeamMemberAsync', 
-    async (id: string, {dispatch, getState}) => {
-    const { teamSlice } = getState() as RootState;
-    const checkMember: ITeamMember = teamSlice.team.filter(member => member._id === id)[0];
-    if (checkMember !== undefined && checkMember !== null) {
-        return checkMember;
-    }
-    else {
-        await dispatch(getTeamAsync());
-        await dispatch(setSelectedTeamMemberAsync(id));
-    }
-})
+export const setSelectedTeamMemberAsync = createAsyncThunk('team/setSelectedTeamMemberAsync',
+    async (id: string, { dispatch, getState }) => {
+        const { teamSlice } = getState() as RootState;
+        const checkMember: ITeamMember = teamSlice.team.filter(member => member._id === id)[0];
+        if (checkMember !== undefined && checkMember !== null) {
+            return checkMember;
+        }
+        else {
+            await dispatch(getTeamAsync());
+            await dispatch(setSelectedTeamMemberAsync(id));
+        }
+    })
 
-export const deleteTeamMemberAsync = createAsyncThunk('team/deleteTeamMemberAsync', 
+export const deleteTeamMemberAsync = createAsyncThunk('team/deleteTeamMemberAsync',
     async (_id: string) => {
-    const updatedTeam = agent.team.deleteTeamMember(_id);
-    return updatedTeam;
-})
+        const updatedTeam = agent.team.deleteTeamMember(_id);
+        return updatedTeam;
+    })
 
 interface ITeamState {
     selectedTeamMember: ITeamMember | null,
@@ -64,7 +64,7 @@ const teamSlice = createSlice({
             if (checkMember !== undefined && checkMember !== null)
                 state.selectedTeamMember = checkMember;
             else {
-                
+
             }
         }
     },
@@ -157,6 +157,6 @@ export const {
     setTeamMember,
 } = teamSlice.actions;
 
-export const getTeamContentSelector = (state: RootState)=> state.teamSlice;
+export const getTeamContentSelector = (state: RootState) => state.teamSlice;
 
 export default teamSlice.reducer;

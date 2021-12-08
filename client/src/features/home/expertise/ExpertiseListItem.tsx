@@ -7,7 +7,7 @@ import ExpertiseListItemForm from './ExpertiseListItemForm';
 import { IExpertiseContentListItem, IHome } from '../../../models/home';
 import { Delete } from '@material-ui/icons';
 import { useAppDispatch } from '../../../store.hooks';
-import { deleteLegalExpertiseContent, getHomeContentSelector, updateHomeContentAsync } from '../home.slice';
+import { getHomeContentSelector, updateHomeContentAsync } from '../home.slice';
 import { TransitionProps } from '@material-ui/core/transitions';
 import { useSelector } from 'react-redux';
 

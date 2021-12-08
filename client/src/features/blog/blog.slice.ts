@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import agent from '../../api/agent';
-import { IBlog, ICategory, IAddBlog } from '../../models/blog';
+import { IBlog, IAddBlog } from '../../models/blog';
 import { RootState } from '../../store';
 
 export const getBlogAsync = createAsyncThunk('blog/getBlogAsync', async () => {
@@ -13,36 +13,36 @@ export const getBlogByIdAsync = createAsyncThunk('blog/getBlogByIdAsync', async 
     return blog;
 })
 
-export const addBlogAsync = createAsyncThunk('blog/addBlogAsync', 
+export const addBlogAsync = createAsyncThunk('blog/addBlogAsync',
     async (newBlog: IAddBlog) => {
-    const updatedTeam = agent.blog.saveBlog(newBlog);
-    return updatedTeam;
-})
+        const updatedTeam = agent.blog.saveBlog(newBlog);
+        return updatedTeam;
+    })
 
-export const updateBlogAsync = createAsyncThunk('blog/updateBlogAsync', 
+export const updateBlogAsync = createAsyncThunk('blog/updateBlogAsync',
     async (blog: IAddBlog) => {
-    const updatedTeam = agent.blog.updateBlog(blog);
-    return updatedTeam;
-})
+        const updatedTeam = agent.blog.updateBlog(blog);
+        return updatedTeam;
+    })
 
-export const setSelectedBlogAsync = createAsyncThunk('blog/setSelectedBlogAsync', 
-    async (_id: string, {dispatch, getState}) => {
-    const { blogSlice } = getState() as RootState;
-    const checkBlog: IBlog = blogSlice.blog.filter(blog => blog._id === _id)[0];
-    if (checkBlog !== undefined && checkBlog !== null) {
-        return checkBlog;
-    }
-    else {
-        await dispatch(getBlogAsync());
-        await dispatch(setSelectedBlogAsync(_id));
-    }
-})
+export const setSelectedBlogAsync = createAsyncThunk('blog/setSelectedBlogAsync',
+    async (_id: string, { dispatch, getState }) => {
+        const { blogSlice } = getState() as RootState;
+        const checkBlog: IBlog = blogSlice.blog.filter(blog => blog._id === _id)[0];
+        if (checkBlog !== undefined && checkBlog !== null) {
+            return checkBlog;
+        }
+        else {
+            await dispatch(getBlogAsync());
+            await dispatch(setSelectedBlogAsync(_id));
+        }
+    })
 
-export const deleteBlogAsync = createAsyncThunk('blog/deleteBlogAsync', 
+export const deleteBlogAsync = createAsyncThunk('blog/deleteBlogAsync',
     async (_id: string) => {
-    const updatedBlog = agent.blog.deleteBlog(_id);
-    return updatedBlog;
-})
+        const updatedBlog = agent.blog.deleteBlog(_id);
+        return updatedBlog;
+    })
 
 interface IBlogState {
     selectedBlog: IBlog | null,
@@ -71,7 +71,7 @@ const blogSlice = createSlice({
                 state.loading = false
             }
             else {
-                
+
             }
         }
     },
@@ -182,6 +182,6 @@ export const {
     setBlog
 } = blogSlice.actions;
 
-export const getBlogContentSelector = (state: RootState)=> state.blogSlice;
+export const getBlogContentSelector = (state: RootState) => state.blogSlice;
 
 export default blogSlice.reducer;

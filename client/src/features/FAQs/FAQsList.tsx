@@ -1,7 +1,6 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { IPropsFAQsListItem } from "../../models/faqs";
-import FAQsListItem from "./FAQsListItem";
 import EditIcon from "@material-ui/icons/Edit";
 import { IconButton } from "@material-ui/core";
 import { useSelector } from "react-redux";
@@ -22,7 +21,7 @@ const FAQsList: React.FC<IPropsFAQsList> = ({ FaqsList, setEditMode, setSelected
     const refShow = React.useRef(null);
     const { height } = useElementSize(refShow);
     const { isLoggedIn } = useSelector(getAuthSelector);
-    
+
 
     const handleClick = () => {
         setShowAnswer((showAnswer) => !showAnswer);
@@ -30,7 +29,7 @@ const FAQsList: React.FC<IPropsFAQsList> = ({ FaqsList, setEditMode, setSelected
 
     useEffect(() => {
         setToggledAnswers(new Array(FaqsList.length).fill(false))
-    }, [])
+    }, [FaqsList.length])
 
     const toggledAnswer = (index: any) => {
         let answers = toggledAnswers

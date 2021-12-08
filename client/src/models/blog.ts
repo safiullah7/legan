@@ -1,5 +1,3 @@
-import { getDate } from "./common";
-
 export interface IBlog {
     _id:  number | string,
     imagePublicId: string,
