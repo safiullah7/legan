@@ -5,6 +5,8 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { IBlog, ICategory } from '../../models/blog';
+import { useHistory } from "react-router-dom"
+
 interface IPropsRecentBlog {
     allBlogs: IBlog[],
     categories: ICategory[],
@@ -13,12 +15,15 @@ interface IPropsRecentBlog {
     setPage: React.Dispatch<React.SetStateAction<number>>,
     setTotalBlogs: React.Dispatch<React.SetStateAction<IBlog[]>>,
 }
+
 const RecentPost: React.FC<IPropsRecentBlog> = (
     { allBlogs, categories, page, setPage, noOfPages, setTotalBlogs }
 ) => {
     const [selectedTab, setSelectedTab] = React.useState<number>(0);
     const [blogs, setFilteredBlogs] = React.useState(allBlogs)
     const scrollRef = React.useRef(null);
+    const history = useHistory();
+
     const handleTabClick = (_id: number, value: string) => {
         console.log("ID: ", _id);
         console.log("VALUE: ", value);
@@ -75,7 +80,9 @@ const RecentPost: React.FC<IPropsRecentBlog> = (
                                 blogs.map(blog => {
                                     return (
                                         <Grid className="blog-container" key={blog._id} item md={4} sm={12} xs={12}>
-                                            <Grid item md={12} sm={12} xs={12} className="blog-image" style={{ backgroundImage: `url(${blog.imageUrl})` }} >
+                                            <Grid item md={12} sm={12} xs={12}>
+                                                <div className="blog-image" style={{ backgroundImage: `url(${blog.imageUrl})` }}
+                                                    onClick={() => history.push(`/blog/${blog._id}`)}></div>
                                             </Grid>
                                             <Grid className="blog-content-container" item md={12} sm={12} xs={12}>
                                                 <p className="blog-type">
@@ -176,6 +183,7 @@ const DivRecentBlogs = styled.div`
             box-shadow: 0px 0px 8px 2px rgba(111, 139, 164, 0.4);
         }
         .blog-image{
+                cursor: 'pointer';
                 width: 100%;
                 min-height: 200px;
                 background-repeat: no-repeat;

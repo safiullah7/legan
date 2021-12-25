@@ -3,7 +3,8 @@ import Blog from "../model/blog.model";
 import { IBlog } from '../types/blog.type';
 
 export async function getBlog() {
-    return Blog.find().lean();
+    const sort = { 'timestamp': -1 }
+    return Blog.find({}).sort({ createdAt: 'desc' }).exec();
 }
 
 export async function getBlogById(_id: string) {
@@ -12,7 +13,7 @@ export async function getBlogById(_id: string) {
 
 export async function addNewBlog(input: DocumentDefinition<IBlog>) {
     await Blog.create(input);
-    return Blog.find().lean()
+    return getBlog();
 }
 
 export async function updateBlog(_id: string, input: DocumentDefinition<IBlog>) {

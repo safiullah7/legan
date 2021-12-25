@@ -4,8 +4,6 @@ import { createHomeContent, getHomeContent, updateHomeContent } from "../service
 
 export async function getHomeContentHandler(req: Request, res: Response) {
     const homeContent = await getHomeContent();
-
-    console.log(JSON.stringify(homeContent));
     return res.send(homeContent[0]);
 }
 

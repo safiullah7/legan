@@ -42,3 +42,17 @@ export const privacyPolicy = {
                         <h3>5 - Contact</h3>
                         <p> Have questions or concerns about Whelp and privacy? Contact us by email at <b>privacy@get.com</b></p>`,
 }
+
+export interface IPolicyDetails {
+    name: string,
+    effectiveDate: Date,
+    content: string
+}
+
+export interface IPolicy {
+    _id: string,
+    privacyPolicy: IPolicyDetails,
+    cookiePolicy: IPolicyDetails,
+    termsAndConditions: IPolicyDetails,
+    websiteTermsOfUse: IPolicyDetails
+}

@@ -130,9 +130,6 @@ const BriefAboutUsSection: React.FC<IProps> = ({ briefAboutUsContent }) => {
                   console.log(JSON.stringify(values, null, 2));
                   dispatch(updateHomeContentAsync(updatedHomeContent));
                   setEditMode(false);
-                  // setTimeout(() => {
-                  //   executeScroll();
-                  // }, 0);
                 }}
               >
                 {({ values, setFieldValue, handleChange, touched, errors }) => (

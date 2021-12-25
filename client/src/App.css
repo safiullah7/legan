@@ -13,6 +13,11 @@
   }
 }
 
+object {
+  width: 100%;
+  pointer-events: none;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

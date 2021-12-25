@@ -17,7 +17,6 @@ const Login = () => {
     const { isLoggedIn, loading, errorMessage } = useSelector(getAuthSelector);
 
     useEffect(() => {
-        debugger;
         if (isLoggedIn && localStorage.getItem("user") !== null) {
             history.push("/");
         }

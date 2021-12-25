@@ -4,6 +4,9 @@ import authSlice from './features/login/auth.slice';
 import teamSlice from './features/team/team.slice';
 import blogSlice from './features/blog/blog.slice';
 import faqSlice from './features/FAQs/FAQs.slice';
+import contactUsSlice from './features/contact-us/contactus.slice';
+import submitrequestSlice from './features/submit/submitrequest.slice';
+import policySlice from './features/privacyPolicy/policy.slice';
 
 const store = configureStore({
     reducer: {
@@ -11,7 +14,10 @@ const store = configureStore({
         authSlice,
         teamSlice,
         blogSlice,
-        faqSlice
+        faqSlice,
+        contactUsSlice,
+        submitrequestSlice,
+        policySlice
     }
 });
 

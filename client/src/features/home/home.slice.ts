@@ -12,7 +12,6 @@ export const getHomeContentAsync = createAsyncThunk('home/getHomeContent', async
 export const updateHomeContentAsync = createAsyncThunk('home/updateHomeContentAsync',
     async (updatedHomeContent: IHome, { rejectWithValue }) => {
         try {
-            debugger;
             const homeContent = agent.home.updateContent(updatedHomeContent);
             console.log(homeContent);
             return homeContent;
@@ -54,6 +53,16 @@ const initialState: IHomeState = {
             heading: '',
             mainText: '',
             industryExpertiseContentList: null
+        },
+        footerContent: {
+            socialLinks: {
+                facebook: '',
+                linkedIn: ''
+            },
+            underLogoText: ''
+        },
+        generalContent: {
+            whitepaperLink: ''
         },
         _id: '',
         createdAt: null,

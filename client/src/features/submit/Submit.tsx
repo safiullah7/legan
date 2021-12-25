@@ -1,15 +1,21 @@
-import { withStyles } from '@material-ui/core';
+import { Box, IconButton, LinearProgress, withStyles } from '@material-ui/core';
 import { Button, Checkbox, Container } from '@material-ui/core';
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import InputFeild from '../../controls/InputFeild';
 import InputSelect from '../../controls/InputSelect';
 import InputTextArea from '../../controls/InputTextArea';
-import { countries } from '../../models/submit';
+import { countries, queryTypes } from '../../models/submit';
 import * as Yup from 'yup';
 import { Form, FormikProvider, useFormik } from 'formik';
 import { Cancel } from '@material-ui/icons';
+import { useAppDispatch } from '../../store.hooks';
+import { createRequestAsync, getSubmitRequestAsync, getSubmitRequestSelector } from './submitrequest.slice';
+import { useSelector } from 'react-redux';
+import EditIcon from '@material-ui/icons/Edit';
+import { getAuthSelector } from '../login/auth.slice';
+import SubmitContentForm from './SubmitContentForm';
 
 interface ISubmitProps {
     handleCloseDialog: () => void
@@ -19,14 +25,22 @@ const Submit: React.FC<ISubmitProps> = (
     { handleCloseDialog }
 ) => {
     const [fileName, setFileName] = React.useState('');
+    const dispatch = useAppDispatch();
+    const [editmode, setEditMode] = useState(false);
+    const { submitrequest, loading } = useSelector(getSubmitRequestSelector);
+    const { isLoggedIn } = useSelector(getAuthSelector);
+
+    React.useEffect(() => {
+        dispatch(getSubmitRequestAsync());
+    }, [dispatch])
 
     const newUserScema = Yup.object().shape({
         name: Yup.string().required('name is required'),
         email: Yup.string().required('email is required').email(),
+        queryType: Yup.string().required(),
         website: Yup.string().required(),
         country: Yup.string().required(),
-        query: Yup.string().required(),
-        details: Yup.string().required('Details are required'),
+        description: Yup.string().required('Details are required'),
         terms: Yup.boolean().oneOf([true], 'accpet the terms and policy'),
         file: Yup.mixed().required('a file is required'),
     });
@@ -35,10 +49,10 @@ const Submit: React.FC<ISubmitProps> = (
         initialValues: {
             name: '',
             email: '',
+            queryType: '',
             website: '',
             country: '',
-            query: '',
-            details: '',
+            description: '',
             terms: false,
             file: null,
         },
@@ -46,12 +60,13 @@ const Submit: React.FC<ISubmitProps> = (
         onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
             try {
                 // API call
+                dispatch(createRequestAsync(values));
                 console.log(values);
                 handleCloseDialog();
                 resetForm();
                 setSubmitting(false);
             }
-            catch (error) {
+            catch (error: any) {
                 console.log(error);
                 setSubmitting(false);
                 setErrors(error);
@@ -76,8 +91,6 @@ const Submit: React.FC<ISubmitProps> = (
         setFileName('');
         (refFileInput as any).current.value = "";
     }
-    // console.log(formik.values.file);
-    // console.log(fileName);
 
     const CustomColorCheckbox = withStyles({
         root: {
@@ -94,10 +107,24 @@ const Submit: React.FC<ISubmitProps> = (
             <DivSubmit>
                 <Container className="container" maxWidth="xl">
                     <DivAssesmentForm>
-                        <p className="form-head">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                            sed do eiusmod tempor incididunt  ut labore et dolore magna
-                        </p>
+                        {isLoggedIn && (
+                            <IconButton className="edit-icon" color='primary' aria-label="edit" onClick={() => setEditMode(!editmode)}>
+                                <EditIcon fontSize="inherit" />
+                            </IconButton>
+                        )}
+                        {loading ? (
+                            <Box sx={{ width: '100%' }}>
+                                <LinearProgress />
+                            </Box>
+                        ) : (
+                            editmode ? (
+                                <SubmitContentForm setEditMode={setEditMode} submitrequest={submitrequest!} />
+                            ) : (
+                                <p className="form-head">
+                                    {submitrequest?.content}
+                                </p>
+                            )
+                        )}
                         <DivFormHeading>
                             <h3>
                                 Contact Details
@@ -150,11 +177,11 @@ const Submit: React.FC<ISubmitProps> = (
                                     <div className="about-project">
                                         <label htmlFor="Query Type">Query Type:</label>
                                         <InputSelect
-                                            name="query"
-                                            options={countries}
+                                            name="queryType"
+                                            options={queryTypes}
                                             setFieldValue={setFieldValue}
-                                            value={formik.values.query}
-                                            error={Boolean(errors.query && touched.query)}
+                                            value={formik.values.queryType}
+                                            error={Boolean(errors.queryType && touched.queryType)}
                                         />
                                     </div>
                                     <div className="about-project">
@@ -198,14 +225,14 @@ const Submit: React.FC<ISubmitProps> = (
                                     <div className="about-project details">
                                         <label htmlFor="details">Details:</label>
                                         <InputTextArea
-                                            name="details"
+                                            name="description"
                                             placeholder="Type Your Answer"
                                             required={true}
                                             handleChange={handleChange}
                                             handleBlur={handleBlur}
                                             handleReset={handleReset}
-                                            value={formik.values.details}
-                                            error={Boolean(errors.details && touched.details)}
+                                            value={formik.values.description}
+                                            error={Boolean(errors.description && touched.description)}
                                         />
                                     </div>
                                 </DivFormAboutTheProject>

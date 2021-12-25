@@ -1,22 +1,62 @@
-import { Container, Divider, Grid } from "@material-ui/core";
-import React from "react";
+import { Container, Divider, Grid, IconButton, LinearProgress } from "@material-ui/core";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { getAuthSelector } from "../login/auth.slice";
+import { useSelector } from "react-redux";
+import EditIcon from '@material-ui/icons/Edit';
+import { useEffect, useState } from "react";
+import SocialLinksForm from "./SocialLinksForm";
+import { Box } from "@mui/system";
+import { getHomeContentAsync, getHomeContentSelector } from "../home/home.slice";
+import FooterLogoForm from "./FooterLogoForm";
+import { useAppDispatch } from "../../store.hooks";
 
 const Footer = () => {
+
+  const { isLoggedIn } = useSelector(getAuthSelector);
+  const { loadingContent, homeContent } = useSelector(getHomeContentSelector);
+  const [editmode, setEditMode] = useState(false);
+  const [editFooterLogoText, setEditFooterLogoText] = useState(false);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getHomeContentAsync());
+  }, [dispatch])
+
+  const navigateToExternalUrl = (url: string, shouldOpenNewTab: boolean = true) => {
+    const updatedUrl = `https://${url}`;
+    shouldOpenNewTab ? window.open(updatedUrl, "_blank") : window.location.href = updatedUrl;
+  }
+
   return (
     <>
       <DivFoot>
         <Container maxWidth="xl" className="conatiner">
+          {loadingContent && (
+            <Box sx={{ width: '100%' }}>
+              <LinearProgress />
+            </Box>
+          )}
           <Grid container style={{ padding: '30px 0px' }}>
             <Grid item md={3} sm={6} xs={12}>
               <DivFooterDescription>
                 <img src="/footerImg.png" alt="footer-logo" />
-                <p>
-                  Leganix is a consulting company and not a law firm, not a company of attorneys.
-                </p>
+                <span>
+                  {isLoggedIn && (
+                    <IconButton className="edit-icon" color='primary' aria-label="edit" onClick={() => setEditFooterLogoText(!editFooterLogoText)}>
+                      <EditIcon fontSize="inherit" />
+                    </IconButton>
+                  )}
+                </span>
+                {!editFooterLogoText ? (
+                  <p>
+                    {homeContent.footerContent.underLogoText}
+                  </p>
+                ) : (
+                  <FooterLogoForm setEditFooterLogoText={setEditFooterLogoText} />
+                )}
               </DivFooterDescription>
             </Grid>
             <Grid item md={3} sm={6} xs={12}>
@@ -39,22 +79,35 @@ const Footer = () => {
                     DOCUMENTS
                   </h3>
                   <Link style={{ textDecoration: 'none' }} to="/privacypolicy"><p><span>Privacy Policy</span></p></Link>
-                  <p><span>Cookie Policy</span></p>
-                  <p><span>Terms of Service</span></p>
-                  <p><span>Website Terms of Use</span></p>
+                  <Link style={{ textDecoration: 'none' }} to="/cookie-policy"><p><span>Cookie Policy</span></p></Link>
+                  <Link style={{ textDecoration: 'none' }} to="/terms-and-conditions"><p><span>Terms of Service</span></p></Link>
+                  <Link style={{ textDecoration: 'none' }} to="/website-terms-of-use"><p><span>Website Terms of Use</span></p></Link>
                 </div>
               </DivFooterDocuments>
             </Grid>
             <Grid item md={3} sm={6} xs={12}>
               <DivFooterSocialMedia>
                 <div>
-                  <h3>
+                  <h3 style={{ marginTop: 3 }}>
                     SOCIAL MEDIA
+                    <span>
+                      {isLoggedIn && (
+                        <IconButton className="edit-icon" color='primary' aria-label="edit" onClick={() => setEditMode(!editmode)}>
+                          <EditIcon fontSize="inherit" />
+                        </IconButton>
+                      )}
+                    </span>
                   </h3>
-                  <span>
-                    <FontAwesomeIcon className="font-aw-icon" icon={faFacebookSquare} />
-                    <FontAwesomeIcon className="font-aw-icon" icon={faLinkedin} />
-                  </span>
+                  {!editmode ? (
+                    <span>
+                      <FontAwesomeIcon onClick={() => navigateToExternalUrl(homeContent.footerContent.socialLinks.facebook)} target={"_blank"} className="font-aw-icon" icon={faFacebookSquare} />
+                      <FontAwesomeIcon onClick={() => window.open(homeContent.footerContent.socialLinks.linkedIn, "_blank", 'noopener,noreferrer')} className="font-aw-icon" icon={faLinkedin} />
+                    </span>
+                  ) : (
+                    <span>
+                      <SocialLinksForm setEditMode={setEditMode} />
+                    </span>
+                  )}
                 </div>
               </DivFooterSocialMedia>
             </Grid>
@@ -128,8 +181,6 @@ const DivFooterAbout = styled.div`
 padding: 30px 15px 30px 18px;
   div{
     text-align: justify;
-    margin-left: 45px;
-    padding-left: 60px;
     h3{
     color:#006699;
     font-size: 16px;

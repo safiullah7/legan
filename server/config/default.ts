@@ -9,4 +9,5 @@ export default {
     CLOUDINARY_API_KEY: '158325367155989',
     CLOUDINARY_API_SECRET: '_rHsD7jOd90wNV4J_limuc71L9g',
     DB_URI: 'mongodb+srv://safi:safi@cluster0.oaal4.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+    SG_KEY: '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'
 }

@@ -15,8 +15,13 @@ const Navbar = () => {
   const blogActive = path === 'blog' ? 'active-border' : '';
   const logoutActive = path === 'logout' ? 'active-border' : '';
   const letsTalkActive = path === 'contactus' ? 'active-border' : '';
-  if (whitePaperActive === '' && teamActive === '' && blogActive === '' && letsTalkActive === '')
+  const submittedRequestsActive = path === 'submittedrequests' ? 'active-border' : '';
+  const generalActive = path === 'general' ? 'active-border' : '';
+
+  if (path === "")
     homeActive = 'active-border';
+
+  // if (whitePaperActive === '' && teamActive === '' && blogActive === '' && letsTalkActive === '' && submittedRequestsActive === '')
 
   const scrollHandler = () => {
     if (window.scrollY >= 15)
@@ -35,6 +40,8 @@ const Navbar = () => {
         blogActive={blogActive}
         letsTalkActive={letsTalkActive}
         logoutActive={logoutActive}
+        submittedRequestsActive={submittedRequestsActive}
+        generalActive={generalActive}
       />
       <NavbarMobile
         homeActive={homeActive}
@@ -43,6 +50,8 @@ const Navbar = () => {
         blogActive={blogActive}
         letsTalkActive={letsTalkActive}
         logoutActive={logoutActive}
+        submittedRequestsActive={submittedRequestsActive}
+        generalActive={generalActive}
       />
     </>
   );

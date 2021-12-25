@@ -89,7 +89,7 @@ const BlogPost = () => {
               <Container className="container" maxWidth="xl">
                 <PageScrollProgress />
                 <DivBlogPostContainer imageUrl={selectedBlog.imageUrl}>
-                  <div className="view">
+                  {/* <div className="view">
                     <VisibilityOutlined className="view-icon" />
                     <p>{selectedBlog.views}</p>
                   </div>
@@ -100,7 +100,7 @@ const BlogPost = () => {
                       <FavoriteBorderOutlined onClick={() => handleLikes()} color="primary" className="like-icon" />
                     )}
                     <p>{selectedBlog.likes}</p>
-                  </div>
+                  </div> */}
                   <Grid container>
                     <Grid item md={9} sm={11} xs={12} className="blog-post-grid">
                       <span className="blog-type">{selectedBlog.type}</span>
@@ -185,7 +185,7 @@ const BlogImage = styled.div<IStyled>`
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    margin: 15px 15px 30px 30px;
+    // margin: 15px 15px 30px 30px;
     min-height: 550px;
     width: 900px;
   }

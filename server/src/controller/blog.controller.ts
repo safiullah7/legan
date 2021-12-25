@@ -10,7 +10,7 @@ export async function getBlogHandler(req: Request, res: Response) {
 }
 
 export async function getBlogByIdHandler(req: Request, res: Response) {
-    const {id: _id} = req.params;
+    const { id: _id } = req.params;
     const blog = await getBlogById(_id);
     return res.send(blog);
 }
@@ -25,14 +25,14 @@ export async function addBlogHandler(req: Request, res: Response) {
         const result: any = await upload(file.data);
         url = result!.secure_url;
     }
-    const newBlog = { ...body, imageUrl: url}
+    const newBlog = { ...body, imageUrl: url }
     const Blog = await addNewBlog(newBlog);
     return res.send(Blog);
 }
 
 export async function updateBlogHandler(req: Request, res: Response) {
-    const {id: _id} = req.params;
-    const updatedBlog = {...req.body};
+    const { id: _id } = req.params;
+    const updatedBlog = { ...req.body };
     const file = req.files?.file as any;
 
     if (file && file !== null) {
@@ -47,13 +47,19 @@ export async function updateBlogHandler(req: Request, res: Response) {
 
     await updateBlog(_id, updatedBlog);
     const respone = await getBlog()
-    return res.send(respone);        
+    return res.send(respone);
 }
 
 export async function deleteBlogHandler(req: Request, res: Response) {
-    const {id: _id} = req.params;
+    const { id: _id } = req.params;
+
+    const blog = await getBlogById(_id);
+    if (blog !== null) {
+        await deleteImage(blog.imagePublicId);
+    }
+
     await deleteBlog(_id);
     const blogs = await getBlog();
-    
+
     return res.send(blogs);
 }

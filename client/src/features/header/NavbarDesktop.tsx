@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom"
 import { useSelector } from 'react-redux';
 import { getAuthSelector, logoutUser } from '../login/auth.slice';
 import { useAppDispatch } from '../../store.hooks';
+import { getHomeContentSelector } from '../home/home.slice';
 
 interface INavbarComponentProps {
   showNavbarBorder: boolean;
@@ -19,28 +20,45 @@ interface INavbarDesktop {
   teamActive: string,
   blogActive: string,
   letsTalkActive: string
-  logoutActive: string
+  logoutActive: string,
+  submittedRequestsActive: string,
+  generalActive: string
 }
 
 const NavbarDesktop: React.FC<INavbarDesktop> = (
-  { showNavbarBorder, homeActive, whitePaperActive, teamActive, blogActive, logoutActive, letsTalkActive }
+  { showNavbarBorder, homeActive, whitePaperActive, teamActive, blogActive, logoutActive, letsTalkActive, submittedRequestsActive, generalActive }
 ) => {
 
   const history = useHistory();
   const { isLoggedIn } = useSelector(getAuthSelector);
+  const { homeContent } = useSelector(getHomeContentSelector);
   const dispatch = useAppDispatch();
 
   const logout = () => {
     dispatch(logoutUser({}));
   }
+
+  const navigateToExternalUrl = (url: string, shouldOpenNewTab: boolean = true) => {
+    const updatedUrl = `${url}`;
+    shouldOpenNewTab ? window.open(updatedUrl, "_blank") : window.location.href = updatedUrl;
+  }
+
+  const handleLogoClick = () => {
+    history.push("/")
+  }
+
   return (
     <>
       <DivNavBar showNavbarBorder={showNavbarBorder}>
         <Container maxWidth="xl">
           <DivHeader>
-            <object aria-label="map-image" className="map-img"
-              style={{ width: '160' }}
-              data="/leganix-logo-quality.svg" type="image/svg+xml" ></object>
+            <div style={{ width: 200, height: 50, cursor: 'pointer' }} onClick={handleLogoClick}>
+              <object aria-label="map-image" className="map-img"
+
+                style={{ width: '160' }}
+                data="/leganix-logo-quality.svg" type="image/svg+xml" >
+              </object>
+            </div>
             <DivNavbarList>
               <ul>
                 <Link to='/' style={{ textDecoration: 'none' }}>
@@ -49,11 +67,13 @@ const NavbarDesktop: React.FC<INavbarDesktop> = (
                     <hr className={homeActive} />
                   </li>
                 </Link>
-                <Link to='/whitepaper' style={{ textDecoration: 'none' }}>
+                <a href={homeContent.generalContent.whitepaperLink}
+                  rel="noreferrer"
+                  target={'_blank'} style={{ textDecoration: 'none' }}>
                   <li >WHITEPAPER
                     <hr className={whitePaperActive} />
                   </li>
-                </Link>
+                </a>
                 <Link to='/team' style={{ textDecoration: 'none' }}>
                   <li >TEAM
                     <hr className={teamActive} />
@@ -65,11 +85,23 @@ const NavbarDesktop: React.FC<INavbarDesktop> = (
                   </li>
                 </Link>
                 {isLoggedIn &&
-                  <Link to='/login' onClick={logout} style={{ textDecoration: 'none' }}>
-                    <li>LOGOUT
-                      <hr className={logoutActive} />
-                    </li>
-                  </Link>
+                  <>
+                    <Link to='/submittedrequests' style={{ textDecoration: 'none' }}>
+                      <li>SUBMITTED REQUESTS
+                        <hr className={submittedRequestsActive} />
+                      </li>
+                    </Link>
+                    <Link to='/general' style={{ textDecoration: 'none' }}>
+                      <li>GENERAL
+                        <hr className={generalActive} />
+                      </li>
+                    </Link>
+                    <Link to='/login' onClick={logout} style={{ textDecoration: 'none' }}>
+                      <li>LOGOUT
+                        <hr className={logoutActive} />
+                      </li>
+                    </Link>
+                  </>
                 }
                 <NavbarListItem onClick={() => history.push("contactus")}>
                   <MoreHoriz fontSize="large" />

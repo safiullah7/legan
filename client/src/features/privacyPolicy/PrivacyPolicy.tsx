@@ -1,20 +1,55 @@
-import { Container } from '@material-ui/core';
-import React from 'react'
+import { Container, IconButton } from '@material-ui/core';
 import styled from 'styled-components';
-import { privacyPolicy } from '../../models/privacyPolicy';
 import parse from 'html-react-parser'
+import EditIcon from "@material-ui/icons/Edit";
+import { useAppDispatch } from '../../store.hooks';
+import { getAuthSelector } from '../login/auth.slice';
+import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import PrivacyPolicyForm from './PrivacyPolicyForm';
+import { getPolicyAsync, getPolicySelector } from './policy.slice';
+import Moment from 'react-moment';
+
 const PrivacyPolicy = () => {
+
+    const { isLoggedIn } = useSelector(getAuthSelector);
+    const dispatch = useAppDispatch();
+    const [editMode, setEditMode] = useState<true | false>(false);
+    const { policy } = useSelector(getPolicySelector);
+
+    useEffect(() => {
+        dispatch(getPolicyAsync());
+    }, [dispatch])
+
+
     return (
         <>
             <DivPrivacy>
                 <Container className="container" maxWidth="xl">
-                    <DivPrivacyContent>
-                        <h3>{privacyPolicy.name}</h3>
-                        <p>Effective:  {privacyPolicy.date}</p>
-                    </DivPrivacyContent>
-                    <DivPrivacyDescription>
-                        {parse(privacyPolicy.description)}
-                    </DivPrivacyDescription>
+                    {isLoggedIn && (
+                        <>
+                            <IconButton aria-label="edit" color="primary" onClick={() => setEditMode(!editMode)}>
+                                <EditIcon fontSize="inherit" />
+                            </IconButton>
+                        </>
+                    )}
+                    {!editMode ? (
+                        <>
+                            <DivPrivacyContent>
+                                <h3>{policy?.privacyPolicy.name}</h3>
+                                <p>Effective:  {policy && (
+                                    <Moment format="YYYY/MM/DD" date={policy?.privacyPolicy.effectiveDate!} />
+                                )} </p>
+                            </DivPrivacyContent>
+                            <DivPrivacyDescription>
+                                {parse(policy === null ? '' : policy?.privacyPolicy.content)}
+                            </DivPrivacyDescription>
+                        </>
+                    ) : (
+                        <>
+                            <PrivacyPolicyForm policy={policy} setEditMode={setEditMode} />
+                        </>
+                    )}
                 </Container>
             </DivPrivacy>
         </>

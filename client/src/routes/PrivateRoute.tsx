@@ -12,10 +12,11 @@ type RouteProps = {
 }
 
 const PrivateRoute: React.FC<RouteProps> = (route) => {
+    const user = localStorage.getItem("user");
     return <Route exact={route.exact}
         path={route.path}
         render={props => {
-            if (true) // condition here about whether authenticated or not
+            if (user === null) // condition here about whether authenticated or not
                 return <Redirect to='/login' />;
             return React.createElement(route.component as any, props);
         }} />;

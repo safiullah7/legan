@@ -5,6 +5,9 @@ import { ILogin, IUser } from '../models/user';
 import { AddTeamMember, ITeamMember } from '../models/team';
 import { IBlog, IAddBlog } from '../models/blog';
 import { IPropsFAQsListItem } from "../models/faqs";
+import { ContactUsQuery, IContactUs } from '../models/contactUs';
+import { ISubmitRequest, ISubmitRequestContent, ISubmitRequestDto } from '../models/submit';
+import { IPolicy } from '../models/privacyPolicy';
 
 axios.defaults.baseURL = 'https://legan-server.herokuapp.com/api';
 // axios.defaults.baseURL = 'http://localhost:1338/api';
@@ -132,10 +135,34 @@ const faq = {
     deleteFAQ: (_id: string): Promise<IPropsFAQsListItem> => requests.del(`/faq/${_id}`)
 }
 
+const contactUs = {
+    postQuery: (query: ContactUsQuery) => requests.post('/contactus', query),
+    getContactUsContent: () => requests.get('/contactus-content'),
+    updateContent: (updatedContactUsContent: IContactUs): Promise<IContactUs> =>
+        requests.put(`/contactus-content/${updatedContactUsContent._id}`, { ...updatedContactUsContent })
+};
+
+const submitRequest = {
+    getSubumitRequest: () => requests.get('/submitrequest-content'),
+    updateContent: (updatedSubmitRequest: ISubmitRequestContent): Promise<ISubmitRequestContent> =>
+        requests.put(`/submitrequest-content/${updatedSubmitRequest._id}`, { ...updatedSubmitRequest }),
+    getQueries: () => requests.get('/submitrequest'),
+    newQuery: (query: ISubmitRequestDto): Promise<ISubmitRequest[]> => requests.postForm('/submitrequest', query),
+}
+
+const policy = {
+    getPolicy: () => requests.get('/policy'),
+    updatePolicy: (updatedPolicy: IPolicy): Promise<IPolicy> =>
+        requests.put(`/policy/${updatedPolicy._id}`, { ...updatedPolicy }),
+}
+
 export default {
     home,
     user,
     team,
     blog,
-    faq
+    faq,
+    contactUs,
+    submitRequest,
+    policy
 };

@@ -2,7 +2,10 @@ export interface IHome {
     bannerContent: IBannerContent,
     briefAboutUsContent: IBriefAboutUsContent
     expertiseContent: IExpertiseContent,
-    industryExpertise: IIndustryContent
+    industryExpertise: IIndustryContent,
+    footerContent: IFooterContent
+    socialLinks: ISocialLinks,
+    generalContent: IGeneralContent
 }
 
 // ----------------------------------------------
@@ -21,7 +24,7 @@ export interface IBriefAboutUsContent {
     services: IService[]
 }
 
-export interface IService{
+export interface IService {
     id: string,
     imageUrl: string,
     name: string,
@@ -58,3 +61,17 @@ export interface IIndustryExpertiseContentList {
 }
 
 // -----------------------------------------------
+
+export interface ISocialLinks {
+    facebook: string,
+    linkedIn: string
+}
+
+export interface IFooterContent {
+    socialLinks: ISocialLinks,
+    underLogoText: string
+}
+
+export interface IGeneralContent {
+    whitepaperLink: string
+}

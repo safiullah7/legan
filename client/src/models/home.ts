@@ -8,10 +8,16 @@ export interface IHome {
   briefAboutUsContent: IBriefAboutUsContent
   expertiseContent: IExpertiseContent,
   industryExpertise: IIndustryContent,
+  footerContent: IFooterContent
+  generalContent: IGeneralContent
+}
+
+export interface IGeneralContent {
+  whitepaperLink: string
 }
 
 export interface ISplash {
-  loadSplash : true | false
+  loadSplash: true | false
 }
 
 export interface IBannerContent {
@@ -53,7 +59,7 @@ export interface IIndustryExpertiseContentList {
   content: string,
 }
 
-export interface IService{
+export interface IService {
   _id: string,
   imageUrl: string,
   name: string,
@@ -69,4 +75,13 @@ export interface IExpertiseHead {
 export interface IIndutryHead {
   heading: string,
   description: string,
+}
+export interface ISocialLinks {
+  facebook: string,
+  linkedIn: string
+}
+
+export interface IFooterContent {
+  socialLinks: ISocialLinks,
+  underLogoText: string
 }

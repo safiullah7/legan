@@ -1,15 +1,33 @@
-import { Button, Container, Grid, TextField, Checkbox } from '@material-ui/core';
+import { Button, Container, Grid, TextField, Checkbox, IconButton } from '@material-ui/core';
 import parse from 'html-react-parser'
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import BodyHeader from '../../controls/BodyHeader';
 import { contactContent } from '../../models/contactUs';
 import * as Yup from 'yup';
 import { Form, FormikProvider, useFormik } from 'formik';
 import { Link } from 'react-router-dom';
-
+import agent from '../../api/agent';
+import { VariantType, useSnackbar } from 'notistack';
+import { useSelector } from 'react-redux';
+import { getAuthSelector } from '../login/auth.slice';
+import EditIcon from '@material-ui/icons/Edit';
+import ContactUsContentForm from './ContactUsContentForm';
+import { getContactUsContentAsync, getContactUsSelector } from './contactus.slice';
+import { useAppDispatch } from '../../store.hooks';
 
 const ContactUs = () => {
+
+    const { enqueueSnackbar } = useSnackbar();
+    const { isLoggedIn } = useSelector(getAuthSelector);
+    const [editMode, setEditMode] = useState(false);
+    const dispatch = useAppDispatch();
+    const { contactus } = useSelector(getContactUsSelector);
+
+    React.useEffect(() => {
+        dispatch(getContactUsContentAsync());
+    }, [dispatch, contactus])
+
     const newUserSchema = Yup.object().shape({
         name: Yup.string().required('Name is required'),
         surName: Yup.string().required('Surname is required'),
@@ -30,10 +48,21 @@ const ContactUs = () => {
         onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
             try {
                 // APi call
-                console.log(values);
-                resetForm();
+                let query = {
+                    name: values.name,
+                    surname: values.surName,
+                    email: values.email,
+                    message: values.message
+                };
+                agent.contactUs.postQuery(query)
+                    .then(() => {
+                        let success: VariantType = 'success'
+                        enqueueSnackbar('Your query has been forwarded and you will be contacted accordingly.', { key: success });
+                        resetForm();
+                    })
+                    .catch(err => console.log(err));
                 setSubmitting(false);
-            } catch (error) {
+            } catch (error: any) {
                 console.log(error);
                 setSubmitting(false);
                 setErrors(error);
@@ -51,6 +80,11 @@ const ContactUs = () => {
                         heading="Contact us"
                         headingColor="rgba(59, 86, 110, 1)"
                     />
+                    {isLoggedIn && (
+                        <IconButton className="edit-icon" color='primary' aria-label="edit" onClick={() => setEditMode(!editMode)}>
+                            <EditIcon fontSize="inherit" />
+                        </IconButton>
+                    )}
                     <Grid container className="contact-content">
                         <Grid className="form" item md={6} sm={6} xs={12}>
                             <DivContactForm>
@@ -141,7 +175,11 @@ const ContactUs = () => {
                             </DivContactForm>
                         </Grid>
                         <Grid className="description" item md={6} sm={6} xs={12}>
-                            {parse(contactContent)}
+                            {editMode ? (
+                                <ContactUsContentForm setEditMode={setEditMode} />
+                            ) : (
+                                parse(contactus === null ? '' : contactus.content)
+                            )}
                         </Grid>
                     </Grid>
                 </Container>

@@ -15,6 +15,12 @@ import TeamMember from '../features/team/TeamMember';
 import WhitePaper from '../features/whitepaper/WhitePaper';
 import AuthLayout from '../layouts/AuthLayout';
 import MainLayout from '../layouts/MainLayout';
+import PrivateRoute from './PrivateRoute';
+import Requests from '../features/submit/Requests';
+import CookiePolicy from '../features/privacyPolicy/CookiePolicy';
+import TermsAndConditions from '../features/privacyPolicy/TermsAndConditions';
+import WebsiteTermsOfUse from '../features/privacyPolicy/WebsiteTermsOfUse';
+import General from '../features/general/General';
 
 const CustomRoutes = () => {
     return (
@@ -26,11 +32,15 @@ const CustomRoutes = () => {
                     </AuthLayout>
                 </Route>
                 <Route
-                    path={['', '/whitepaper', '/team', '/team/:id', '/team/new', '/blog', '/blog/add/new', '/blog/:id', '/privacypolicy', '/faqs', '/faqs/new', '/contactus',]}
+                    path={['', '/whitepaper', '/team', '/team/:id', '/team/new', '/blog', '/blog/add/new', '/blog/:id',
+                        '/privacypolicy', '/faqs', '/faqs/new', '/contactus', '/submittedrequests', '/general',
+                        '/cookie-policy', '/terms-and-conditions', '/website-terms-of-use']}
                     exact>
                     <MainLayout>
-                        {/* <PrivateRoute path={['', '/articles']} exact component={() => <Articles />} />
-                        <PrivateRoute path={'/articles/:id'} exact component={() => <Article />} /> */}
+                        {/* <PrivateRoute path={['', '/articles']} exact component={() => <Articles />} /> */}
+                        <PrivateRoute path={'/submittedrequests'} exact component={() => <Requests />} />
+                        <PrivateRoute path={'/general'} exact component={() => <General />} />
+
                         <Route path={'/whitepaper'} exact component={() => <WhitePaper />} />
                         <Route path={'/team'} exact component={() => <Team />} />
                         <Switch>
@@ -41,7 +51,12 @@ const CustomRoutes = () => {
                         <Route path={'/blog'} exact component={() => <Blog />} />
                         <Route path={'/blog/add/new'} exact component={() => <AddBlog />} />
                         <Route path={'/blog/:id'} exact component={() => <BlogPost />} />
+
                         <Route path={'/privacypolicy'} exact component={() => <PrivacyPolicy />} />
+                        <Route path={'/cookie-policy'} exact component={() => <CookiePolicy />} />
+                        <Route path={'/terms-and-conditions'} exact component={() => <TermsAndConditions />} />
+                        <Route path={'/website-terms-of-use'} exact component={() => <WebsiteTermsOfUse />} />
+
                         <Route path={'/faqs'} exact component={() => <FAQs />} />
                         <Route path={'/faqs/new'} exact component={() => <AddUpdateFAQ />} />
                         <Route path={'/contactus'} exact component={() => <ContactUs />} />

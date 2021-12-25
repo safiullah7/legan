@@ -14,3 +14,18 @@ export const contactContent = `     <h3>
                             <p>
                                 + &nbsp;&nbsp;&nbsp; +9058748365
                             </p>`;
+
+export interface ContactUsQuery {
+    name: string,
+    surname: string,
+    email: string,
+    message: string
+}
+
+export interface IContactUs {
+    _id: string,
+    content: string,
+    createdAt: Date,
+    updatedAt: Date,
+    __v: number
+}

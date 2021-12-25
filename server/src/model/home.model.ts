@@ -39,13 +39,26 @@ const IndustryExpertiseContentSchema = new mongoose.Schema({
     mainText: { type: String, required: true },
     industryExpertiseContentList: [IndustryExpertiseContentListSchema]
 });
+const SocialLinksSchema = new mongoose.Schema({
+    facebook: { type: String, required: true },
+    linkedIn: { type: String, required: true }
+})
+const FooterContentSchema = new mongoose.Schema({
+    socialLinks: { type: SocialLinksSchema, required: true },
+    underLogoText: { type: String, required: true }
+})
+const GeneralContentSchema = new mongoose.Schema({
+    whitepaperLink: { type: String, required: true }
+})
 
 const HomeSchema = new mongoose.Schema(
     {
         bannerContent: { type: BannerContentSchema, required: true },
         briefAboutUsContent: { type: BriefAboutUsContentSchema, required: true },
         expertiseContent: { type: ExpertiseContentSchema, required: true },
-        industryExpertise: { type: IndustryExpertiseContentSchema, required: true }
+        industryExpertise: { type: IndustryExpertiseContentSchema, required: true },
+        footerContent: { type: FooterContentSchema, required: true },
+        generalContent: { type: GeneralContentSchema, required: true }
     },
     { timestamps: true }
 );

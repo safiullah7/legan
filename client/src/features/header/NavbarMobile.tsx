@@ -12,11 +12,13 @@ interface INavbarMobile {
   teamActive: string,
   blogActive: string,
   letsTalkActive: string,
-  logoutActive: string
+  logoutActive: string,
+  submittedRequestsActive: string,
+  generalActive: string
 }
 
 const NavbarMobile: React.FC<INavbarMobile> = (
-  { homeActive, whitePaperActive, teamActive, blogActive, logoutActive, letsTalkActive }
+  { homeActive, whitePaperActive, teamActive, blogActive, logoutActive, letsTalkActive, submittedRequestsActive, generalActive }
 ) => {
 
   const { isLoggedIn } = useSelector(getAuthSelector);
@@ -61,11 +63,23 @@ const NavbarMobile: React.FC<INavbarMobile> = (
             </li>
           </Link>
           {isLoggedIn &&
-            <Link to='/login' onClick={logout} style={{ textDecoration: 'none' }}>
-              <li>LOGOUT
-                <hr className={logoutActive} />
-              </li>
-            </Link>
+            <>
+              <Link to='/submittedrequests' style={{ textDecoration: 'none' }}>
+                <li>SUBMITTED REQUESTS
+                  <hr className={submittedRequestsActive} />
+                </li>
+              </Link>
+              <Link to='/general' style={{ textDecoration: 'none' }}>
+                <li>GENERAL
+                  <hr className={generalActive} />
+                </li>
+              </Link>
+              <Link to='/login' onClick={logout} style={{ textDecoration: 'none' }}>
+                <li>LOGOUT
+                  <hr className={logoutActive} />
+                </li>
+              </Link>
+            </>
           }
         </ul>
       </DivNavbarBottom>
