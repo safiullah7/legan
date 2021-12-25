@@ -2,7 +2,7 @@ export default {
     port: 1338,
     host: 'localhost',
     saltWorkFactor: 10,
-    accessTokenTtl: '15m',
+    accessTokenTtl: '45m',
     refreshTokenTtl: "1y",
     privateKey: `super-secret-key`,
     CLOUDINARY_CLOUD_NAME: 'safiullah7',
